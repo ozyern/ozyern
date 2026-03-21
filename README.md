@@ -1,6 +1,6 @@
 # Hi there, I'm Ozyern! 👋 
 
-Welcome to the source code for my personal website and developer portfolio, hosted on GitHub Pages: [ozyern.github.io](https://about.ozyern.me) 🚀
+Welcome to the source code for my personal website and developer portfolio, hosted on GitHub Pages: [about.ozyern.me](https://about.ozyern.me) 🚀
 
 ![Website Status](https://img.shields.io/website?url=https%3A%2F%2Fozyern.github.io&label=ozyern.github.io&style=flat-square)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ozyern/ozyern.github.io?style=flat-square)
