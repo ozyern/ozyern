@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ozyern | Portfolio</title>
+    <meta name="description" content="ozyern - Android Developer based in India.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @font-face {
+            font-family: 'Brick Sans';
+            src: url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&display=swap');
+        }
+        svg { display: inline-block; width: 1em; height: 1em; }
+    </style>
+</head>
+<body>
+    <div class="cursor-glow" id="cursorGlow">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3L21 11.46L12.21 12.76L11.46 21.57L3 3Z" fill="white" stroke="white" stroke-width="0.5"/>
+        </svg>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar glass">
+        <div class="nav-content">
+            <a href="#hero" class="nav-logo">ozyern</a>
+            <div class="nav-links">
+                <a href="#about" data-i18n="nav_about">About</a>
+                <a href="#projects" data-i18n="nav_projects">Projects</a>
+                <a href="https://github.com/ozyern" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                    <img src="assets/images/gi.png" alt="GitHub">
+                </a>
+                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X(Twitter)">
+                    <img src="assets/images/xi.png" alt="X">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- Hero -->
+        <section id="hero" class="hero fade-in-section">
+            <div class="hero-content">
+                <div class="profile-img-container">
+                    <img src="assets/images/logo.jpg" alt="ozyern profile" class="profile-img">
+                    <div class="glow-ring"></div>
+                </div>
+                <h1 class="hero-title">
+                    Hey, I am <span class="gradient-text">Ozyern</span>
+                </h1>
+                <p class="hero-subtitle" data-i18n="hero_subtitle"></p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary" data-i18n="btn_work">View Projects</a>
+                    <a href="#about" class="btn btn-secondary" data-i18n="btn_about">Profile</a>
+                </div>
+            </div>
+            <div class="scroll-hint">
+                <div class="scroll-dot"></div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="about section-padding fade-in-section">
+            <h2 class="section-title" data-i18n="nav_about">About Me</h2>
+            <div class="about-grid">
+                <div class="about-card glass">
+                    <div class="card-icon"><i data-lucide="user"></i></div>
+                    <h3 data-i18n="label_age">Age</h3>
+                    <p data-i18n="val_age">14 years old</p>
+                </div>
+                <div class="about-card glass">
+                    <div class="card-icon"><i data-lucide="map-pin"></i></div>
+                    <h3 data-i18n="label_location">Location</h3>
+                    <p data-i18n="val_location">India</p>
+                </div>
+                <div class="about-card glass">
+                    <div class="card-icon"><i data-lucide="globe"></i></div>
+                    <h3 data-i18n="label_heritage">Background</h3>
+                    <p data-i18n="val_heritage">Indian</p>
+                </div>
+                <div class="about-card glass">
+                    <div class="card-icon"><i data-lucide="smartphone"></i></div>
+                    <h3 data-i18n="label_role">Primary Phone</h3>
+                    <p data-i18n="val_role">OnePlus 13</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects" class="projects section-padding fade-in-section">
+            <h2 class="section-title" data-i18n="nav_projects">Projects</h2>
+            <div class="project-grid">
+
+                <a href="https://ozyern.github.io/film_sims_web/" target="_blank" rel="noopener noreferrer" class="project-card glass">
+                    <div class="project-card-content">
+                        <div class="project-icon-wrapper">
+                            <i data-lucide="camera" class="project-icon"></i>
+                        </div>
+                        <h3 class="project-title" data-i18n="proj1_title">Film Sims Web</h3>
+                        <p class="project-desc" data-i18n="proj1_desc">Film camera simulation web version. Enjoy an analog experience easily in your browser.</p>
+                        <div class="project-link-text"><span data-i18n="proj1_link">Open Web App</span> <i data-lucide="arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <a href="https://www.opendesktop.org/p/2350582/" target="_blank" rel="noopener noreferrer" class="project-card glass">
+                    <div class="project-card-content">
+                        <div class="project-icon-wrapper">
+                            <i data-lucide="layers" class="project-icon"></i>
+                        </div>
+                        <h3 class="project-title" data-i18n="proj2_title">HyperOS 3 App Port</h3>
+                        <p class="project-desc" data-i18n="proj2_desc">Porting HyperOS 3 apps to other devices while maintaining functionality and performance.</p>
+                        <div class="project-link-text"><span data-i18n="proj2_link">View Details</span> <i data-lucide="arrow-right"></i></div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-footer">
+        <p data-i18n="footer_copy">&copy; 2026 ozyern. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://github.com/ozyern" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i data-lucide="github"></i></a>
+            <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><i data-lucide="twitter"></i></a>
+        </div>
+    </footer>
+
+    <script src="assets/js/translations.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
