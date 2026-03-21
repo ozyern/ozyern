@@ -1,4 +1,9 @@
 // Optimized Custom Cursor with Smooth Performance
+// Disable cursor on touch devices
+const isTouchDevice = () => {
+    return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+};
+
 const cursorGlow = document.getElementById('cursorGlow');
 let mouseX = 0;
 let mouseY = 0;
@@ -10,12 +15,14 @@ let activeTimeout;
 // Smooth easing factor
 const easing = 0.16;
 
-// Initialize cursor position
-if (cursorGlow) {
+// Initialize cursor position (only on non-touch devices)
+if (cursorGlow && !isTouchDevice()) {
     cursorGlow.style.left = '0px';
     cursorGlow.style.top = '0px';
     cursorGlow.style.display = 'block';
     cursorGlow.style.opacity = '1';
+} else if (cursorGlow) {
+    cursorGlow.style.display = 'none';
 }
 
 function animateCursor() {
@@ -23,7 +30,7 @@ function animateCursor() {
     cursorX += (mouseX - cursorX) * easing;
     cursorY += (mouseY - cursorY) * easing;
     
-    if (cursorGlow && isVisible) {
+    if (cursorGlow && isVisible && !isTouchDevice()) {
         cursorGlow.style.left = cursorX + 'px';
         cursorGlow.style.top = cursorY + 'px';
     }
@@ -31,69 +38,99 @@ function animateCursor() {
     requestAnimationFrame(animateCursor);
 }
 
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    isVisible = true;
-    
-    if (cursorGlow) {
-        cursorGlow.style.opacity = '1';
-        cursorGlow.style.display = 'block';
+// Only attach cursor events on non-touch devices
+if (!isTouchDevice()) {
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        isVisible = true;
         
-        // Add active class on movement
-        if (!cursorGlow.classList.contains('active')) {
+        if (cursorGlow) {
+            cursorGlow.style.opacity = '1';
+            cursorGlow.style.display = 'block';
+            
+            // Add active class on movement
+            if (!cursorGlow.classList.contains('active')) {
+                cursorGlow.classList.add('active');
+            }
+            
+            // Debounce active removal
+            clearTimeout(activeTimeout);
+            activeTimeout = setTimeout(() => {
+                cursorGlow.classList.remove('active');
+            }, 800);
+        }
+    });
+
+    document.addEventListener('mouseenter', () => {
+        isVisible = true;
+        if (cursorGlow) {
+            cursorGlow.style.opacity = '1';
+            cursorGlow.style.display = 'block';
             cursorGlow.classList.add('active');
         }
-        
-        // Debounce active removal
-        clearTimeout(activeTimeout);
-        activeTimeout = setTimeout(() => {
+    });
+
+    document.addEventListener('mouseleave', () => {
+        isVisible = false;
+        if (cursorGlow) {
+            cursorGlow.style.opacity = '0';
+            cursorGlow.style.display = 'none';
             cursorGlow.classList.remove('active');
-        }, 800);
-    }
-});
+            clearTimeout(activeTimeout);
+        }
+    });
 
-document.addEventListener('mouseenter', () => {
-    isVisible = true;
-    if (cursorGlow) {
-        cursorGlow.style.opacity = '1';
-        cursorGlow.style.display = 'block';
-        cursorGlow.classList.add('active');
-    }
-});
+    // Click feedback
+    document.addEventListener('mousedown', (e) => {
+        if (cursorGlow) {
+            cursorGlow.classList.add('clicking');
+        }
+    });
 
-document.addEventListener('mouseleave', () => {
-    isVisible = false;
-    if (cursorGlow) {
-        cursorGlow.style.opacity = '0';
-        cursorGlow.style.display = 'none';
-        cursorGlow.classList.remove('active');
-        clearTimeout(activeTimeout);
-    }
-});
+    document.addEventListener('mouseup', () => {
+        if (cursorGlow) {
+            cursorGlow.classList.remove('clicking');
+        }
+    });
 
-// Click feedback
-document.addEventListener('mousedown', (e) => {
-    if (cursorGlow) {
-        cursorGlow.classList.add('clicking');
-    }
-});
+    document.addEventListener('click', (e) => {
+        isVisible = true;
+        if (cursorGlow) {
+            cursorGlow.style.opacity = '1';
+            cursorGlow.style.display = 'block';
+        }
+    });
 
-document.addEventListener('mouseup', () => {
-    if (cursorGlow) {
-        cursorGlow.classList.remove('clicking');
-    }
-});
+    animateCursor();
+}
 
-document.addEventListener('click', (e) => {
-    isVisible = true;
-    if (cursorGlow) {
-        cursorGlow.style.opacity = '1';
-        cursorGlow.style.display = 'block';
-    }
-});
+// Mobile Menu Toggle
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navMenuLinks = document.getElementById('navLinks');
 
-animateCursor();
+if (mobileMenuBtn && navMenuLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenuLinks.classList.toggle('active');
+        mobileMenuBtn.classList.toggle('active');
+    });
+
+    // Close mobile menu when a link is clicked
+    navMenuLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenuLinks.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.navbar')) {
+            navMenuLinks.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+        }
+    });
+}
 
 // Intersection Observer for Fade In Animations
 const observerOptions = {
