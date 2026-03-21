@@ -4,11 +4,6 @@
     box-sizing: border-box;
 }
 
-@font-face {
-    font-family: 'Haverbrooke';
-    src: url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
-}
-
 :root {
     --primary-color: #ff6b35;
     --secondary-color: #ff8c42;
@@ -86,10 +81,10 @@ body {
 
 .nav-logo {
     font-size: 1.8rem;
-    font-weight: 800;
+    font-weight: bold;
     color: var(--text-primary);
     text-decoration: none;
-    font-family: 'Haverbrooke', 'Righteous', sans-serif;
+    font-family: 'Haverbrooke', 'Anton', sans-serif;
     letter-spacing: 0.05em;
 }
 
@@ -205,6 +200,8 @@ main {
 .gradient-text {
     color: var(--primary-color);
     text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+    font-family: 'Righteous', 'Anton', sans-serif;
+    font-weight: bold;
 }
 
 .hero-subtitle {
