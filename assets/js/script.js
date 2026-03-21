@@ -1,12 +1,14 @@
-// Custom macOS-style Cursor
+// Optimized Custom Cursor with Smooth Performance
 const cursorGlow = document.getElementById('cursorGlow');
 let mouseX = 0;
 let mouseY = 0;
 let cursorX = 0;
 let cursorY = 0;
 let isVisible = true;
+let activeTimeout;
 
-const speed = 0.15;
+// Smooth easing factor
+const easing = 0.16;
 
 // Initialize cursor position
 if (cursorGlow) {
@@ -17,14 +19,13 @@ if (cursorGlow) {
 }
 
 function animateCursor() {
-    cursorX += (mouseX - cursorX) * speed;
-    cursorY += (mouseY - cursorY) * speed;
+    // Smooth exponential moving average
+    cursorX += (mouseX - cursorX) * easing;
+    cursorY += (mouseY - cursorY) * easing;
     
     if (cursorGlow && isVisible) {
         cursorGlow.style.left = cursorX + 'px';
         cursorGlow.style.top = cursorY + 'px';
-        cursorGlow.style.opacity = '1';
-        cursorGlow.style.display = 'block';
     }
     
     requestAnimationFrame(animateCursor);
@@ -34,17 +35,21 @@ document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     isVisible = true;
+    
     if (cursorGlow) {
         cursorGlow.style.opacity = '1';
         cursorGlow.style.display = 'block';
-    }
-});
-
-document.addEventListener('mouseover', () => {
-    isVisible = true;
-    if (cursorGlow) {
-        cursorGlow.style.opacity = '1';
-        cursorGlow.style.display = 'block';
+        
+        // Add active class on movement
+        if (!cursorGlow.classList.contains('active')) {
+            cursorGlow.classList.add('active');
+        }
+        
+        // Debounce active removal
+        clearTimeout(activeTimeout);
+        activeTimeout = setTimeout(() => {
+            cursorGlow.classList.remove('active');
+        }, 800);
     }
 });
 
@@ -53,6 +58,7 @@ document.addEventListener('mouseenter', () => {
     if (cursorGlow) {
         cursorGlow.style.opacity = '1';
         cursorGlow.style.display = 'block';
+        cursorGlow.classList.add('active');
     }
 });
 
@@ -61,10 +67,24 @@ document.addEventListener('mouseleave', () => {
     if (cursorGlow) {
         cursorGlow.style.opacity = '0';
         cursorGlow.style.display = 'none';
+        cursorGlow.classList.remove('active');
+        clearTimeout(activeTimeout);
     }
 });
 
-// Ensure custom cursor stays visible on all elements
+// Click feedback
+document.addEventListener('mousedown', (e) => {
+    if (cursorGlow) {
+        cursorGlow.classList.add('clicking');
+    }
+});
+
+document.addEventListener('mouseup', () => {
+    if (cursorGlow) {
+        cursorGlow.classList.remove('clicking');
+    }
+});
+
 document.addEventListener('click', (e) => {
     isVisible = true;
     if (cursorGlow) {
