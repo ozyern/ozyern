@@ -39,40 +39,42 @@ body {
     height: 24px;
     pointer-events: none;
     z-index: 99999;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
     opacity: 1;
     left: 0;
     top: 0;
-    will-change: transform;
-    filter: drop-shadow(0 0 8px rgba(255, 107, 53, 0.5)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-    transition: filter 0.15s ease-out;
+    will-change: transform, filter;
+    box-shadow: 0 0 8px rgba(255, 107, 53, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: filter 0.08s ease-out;
+    contain: layout style paint;
 }
 
 .cursor-glow.active {
-    filter: drop-shadow(0 0 14px rgba(255, 107, 53, 0.8)) drop-shadow(0 0 20px rgba(255, 107, 53, 0.4)) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.5));
+    box-shadow: 0 0 14px rgba(255, 107, 53, 0.8), 0 0 20px rgba(255, 107, 53, 0.4), 0 3px 8px rgba(0, 0, 0, 0.5);
 }
 
 .cursor-glow.clicking {
-    animation: cursor-click 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: cursor-click 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .cursor-glow svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 2px rgba(255, 107, 53, 0.4));
+    filter: none;
+    box-shadow: inset 0 0 2px rgba(255, 107, 53, 0.4);
 }
 
 @keyframes cursor-click {
     0% {
-        filter: drop-shadow(0 0 16px rgba(255, 107, 53, 0.9)) drop-shadow(0 0 28px rgba(255, 107, 53, 0.5)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
-        transform: scale(1.2);
+        box-shadow: 0 0 16px rgba(255, 107, 53, 0.9), 0 0 28px rgba(255, 107, 53, 0.5), 0 4px 10px rgba(0, 0, 0, 0.6);
+        transform: scale(1.2) translate3d(-50%, -50%, 0);
     }
     50% {
-        transform: scale(0.9);
+        transform: scale(0.9) translate3d(-50%, -50%, 0);
     }
     100% {
-        filter: drop-shadow(0 0 8px rgba(255, 107, 53, 0.5)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-        transform: scale(1);
+        box-shadow: 0 0 8px rgba(255, 107, 53, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+        transform: scale(1) translate3d(-50%, -50%, 0);
     }
 }
 
@@ -124,7 +126,7 @@ body {
 .nav-links a {
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), text-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: color 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), text-shadow 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     font-weight: 500;
     cursor: none;
     white-space: nowrap;
@@ -145,13 +147,14 @@ body {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
-    transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: none;
     flex-shrink: 0;
     color: var(--text-primary);
     will-change: transform, background, border-color, box-shadow;
     min-width: 44px;
     min-height: 44px;
+    contain: layout style paint;
 }
 
 .social-icon:hover {
@@ -183,7 +186,8 @@ body {
     height: 2.5px;
     background: var(--text-primary);
     border-radius: 2px;
-    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, opacity;
 }
 
 .mobile-menu-btn.active .menu-line:nth-child(1) {
@@ -297,7 +301,7 @@ main {
     border-radius: 8px;
     font-weight: 600;
     cursor: none;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     text-decoration: none;
     display: inline-block;
     border: none;
@@ -306,6 +310,7 @@ main {
     will-change: transform, box-shadow, background, border-color;
     min-height: 44px;
     min-width: 44px;
+    contain: layout style paint;
 }
 
 .btn-primary {
@@ -319,7 +324,7 @@ main {
     transform: translateY(-6px) scale(1.05);
     background: rgba(255, 107, 53, 0.5);
     border-color: rgba(255, 107, 53, 0.9);
-    box-shadow: 0 16px 50px rgba(255, 107, 53, 0.5), 0 0 25px rgba(255, 107, 53, 0.3), inset 0 0 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 16px 50px rgba(255, 107, 53, 0.5), 0 0 25px rgba(255, 107, 53, 0.3);
 }
 
 .btn-secondary {
@@ -333,7 +338,7 @@ main {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.7);
     transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 16px 50px rgba(255, 255, 255, 0.3), 0 0 25px rgba(255, 255, 255, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 16px 50px rgba(255, 255, 255, 0.3), 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
 .scroll-hint {
@@ -382,7 +387,7 @@ main {
     padding: 2.8rem 2.2rem;
     border-radius: 14px;
     text-align: center;
-    transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     background: rgba(20, 20, 20, 0.4);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -395,6 +400,9 @@ main {
     position: relative;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    will-change: transform, background, box-shadow;
+    contain: layout style paint;
+}
     will-change: transform, border-color, background, box-shadow;
 }
 
@@ -407,8 +415,9 @@ main {
     bottom: 0;
     background: radial-gradient(circle at top right, rgba(255, 107, 53, 0.1), transparent);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.15s ease;
     z-index: -1;
+    will-change: opacity;
 }
 
 .about-card:hover {
@@ -427,14 +436,13 @@ main {
     margin-bottom: 1.5rem;
     color: var(--primary-color);
     flex-shrink: 0;
-    transition: color 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), text-shadow 0.35s ease;
-    will-change: transform, color, text-shadow;
+    transition: color 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, color;
 }
 
 .about-card:hover .card-icon {
     transform: scale(1.25) rotate(8deg);
     color: #ffaa45;
-    text-shadow: 0 0 20px rgba(255, 170, 69, 0.4);
 }
 
 .about-card h3 {
@@ -442,7 +450,7 @@ main {
     margin-bottom: 1rem;
     font-family: 'Anton', 'Space Mono', sans-serif;
     font-weight: 700;
-    transition: color 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: color 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     will-change: color, transform;
 }
 
@@ -474,7 +482,7 @@ main {
     border-radius: 14px;
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: none;
     background: rgba(20, 20, 20, 0.4);
     backdrop-filter: blur(20px);
@@ -484,6 +492,8 @@ main {
     display: flex;
     flex-direction: column;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    will-change: transform, background, box-shadow, border-color;
+    contain: layout style paint;
 }
 
 .project-card:hover {
@@ -503,27 +513,25 @@ main {
     font-size: 3.5rem;
     color: var(--primary-color);
     margin-bottom: 1.5rem;
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
-    will-change: transform, filter, color;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, color;
 }
 
 .project-card:hover .project-icon-wrapper {
     transform: scale(1.3) rotate(15deg);
     color: #ffaa45;
-    filter: drop-shadow(0 0 15px rgba(255, 170, 69, 0.5));
 }
 
 .project-title {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     will-change: color, text-shadow;
 }
 
 .project-card:hover .project-title {
     color: var(--primary-color);
-    text-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
 }
     font-family: 'Anton', 'Space Mono', sans-serif;
 }
@@ -533,7 +541,7 @@ main {
     margin-bottom: 2rem;
     line-height: 1.7;
     flex-grow: 1;
-    transition: color 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: color 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     will-change: color;
 }
 
@@ -570,22 +578,21 @@ main {
 
 .footer-links a {
     color: var(--text-secondary);
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    will-change: color, transform, filter;
+    will-change: color, transform;
 }
 
 .footer-links a:hover {
     color: var(--primary-color);
     transform: translateY(-8px) scale(1.18) rotate(10deg);
-    filter: drop-shadow(0 0 12px rgba(255, 107, 53, 0.6));
 }
 
 /* ===== ANIMATIONS ===== */
 .fade-in-section {
-    animation: fadeInUp 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     opacity: 0;
     will-change: opacity, transform;
 }
@@ -593,16 +600,11 @@ main {
 @keyframes fadeInUp {
     0% {
         opacity: 0;
-        transform: translateY(50px) scale(0.95);
-        filter: blur(4px);
-    }
-    50% {
-        filter: blur(2px);
+        transform: translateY(50px) scale(0.95) translate3d(0, 0, 0);
     }
     100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
+        transform: translateY(0) scale(1) translate3d(0, 0, 0);
     }
 }
 
@@ -619,21 +621,21 @@ main {
 
 @keyframes glowPulse {
     0%, 100% {
-        filter: drop-shadow(0 0 5px rgba(255, 107, 53, 0.3));
+        box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
     }
     50% {
-        filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.6));
+        box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
     }
 }
 
 @keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translateX(30px);
+        transform: translateX(30px) translate3d(0, 0, 0);
     }
     to {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateX(0) translate3d(0, 0, 0);
     }
 }
 
@@ -684,7 +686,7 @@ main {
           padding: 1.5rem;
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: max-height 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
           z-index: 999;
           display: none;

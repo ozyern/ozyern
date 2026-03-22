@@ -12,13 +12,12 @@ let cursorY = 0;
 let isVisible = true;
 let activeTimeout;
 
-// Smooth easing factor
-const easing = 0.16;
+// Smooth easing factor - optimized for high refresh rates
+const easing = 0.3; // Increased from 0.16 for snappier response
 
 // Initialize cursor position (only on non-touch devices)
 if (cursorGlow && !isTouchDevice()) {
-    cursorGlow.style.left = '0px';
-    cursorGlow.style.top = '0px';
+    cursorGlow.style.transform = 'translate3d(0, 0, 0)';
     cursorGlow.style.display = 'block';
     cursorGlow.style.opacity = '1';
 } else if (cursorGlow) {
@@ -31,8 +30,8 @@ function animateCursor() {
     cursorY += (mouseY - cursorY) * easing;
     
     if (cursorGlow && isVisible && !isTouchDevice()) {
-        cursorGlow.style.left = cursorX + 'px';
-        cursorGlow.style.top = cursorY + 'px';
+        // Use transform3d for GPU acceleration
+        cursorGlow.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
     }
     
     requestAnimationFrame(animateCursor);
@@ -165,25 +164,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Active Nav Link
+// Active Nav Link - Optimized with scroll throttling
+let scrollTimeout;
 window.addEventListener('scroll', () => {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-links a');
+    if (scrollTimeout) return;
     
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
+    scrollTimeout = requestAnimationFrame(() => {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= sectionTop - 200) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+        
+        scrollTimeout = null;
     });
 });
 
