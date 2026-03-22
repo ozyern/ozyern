@@ -9,7 +9,6 @@ Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, moder
 - 👯 I’m looking to collaborate on cool open-source projects.
 - 🤔 I’m looking for help with growing my dev skills.
 - 💬 Ask me about UI/UX, web dev, or what I'm currently building.
-- ⚡ Fun fact: *(Add a cool fact about yourself here!)*
 
 ---
 
@@ -33,13 +32,12 @@ Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, moder
   <img src="https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white" alt="NPM" />
 </p>
 
-*(Feel free to add or remove badges based on what you actually use!)*
+
 
 ---
 
 ### 📊 GitHub Stats
 
-<p align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=ozyern&show_icons=true&theme=tokyonight&hide_border=true" alt="Ozyern's GitHub Stats" />
 </p>
 <p align="center">
