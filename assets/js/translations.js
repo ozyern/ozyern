@@ -18,12 +18,15 @@ const translations = {
         val_laptop: "ROG Strix Scar 16 2025",
         label_os: "Main OS Used",
         val_os: "Windows 11",
-        proj1_title: "Film Sims Web",
-        proj1_desc: "Film camera simulation web version. Enjoy an analog experience easily in your browser.",
-        proj1_link: "Open Web App",
-        proj2_title: "HyperOS 3 App Port",
-        proj2_desc: "Porting HyperOS 3 apps to other devices while maintaining functionality and performance.",
-        proj2_link: "View Details",
+        proj1_title: "Spoofas OnePlus 15",
+        proj1_desc: "Device spoofing tool for OnePlus 15, enabling device identification customization and enhanced functionality.",
+        proj1_link: "View Repository",
+        proj2_title: "S26 Ultra Spoofer",
+        proj2_desc: "Advanced device spoofing utility for S26 Ultra devices with enhanced compatibility and performance features.",
+        proj2_link: "View Repository",
+        proj3_title: "ReVork Ports",
+        proj3_desc: "Custom ROM porting project for OnePlus devices, creating optimized builds with enhanced features and fixes.",
+        proj3_link: "View Repository",
         footer_copy: "© 2026 ozyern. All rights reserved."
     }
 };
