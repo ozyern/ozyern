@@ -9,6 +9,7 @@ Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, moder
 - 👯 I’m looking to collaborate on cool open-source projects.
 - 🤔 I’m looking for help with growing my dev skills.
 - 💬 Ask me about UI/UX, web dev, or what I'm currently building.
+- 🎵  Sabrina Carpenter means a lot to me.
 
 ---
 
