@@ -17,7 +17,7 @@ Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, moder
 
 - **💻 Laptop:** ROG Strix Scar 16 (Intel) - *My main rig for coding and heavy lifting.*
 - **📱 Main Phone:** OnePlus 13 (Stock OxygenOS 16) - *Keeping it clean and fast on the go.*
-- **📱 Other Devices:** OnePlus 9 Pro & ASUS ROG Phone 9 Pro - *For testing, tinkering, and mobile gaming.*
+- **📱 Other Devices:** OnePlus 9 Pro - *For testing, tinkering, and mobile gaming.*
 
 ---
 
