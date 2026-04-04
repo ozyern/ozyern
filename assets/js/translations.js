@@ -28,6 +28,9 @@ const translations = {
         proj3_title: "ReVork Ports",
         proj3_desc: "Custom ROM porting project for OnePlus devices, creating optimized builds with enhanced features and fixes.",
         proj3_link: "View Repository",
+        proj4_title: "Sabrina Carpenter Tribute",
+        proj4_desc: "My love letter to Sabrina Carpenter in the form of a website. Pure HTML/CSS/JS, no frameworks, just devotion.",
+        proj4_link: "View Repository",
         connect_text: "Find me on these platforms",
         footer_copy: "© 2026 ozyern. All rights reserved."
     }
