@@ -2,6 +2,7 @@ const translations = {
     en: {
         nav_about: "About",
         nav_projects: "Projects",
+        nav_connect: "Connect",
         hero_greeting: "Hi, I'm",
         hero_subtitle: "Android Developer creating innovative mobile experiences.",
         btn_work: "View Projects",
@@ -27,6 +28,7 @@ const translations = {
         proj3_title: "ReVork Ports",
         proj3_desc: "Custom ROM porting project for OnePlus devices, creating optimized builds with enhanced features and fixes.",
         proj3_link: "View Repository",
+        connect_text: "Find me on these platforms",
         footer_copy: "© 2026 ozyern. All rights reserved."
     }
 };

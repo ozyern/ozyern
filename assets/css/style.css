@@ -375,6 +375,43 @@ main {
     letter-spacing: -0.5px;
 }
 
+/* ===== CONNECT SECTION ===== */
+.connect-card {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2.4rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.connect-text {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+}
+
+.connect-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.connect-links .social-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+}
+
+.connect-links .social-icon i,
+.connect-links .social-icon svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
 /* ===== ABOUT SECTION ===== */
 .about-grid {
     display: grid;
