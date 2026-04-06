@@ -25,6 +25,10 @@ body {
     overflow-x: hidden;
 }
 
+body.menu-open {
+    overflow: hidden;
+}
+
 .fade-in-section {
     animation: none;
     opacity: 1;
@@ -725,6 +729,63 @@ body {
         width: 96%;
     }
 
+    .nav-content {
+        position: relative;
+        justify-content: center;
+        padding-right: 3.4rem;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(14, 14, 14, 0.46);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        touch-action: manipulation;
+        transition: transform 260ms var(--motion-standard), background 260ms var(--motion-standard), border-color 260ms var(--motion-standard), box-shadow 260ms var(--motion-standard);
+    }
+
+    .mobile-menu-btn:hover {
+        background: rgba(255, 107, 53, 0.16);
+        border-color: rgba(255, 107, 53, 0.4);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+    }
+
+    .mobile-menu-btn:active {
+        transform: translateY(-50%) scale(0.94);
+    }
+
+    .menu-line {
+        width: 22px;
+        transition: transform 280ms var(--motion-standard), opacity 220ms ease, width 280ms var(--motion-standard), background-color 260ms var(--motion-standard);
+    }
+
+    .mobile-menu-btn.active .menu-line:nth-child(1) {
+        transform: rotate(45deg) translateY(7px);
+        width: 23px;
+    }
+
+    .mobile-menu-btn.active .menu-line:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0.25);
+    }
+
+    .mobile-menu-btn.active .menu-line:nth-child(3) {
+        transform: rotate(-45deg) translateY(-7px);
+        width: 23px;
+    }
+
     .connect::before {
         content: none;
     }
@@ -735,20 +796,49 @@ body {
 
     .nav-links {
         display: flex !important;
+        position: fixed;
+        top: 70px;
+        left: 50%;
+        width: min(92vw, 420px);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.4rem;
+        padding: 0.9rem 1rem 1rem;
+        border-radius: 18px;
+        background: rgba(10, 10, 10, 0.9);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
         opacity: 0;
         pointer-events: none;
-        transform: translateY(-8px);
-        background: rgba(10, 10, 10, 0.72);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        transition: max-height var(--dur-fast) var(--motion-standard), opacity var(--dur-fast) ease, transform var(--dur-fast) var(--motion-standard);
+        transform: translate3d(-50%, -12px, 0) scale(0.98);
+        max-height: 0;
+        overflow: hidden;
+        z-index: 999;
+        will-change: transform, opacity, max-height;
+        transition: max-height 340ms var(--motion-standard), opacity 220ms ease, transform 340ms var(--motion-standard), box-shadow 340ms var(--motion-standard);
     }
 
     .nav-links.active {
         opacity: 1;
         pointer-events: auto;
-        transform: translateY(0);
+        transform: translate3d(-50%, 0, 0) scale(1);
+        max-height: 360px;
+    }
+
+    .nav-links a {
+        width: 100%;
+        justify-content: center;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        transition: transform 220ms var(--motion-standard), background 220ms var(--motion-standard), color 220ms var(--motion-standard);
+    }
+
+    .nav-links a:active {
+        transform: scale(0.985);
+        background: rgba(255, 107, 53, 0.12);
     }
 
     .about-grid {

@@ -84,6 +84,7 @@ const closeMobileMenu = () => {
     navMenuLinks.classList.remove('active');
     mobileMenuBtn.classList.remove('active');
     mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
 };
 
 if (mobileMenuBtn && navMenuLinks) {
@@ -93,6 +94,7 @@ if (mobileMenuBtn && navMenuLinks) {
         const isActive = navMenuLinks.classList.toggle('active');
         mobileMenuBtn.classList.toggle('active', isActive);
         mobileMenuBtn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+        document.body.classList.toggle('menu-open', isActive);
 
         if (navbar) {
             navbar.classList.remove('nav-hidden');
