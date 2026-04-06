@@ -9,7 +9,7 @@ let cursorX = mouseX;
 let cursorY = mouseY;
 let cursorVisible = true;
 let activeTimeout;
-const cursorEasing = 0.22;
+const cursorEasing = 0.18;
 
 const navbar = document.querySelector('.navbar');
 const heroSection = document.getElementById('hero');
@@ -175,7 +175,7 @@ const updateScrollEffects = () => {
     }
 
     if (heroSection) {
-        const heroShift = Math.min(currentY * 0.06, 24);
+        const heroShift = Math.min(currentY * 0.045, 18);
         heroSection.style.setProperty('--hero-shift', `${heroShift}px`);
     }
 
@@ -210,11 +210,11 @@ const setupRevealAnimations = () => {
     document.body.classList.add('motion-ready');
 
     const revealGroups = [
-        { selector: '.hero-content > *', step: 80 },
-        { selector: '#about .section-title, #about .about-card', step: 72 },
-        { selector: '#projects .project-card', step: 85 },
-        { selector: '#connect .connect-intro, #connect .connect-status, #connect .connect-platform', step: 65 },
-        { selector: '.glass-footer > *', step: 70 }
+        { selector: '.hero-content > *', step: 72 },
+        { selector: '#about .section-title, #about .about-card', step: 60 },
+        { selector: '#projects .project-card', step: 72 },
+        { selector: '#connect .connect-intro, #connect .connect-status, #connect .connect-platform', step: 56 },
+        { selector: '.glass-footer > *', step: 60 }
     ];
 
     const revealTargets = [];
@@ -244,8 +244,8 @@ const setupRevealAnimations = () => {
             observer.unobserve(entry.target);
         });
     }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -4% 0px'
+        threshold: 0.08,
+        rootMargin: '0px 0px -2% 0px'
     });
 
     revealTargets.forEach((target) => revealObserver.observe(target));

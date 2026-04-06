@@ -3,15 +3,22 @@
     --secondary-color: #ff8c42;
     --accent: #ff6b35;
     --theme-rgb: 255, 107, 53;
-    --motion-standard: cubic-bezier(0.22, 1, 0.36, 1);
-    --motion-snappy: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --dur-fast: 180ms;
-    --dur-base: 320ms;
-    --dur-slow: 560ms;
+    --motion-standard: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-snappy: cubic-bezier(0.2, 0.9, 0.2, 1);
+    --dur-fast: 220ms;
+    --dur-base: 360ms;
+    --dur-slow: 680ms;
 }
 
 html {
     scroll-padding-top: 120px;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
 }
 
 body {
@@ -557,6 +564,149 @@ body {
     transform: translateY(-3px);
 }
 
+/* ===== FLUID MOTION OVERRIDES ===== */
+.navbar,
+.nav-logo,
+.nav-links a,
+.mobile-menu-btn,
+.btn,
+.social-icon,
+.about-card,
+.project-card,
+.connect-platform,
+.footer-links a,
+.project-link-text,
+.platform-cta,
+.card-icon,
+.project-icon-wrapper,
+.profile-img,
+.hero-content,
+.connect-card {
+    transition-timing-function: var(--motion-standard);
+}
+
+.navbar {
+    transition: background-color var(--dur-base) var(--motion-standard), border-color var(--dur-base) var(--motion-standard), box-shadow var(--dur-base) var(--motion-standard), backdrop-filter var(--dur-base) var(--motion-standard), transform var(--dur-base) var(--motion-standard);
+}
+
+.nav-logo:hover,
+.nav-links a:hover {
+    transform: translateY(-0.5px);
+}
+
+.hero-content {
+    transition: transform 360ms var(--motion-standard);
+}
+
+.profile-img-container {
+    animation: avatarFloatSoft 8.4s ease-in-out infinite;
+}
+
+@keyframes avatarFloatSoft {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+.btn {
+    transition: transform 300ms var(--motion-standard), background 300ms var(--motion-standard), border-color 300ms var(--motion-standard), box-shadow 300ms var(--motion-standard), color 300ms var(--motion-standard);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+.social-icon {
+    transition: transform 280ms var(--motion-standard), background 280ms var(--motion-standard), border-color 280ms var(--motion-standard), color 280ms var(--motion-standard), box-shadow 280ms var(--motion-standard);
+}
+
+.social-icon:hover {
+    transform: translateY(-2px);
+}
+
+.about-card {
+    transition: transform 320ms var(--motion-standard), border-color 320ms var(--motion-standard), box-shadow 320ms var(--motion-standard), background 320ms var(--motion-standard), filter 320ms var(--motion-standard);
+}
+
+.about-card:hover {
+    transform: translateY(-4px) scale(1.008);
+}
+
+.about-card:hover .card-icon {
+    transform: translateY(-2px) scale(1.03);
+}
+
+.project-card {
+    transition: transform 320ms var(--motion-standard), border-color 320ms var(--motion-standard), background 320ms var(--motion-standard), box-shadow 320ms var(--motion-standard);
+}
+
+.project-card:hover {
+    transform: translateY(-4px) scale(1.003);
+}
+
+.project-card:hover .project-icon-wrapper {
+    transform: translateY(-1px) scale(1.03);
+}
+
+.connect-platform {
+    transition: transform 300ms var(--motion-standard), border-color 300ms var(--motion-standard), background 300ms var(--motion-standard), box-shadow 300ms var(--motion-standard);
+}
+
+.connect-platform:hover {
+    transform: translateY(-2px);
+}
+
+.footer-links a {
+    transition: color 280ms var(--motion-standard), transform 280ms var(--motion-standard);
+}
+
+.footer-links a:hover {
+    transform: translateY(-6px) scale(1.12) rotate(6deg);
+}
+
+.project-link-text,
+.platform-cta {
+    transition: color 280ms var(--motion-standard), border-color 280ms var(--motion-standard), background 280ms var(--motion-standard), transform 280ms var(--motion-standard);
+}
+
+.cursor-glow {
+    transition: filter 120ms ease-out, box-shadow 180ms var(--motion-standard);
+}
+
+.scroll-dot {
+    animation: scrollPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.88;
+    }
+    50% {
+        transform: translateY(7px);
+        opacity: 1;
+    }
+}
+
+.motion-ready .reveal-target {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.995);
+    filter: blur(0.8px);
+    transition: opacity 680ms var(--motion-standard), transform 680ms var(--motion-standard), filter 680ms var(--motion-standard);
+}
+
+.motion-ready .reveal-target.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .about-grid {
@@ -573,6 +723,10 @@ body {
 @media (max-width: 768px) {
     .navbar {
         width: 96%;
+    }
+
+    .connect::before {
+        content: none;
     }
 
     .navbar.nav-hidden {
