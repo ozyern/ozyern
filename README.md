@@ -1,4 +1,4 @@
-# Yo! 👋 I'm Ozyern
+# Yo! 👋 I'm Aditya Jha
 
 Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, modern, and responsive web experiences (like ReVork!). Always learning, always coding. 
 
