@@ -4,7 +4,7 @@ Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, moder
 
 ### 👨‍💻 A little about me...
 
-- 🔭 I’m currently working on **[ReVork](https://github.com/ozyern/ReVork)** and my **[Personal Website](https://github.com/ozyern/ozyern.github.io)**.
+- 🔭 I’m currently working on **[ReVork](https://github.com/ozyern/ReVork)** and my **[Sabrina Carpenter Website](https://github.com/ozyern/sabrinacarpenter)**.
 - 🌱 I’m currently learning and leveling up my frontend and backend skills.
 - 👯 I’m looking to collaborate on cool open-source projects.
 - 🤔 I’m looking for help with growing my dev skills.
