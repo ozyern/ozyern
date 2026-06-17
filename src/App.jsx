@@ -95,7 +95,7 @@ function Sidebar(){
     {id:'skills',icon:<BlIco/>,label:'Skills'},
     {id:'about',icon:<PeIco/>,label:'About'},
     {id:'contact',icon:<MsIco/>,label:'Contact'},
-    {href:'mailto:ozi@ozyern.me',id:'_mail',icon:<EnIco/>,label:'Email'},
+    {href:'mailto:ozyern.dev@gmail.com',id:'_mail',icon:<EnIco/>,label:'Email'},
   ]
   return(
     <div className="sidebar">
@@ -128,7 +128,7 @@ function Hero(){
         <p className="hrole">Feather Engine Maintainer · ReVork Founder · Class 9 Student</p>
         <p className="htline">Building close to the metal.</p>
         <div className="hsoc">
-          {[{href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},{href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},{href:'mailto:ozi@ozyern.me',icon:<ML/>,l:'Email'},{href:'https://ozyern.me',icon:<WB/>,l:'Website'}].map(s=>(
+          {[{href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},{href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},{href:'mailto:ozyern.dev@gmail.com',icon:<ML/>,l:'Email'},{href:'https://ozyern.me',icon:<WB/>,l:'Website'}].map(s=>(
             <a key={s.l} className="soc" href={s.href} target={s.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" aria-label={s.l}>{s.icon}</a>
           ))}
         </div>
@@ -362,7 +362,7 @@ function About(){
 
 /* ── Contact ──────────────────────────────────────────────── */
 function Contact(){
-  const lks=[{icon:<GH/>,name:'GitHub',sub:'@ozyern',href:'https://github.com/ozyern'},{icon:<TG/>,name:'Telegram',sub:'@ozyern',href:'https://t.me/ozyern'},{icon:<ML/>,name:'Email',sub:'ozi@ozyern.me',href:'mailto:ozi@ozyern.me'},{icon:<WB/>,name:'Website',sub:'ozyern.me',href:'https://ozyern.me'}]
+  const lks=[{icon:<GH/>,name:'GitHub',sub:'@ozyern',href:'https://github.com/ozyern'},{icon:<TG/>,name:'Telegram',sub:'@ozyern',href:'https://t.me/ozyern'},{icon:<ML/>,name:'Email',sub:'ozyern.dev@gmail.com',href:'mailto:ozyern.dev@gmail.com'},{icon:<WB/>,name:'Website',sub:'ozyern.me',href:'https://ozyern.me'}]
   const inf=[{l:'Status',v:<><span className="gdot"/>Available for collabs</>},{l:'Current Focus',v:'Feather Engine · RP21 Fan HQ'},{l:'Community',v:<a href="https://t.me/revork" target="_blank" rel="noopener">ReVork on Telegram ↗</a>},{l:'GitHub',v:<a href="https://github.com/ozyern" target="_blank" rel="noopener">github.com/ozyern ↗</a>},{l:'Fun fact',v:<span style={{color:'var(--muted)',fontWeight:400}}>Every project named after a Sabrina song.</span>}]
   return(
     <section id="contact" className="ctwrap">
