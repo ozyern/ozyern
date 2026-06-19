@@ -16,6 +16,8 @@ const WB=()=><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke=
 const EX=()=><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
 const Arw=()=><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
 
+const EMAIL='ozyern.dev@gmail.com'
+
 /* ── Data ─────────────────────────────────────────────────── */
 const EXP=[
   {company:'Feather Engine',tag:'Open Source',role:'Maintainer',date:'2024 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
@@ -38,12 +40,66 @@ const SKILLS=[
   {icon:'🔧',name:'Android ROM Dev',num:'01',desc:'Low-level porting, partition manipulation, smali patching, OTA generation.',tags:['port.sh','Smali','ADB','OTA','ColorOS 16']},
   {icon:'⚙️',name:'Kernel & Modules',num:'02',desc:'Feather Kernel, binary patching, SukiSU Ultra spoof modules, KernelSU/Magisk framework.',tags:['KernelSU','Magisk','AnyKernel','SukiSU']},
   {icon:'🌐',name:'Web Development',num:'03',desc:'HTML/CSS/JS with strong visual identity — liquid-glass, Dynamic Island patterns, GitHub Pages, custom subdomains.',tags:['HTML/CSS/JS','GitHub Pages','Animations']},
-  {icon:'🛠️',name:'Tooling & Env',num:'04',desc:'Dual-boot Ubuntu on ROG Strix G16 2025. Bash scripting, performance tuning, terminal-first dev.',tags:['Bash','Ubuntu','Git','Linux']},
+  {icon:'🛠️',name:'Tooling & Env',num:'04',desc:'Dual-boot ZorinOS on ROG Strix Scar 16 2025. Bash scripting, performance tuning, terminal-first dev.',tags:['Bash','Ubuntu','Git','Linux']},
 ]
 
 const TECH=['SM8350','ColorOS 16','OxygenOS 16','AnyKernel3','SukiSU Ultra','KernelSU','Smali','Bash','HTML/CSS/JS','GitHub Pages','Anthropic API','Fastboot','ADB','OnePlus 9 Pro','Feather Engine']
 
-/* ── Browser Mockup ───────────────────────────────────────── */
+const TERM_LINES=[
+  '$ whoami',
+  'aditya — android dev / rom porter',
+  '',
+  '$ cat focus.txt',
+  'maintaining feather engine (sm8350)',
+  'porting oxygenos 16.1 → oneplus 9 pro',
+  '',
+  '$ ./status --check',
+  '✓ revork community     200+ members',
+  '✓ feather kernel        v1.4 stable',
+  '✓ build                 passing',
+]
+
+/* ── Reveal-on-scroll hook ───────────────────────────────── */
+function useInView(threshold=0.15){
+  const ref=useRef(null)
+  const[inView,setInView]=useState(false)
+  useEffect(()=>{
+    const obs=new IntersectionObserver(([e])=>{
+      if(e.isIntersecting){setInView(true);obs.disconnect()}
+    },{threshold})
+    if(ref.current)obs.observe(ref.current)
+    return()=>obs.disconnect()
+  },[threshold])
+  return[ref,inView]
+}
+function rv(inView,extra=''){return`rv${inView?' in':''}${extra?' '+extra:''}`}
+
+/* ── Typewriter hook (hero terminal) ─────────────────────── */
+function useTypewriter(lines,speed=26,gap=260){
+  const[out,setOut]=useState(()=>lines.map(()=>''))
+  const[idx,setIdx]=useState(0)
+  useEffect(()=>{
+    if(idx>=lines.length)return
+    const full=lines[idx]
+    if(full===''){
+      const t=setTimeout(()=>setIdx(p=>p+1),140)
+      return()=>clearTimeout(t)
+    }
+    let i=0
+    const id=setInterval(()=>{
+      i++
+      setOut(prev=>{const nx=[...prev];nx[idx]=full.slice(0,i);return nx})
+      if(i>=full.length){
+        clearInterval(id)
+        setTimeout(()=>setIdx(p=>p+1),gap)
+      }
+    },speed)
+    return()=>clearInterval(id)
+  },[idx])
+  return[out,idx]
+}
+
+/* ── Browser Mockup (project cards) ──────────────────────── */
 function Browser({url,children}){
   return(
     <div className="brw">
@@ -62,11 +118,17 @@ function Cursor(){
   useEffect(()=>{
     const mv=e=>{s.current.mx=e.clientX;s.current.my=e.clientY}
     let raf
-    const tick=()=>{const c=s.current;c.rx=c.rx+(c.mx-c.rx)*.12;c.ry=c.ry+(c.my-c.ry)*.12;if(dr.current){dr.current.style.left=c.mx+'px';dr.current.style.top=c.my+'px'}if(rr.current){rr.current.style.left=c.rx+'px';rr.current.style.top=c.ry+'px'};raf=requestAnimationFrame(tick)}
+    const tick=()=>{const c=s.current;c.rx=c.rx+(c.mx-c.rx)*.16;c.ry=c.ry+(c.my-c.ry)*.16;if(dr.current){dr.current.style.left=c.mx+'px';dr.current.style.top=c.my+'px'}if(rr.current){rr.current.style.left=c.rx+'px';rr.current.style.top=c.ry+'px'};raf=requestAnimationFrame(tick)}
     document.addEventListener('mousemove',mv);raf=requestAnimationFrame(tick)
-    const bind=()=>document.querySelectorAll('a,button,.stc,.expi,.skli,.pjc,.soc').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'))})
+    const bind=()=>document.querySelectorAll('a,button,.stc,.expi,.skli,.pjc,.soc,.awc').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('hov'))
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'))
+    })
     setTimeout(bind,600)
-    return()=>{document.removeEventListener('mousemove',mv);cancelAnimationFrame(raf)}
+    const down=()=>document.body.classList.add('press')
+    const up=()=>document.body.classList.remove('press')
+    document.addEventListener('mousedown',down);document.addEventListener('mouseup',up)
+    return()=>{document.removeEventListener('mousemove',mv);cancelAnimationFrame(raf);document.removeEventListener('mousedown',down);document.removeEventListener('mouseup',up)}
   },[])
   return <><div className="cdot" ref={dr}/><div className="cring" ref={rr}/></>
 }
@@ -74,19 +136,38 @@ function Cursor(){
 /* ── Loader ───────────────────────────────────────────────── */
 function Loader({onDone}){
   const[p,setP]=useState(0),[out,setOut]=useState(false)
-  useEffect(()=>{let v=0,id=setInterval(()=>{v+=Math.random()*14+7;if(v>=100){v=100;clearInterval(id);setTimeout(()=>{setOut(true);setTimeout(onDone,600)},200)};setP(Math.round(v))},55);return()=>clearInterval(id)},[onDone])
+  useEffect(()=>{let v=0,id=setInterval(()=>{v+=Math.random()*14+7;if(v>=100){v=100;clearInterval(id);setTimeout(()=>{setOut(true);setTimeout(onDone,650)},250)};setP(Math.round(v))},55);return()=>clearInterval(id)},[onDone])
   return <div className={`ldr${out?' out':''}`}><div className="llo">@ozy<b>ern</b></div><div className="llb"><div className="llf" style={{width:p+'%'}}/></div><div className="llp">{p}%</div></div>
 }
 
-/* ── Sidebar ──────────────────────────────────────────────── */
+/* ── Sidebar — smooth sliding indicator ──────────────────── */
 function Sidebar(){
   const[active,setActive]=useState('home')
+  const pillRef=useRef(null)
+  const itemRefs=useRef({})
+  const[ind,setInd]=useState({y:0,h:44,ready:false})
+
   useEffect(()=>{
     const targets=document.querySelectorAll('section[id],div[id="stats"]')
     const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)})},{threshold:.25,rootMargin:'-5% 0px -55% 0px'})
     targets.forEach(t=>obs.observe(t))
     return()=>obs.disconnect()
   },[])
+
+  useEffect(()=>{
+    const measure=()=>{
+      const el=itemRefs.current[active]
+      if(el&&pillRef.current){
+        const pr=pillRef.current.getBoundingClientRect()
+        const er=el.getBoundingClientRect()
+        setInd({y:er.top-pr.top,h:er.height,ready:true})
+      }
+    }
+    measure()
+    window.addEventListener('resize',measure)
+    return()=>window.removeEventListener('resize',measure)
+  },[active])
+
   const items=[
     {id:'home',icon:<HoIco/>,label:'Home'},
     {id:'experience',icon:<BrIco/>,label:'Work'},
@@ -95,16 +176,23 @@ function Sidebar(){
     {id:'skills',icon:<BlIco/>,label:'Skills'},
     {id:'about',icon:<PeIco/>,label:'About'},
     {id:'contact',icon:<MsIco/>,label:'Contact'},
-    {href:'mailto:ozyern.dev@gmail.com',id:'_mail',icon:<EnIco/>,label:'Email'},
+    {href:`mailto:${EMAIL}`,id:'_mail',icon:<EnIco/>,label:'Email'},
   ]
   return(
     <div className="sidebar">
-      <div className="sb-pill">
+      <div className="sb-pill" ref={pillRef}>
+        {ind.ready&&<div className="sb-indicator" style={{transform:`translateY(${ind.y}px)`,height:ind.h}}/>}
         {items.map((it,i)=>(
-          <a key={i} href={it.href||`#${it.id}`} className={`sb-item${active===it.id?' active':''}`}
-             onClick={()=>it.id!=='_mail'&&setActive(it.id)}
-             target={it.href?'_blank':undefined} rel={it.href?'noopener':undefined}>
-            {it.icon}<span className="sb-tip">{it.label}</span>
+          <a key={i}
+            ref={el=>{itemRefs.current[it.id]=el}}
+            href={it.href||`#${it.id}`}
+            className={`sb-item${active===it.id?' active':''}`}
+            onClick={()=>it.id!=='_mail'&&setActive(it.id)}
+            target={it.href?'_blank':undefined}
+            rel={it.href?'noopener':undefined}
+          >
+            {it.icon}
+            <span className="sb-tip">{it.label}</span>
           </a>
         ))}
       </div>
@@ -114,27 +202,48 @@ function Sidebar(){
 
 /* ── Hero ─────────────────────────────────────────────────── */
 function Hero(){
+  const[lines,typingIdx]=useTypewriter(TERM_LINES)
   return(
     <section id="home" className="hero">
       <div className="hbg"/>
-      <div className="hportr"><div className="hportr-inner">
-        <svg className="hpicon" width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="rgba(232,40,40,0.4)" strokeWidth="0.6"><circle cx="12" cy="7" r="5"/><path d="M3 21c0-5 3.6-9 9-9s9 4 9 9"/></svg>
-        <div className="hportr-tag">Currently Building · Feather Engine</div>
-      </div></div>
-      <div className="hsig">Aditya Jha</div>
-      <div className="hcon">
-        <p className="htag">Android Developer &amp; ROM Porter</p>
-        <h1 className="hnam"><span className="hl"><span className="hli">Aditya</span></span><span className="hl"><span className="hli">Jha.</span></span></h1>
-        <p className="hrole">Feather Engine Maintainer · ReVork Founder · Class 9 Student</p>
-        <p className="htline">Building close to the metal.</p>
-        <div className="hsoc">
-          {[{href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},{href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},{href:'mailto:ozyern.dev@gmail.com',icon:<ML/>,l:'Email'},{href:'https://ozyern.me',icon:<WB/>,l:'Website'}].map(s=>(
-            <a key={s.l} className="soc" href={s.href} target={s.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" aria-label={s.l}>{s.icon}</a>
-          ))}
+      <div className="hwrap">
+        <div className="hleft">
+          <div className="hbadge"><span className="gdot"/>Available for collabs</div>
+          <h1 className="hnam">
+            <span className="hl"><span className="hli">Aditya</span></span>
+            <span className="hl"><span className="hli accent">Jha.</span></span>
+          </h1>
+          <p className="hsub">Android developer building ROM ports, custom kernels and liquid-glass web experiences — close to the metal.</p>
+          <div className="hchips">
+            <span className="hchip">Feather Engine</span>
+            <span className="hchip">ReVork · 200+ members</span>
+            <span className="hchip">SM8350</span>
+          </div>
+          <div className="hbtns">
+            <a className="bp" href="#projects"><span>View my work</span><EX/></a>
+            <a className="bs" href="#contact">Get in touch</a>
+          </div>
+          <div className="hsoc">
+            {[{href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},{href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},{href:`mailto:${EMAIL}`,icon:<ML/>,l:'Email'},{href:'https://ozyern.me',icon:<WB/>,l:'Website'}].map(s=>(
+              <a key={s.l} className="soc" href={s.href} target={s.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" aria-label={s.l}>{s.icon}</a>
+            ))}
+          </div>
         </div>
-        <div className="hbtns">
-          <a className="bp" href="#projects"><span>View my work</span><EX/></a>
-          <a className="bs" href="#contact">Get in touch</a>
+        <div className="hright">
+          <div className="hglow"/>
+          <div className="hterm-card">
+            <div className="hterm-bar">
+              <div className="hterm-dots"><span style={{background:'#ff5f57'}}/><span style={{background:'#ffbd2e'}}/><span style={{background:'#28c840'}}/></div>
+              <div className="hterm-url">ozyern@feather: ~</div>
+            </div>
+            <div className="hterm-body">
+              {lines.map((l,i)=>{
+                if(i>typingIdx)return null
+                const cls=l.startsWith('$')?'tl prompt':l.startsWith('✓')?'tl ok':'tl'
+                return <div key={i} className={cls}>{l===''?'\u00A0':l}{i===typingIdx&&<span className="hcursor"/>}</div>
+              })}
+            </div>
+          </div>
         </div>
       </div>
       <div className="hscr">scroll</div>
@@ -164,7 +273,7 @@ function Stats(){
   return(
     <div id="stats" className="stats" ref={ref}>
       {cards.map((c,i)=>(
-        <div className="stc" key={i}>
+        <div className="stc" key={i} style={{transitionDelay:`${i*.06}s`}}>
           <div className="stl">{c.label}</div>
           <div><div className={`stn${c.sm?' stn-sm':''}`}>{c.val}</div><div className="stnote">{c.note}</div></div>
         </div>
@@ -175,12 +284,13 @@ function Stats(){
 
 /* ── Recognition ──────────────────────────────────────────── */
 function Recognition(){
+  const[ref,inView]=useInView(0.1)
   return(
-    <section id="recognition" style={{paddingTop:60,paddingBottom:60}}>
-      <div className="slbl">Recognition &amp; Milestones</div>
+    <section id="recognition" ref={ref} style={{paddingTop:60,paddingBottom:60}}>
+      <div className={rv(inView)}><div className="slbl">Recognition &amp; Milestones</div></div>
       <div className="awgr">
         {AWARDS.map((a,i)=>(
-          <div className="awc" key={i}>
+          <div className={rv(inView,'awc')} key={i} style={{transitionDelay:`${.08+i*.06}s`}}>
             <div className="awicon">{a.icon}</div>
             <div className="awn">{a.name}</div>
             <div className="aws">{a.sub}</div>
@@ -210,12 +320,13 @@ function Ticker(){
 
 /* ── Experience ───────────────────────────────────────────── */
 function Experience(){
+  const[ref,inView]=useInView(0.08)
   return(
-    <section id="experience">
-      <div className="slbl">Experiences</div>
-      <p className="ssti">A chronicle of my journey in <em>Android development and web creation.</em></p>
+    <section id="experience" ref={ref}>
+      <div className={rv(inView)}><div className="slbl">Experiences</div></div>
+      <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>A chronicle of my journey in <em>Android development and web creation.</em></p>
       {EXP.map((e,i)=>(
-        <div className="expi" key={i}>
+        <div className={rv(inView,'expi')} key={i} style={{transitionDelay:`${.15+i*.07}s`}}>
           <div><div className="excn">{e.company}</div><span className="extg">{e.tag}</span></div>
           <div><div className="exrl">{e.role}</div><p className="exdc">{e.desc}</p><div className="extgs">{e.tags.map(t=><span key={t} className="chip">{t}</span>)}</div></div>
           <div className="exdt">{e.date}</div>
@@ -227,21 +338,22 @@ function Experience(){
 
 /* ── Projects ─────────────────────────────────────────────── */
 function Projects(){
+  const[ref,inView]=useInView(0.08)
   const proj=[
     {
       name:'Feather Engine',
       desc:'A complete bash-based porting framework for ColorOS/OxygenOS 16 on Snapdragon 888. Handles partition manipulation, smali patching, OTA generation and AI feature unlocking.',
-      href:'https://github.com/ozyern',date:'Aug 2024',rev:false,
+      href:'https://github.com/ozyern',date:'Aug 2024',revc:false,
       url:'github.com/ozyern/Feather-Engine',
       preview:(
-        <div style={{background:'#0d0d0d',height:'100%',padding:'28px 32px',fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',gap:14}}>
+        <div style={{background:'#000',height:'100%',padding:'28px 32px',fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',gap:14}}>
           <div style={{fontSize:11,color:'rgba(232,40,40,.7)',letterSpacing:'.12em'}}>ozyern / Feather-Engine</div>
           <div style={{fontSize:26,fontWeight:900,color:'#fff',fontFamily:'Inter,sans-serif',lineHeight:1.05}}>Port anything.<br/><span style={{color:'#e82828'}}>Fast.</span></div>
           <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>ColorOS 16 · OxygenOS 16 · SM8350</div>
           <div style={{display:'flex',gap:6,marginTop:2}}>
             {['★ Bash','⚡ OTA','🔧 SM8350'].map(t=><span key={t} style={{background:'rgba(232,40,40,.12)',border:'1px solid rgba(232,40,40,.25)',color:'rgba(232,40,40,.9)',fontSize:9,padding:'3px 10px',borderRadius:100}}>{t}</span>)}
           </div>
-          <div style={{background:'#111',borderRadius:8,padding:'12px 14px',marginTop:4,fontSize:9,color:'#4ade80',lineHeight:1.9}}>
+          <div style={{background:'#0a0a0a',borderRadius:8,padding:'12px 14px',marginTop:4,fontSize:9,color:'#4ade80',lineHeight:1.9}}>
             <div style={{color:'rgba(255,255,255,.28)',marginBottom:2}}>$ ./port.sh --device lemonadep</div>
             <div>✓ Extracted system partitions</div>
             <div>✓ Applied smali patches (AI)</div>
@@ -253,10 +365,10 @@ function Projects(){
     {
       name:'sabrina.ozyern.me',
       desc:'Liquid-glass fan site for Sabrina Carpenter — era-filtered discography, Dynamic Island nav, gallery and birthday campaign. Reached Foundation Media Partners via cold email.',
-      href:'https://sabrina.ozyern.me',date:'Dec 2024',rev:true,
+      href:'https://sabrina.ozyern.me',date:'Dec 2024',revc:true,
       url:'sabrina.ozyern.me',
       preview:(
-        <div style={{background:'linear-gradient(160deg,#130518 0%,#1e0828 50%,#0e0414 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
+        <div style={{background:'linear-gradient(160deg,#0d0312 0%,#150620 50%,#000 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
           <div style={{fontSize:9,letterSpacing:'.35em',color:'rgba(255,160,210,.45)',textTransform:'uppercase',fontFamily:'JetBrains Mono,monospace'}}>Fan Site</div>
           <div style={{fontSize:34,fontWeight:900,color:'#fff',fontFamily:'Playfair Display,serif',fontStyle:'italic',lineHeight:.95}}>Sabrina</div>
           <div style={{fontSize:11,color:'rgba(255,160,210,.55)',letterSpacing:'.18em',textTransform:'uppercase'}}>Carpenter</div>
@@ -271,10 +383,10 @@ function Projects(){
     {
       name:'patidar.ozyern.me',
       desc:'RP21 Fan HQ for Rajat Patidar — dark luxury red/gold aesthetic, Dynamic Island nav, dense grid layouts, animated hero and AI-powered news page using the Anthropic API.',
-      href:'https://patidar.ozyern.me',date:'Ongoing',rev:false,
+      href:'https://patidar.ozyern.me',date:'Ongoing',revc:false,
       url:'patidar.ozyern.me',
       preview:(
-        <div style={{background:'linear-gradient(160deg,#1a0000 0%,#1f0600 50%,#140000 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
+        <div style={{background:'linear-gradient(160deg,#120000 0%,#170400 50%,#000 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
           <div style={{fontSize:9,letterSpacing:'.35em',color:'rgba(255,200,60,.4)',textTransform:'uppercase',fontFamily:'JetBrains Mono,monospace'}}>RCB Fan HQ</div>
           <div style={{fontSize:48,fontWeight:900,color:'#fff',fontFamily:'Playfair Display,serif',lineHeight:.85}}>RP<span style={{color:'#e82828'}}>21</span></div>
           <div style={{fontSize:10,color:'rgba(255,200,60,.65)',letterSpacing:'.22em',textTransform:'uppercase'}}>Rajat Patidar</div>
@@ -289,12 +401,12 @@ function Projects(){
     },
   ]
   return(
-    <section id="projects" style={{background:'rgba(255,255,255,.02)',borderTop:'1px solid var(--bord)'}}>
-      <div className="slbl">Highlighted Works</div>
-      <p className="ssti">Things I've <em>actually shipped</em> — from kernels to fan sites.</p>
+    <section id="projects" ref={ref} style={{background:'rgba(255,255,255,.015)',borderTop:'1px solid var(--bord)'}}>
+      <div className={rv(inView)}><div className="slbl">Highlighted Works</div></div>
+      <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>Things I've <em>actually shipped</em> — from kernels to fan sites.</p>
       <div className="pjl">
         {proj.map((p,i)=>(
-          <div className={`pjc${p.rev?' rev':''}`} key={i}>
+          <div className={rv(inView,`pjc${p.revc?' rev':''}`)} key={i} style={{transitionDelay:`${.15+i*.1}s`}}>
             <div className="pjv">
               <Browser url={p.url}>{p.preview}</Browser>
             </div>
@@ -317,12 +429,13 @@ function Projects(){
 
 /* ── Skills ───────────────────────────────────────────────── */
 function Skills(){
+  const[ref,inView]=useInView(0.08)
   return(
-    <section id="skills">
-      <div className="slbl">My Skills</div>
-      <p className="ssti">What I <em>actually know</em> and build with every day.</p>
+    <section id="skills" ref={ref}>
+      <div className={rv(inView)}><div className="slbl">My Skills</div></div>
+      <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>What I <em>actually know</em> and build with every day.</p>
       {SKILLS.map((s,i)=>(
-        <div className="skli" key={i}>
+        <div className={rv(inView,'skli')} key={i} style={{transitionDelay:`${.15+i*.07}s`}}>
           <div className="sklic">{s.icon}</div>
           <div><div className="sklnm">{s.name}</div><p className="skldc">{s.desc}</p><div className="sklch">{s.tags.map(t=><span key={t} className="chip">{t}</span>)}</div></div>
           <div className="sklnu">{s.num}</div>
@@ -334,17 +447,18 @@ function Skills(){
 
 /* ── About ────────────────────────────────────────────────── */
 function About(){
+  const[ref,inView]=useInView(0.1)
   return(
-    <section id="about" style={{background:'rgba(255,255,255,.02)',borderTop:'1px solid var(--bord)'}}>
-      <div className="slbl">About Me</div>
+    <section id="about" ref={ref} style={{background:'rgba(255,255,255,.015)',borderTop:'1px solid var(--bord)'}}>
+      <div className={rv(inView)}><div className="slbl">About Me</div></div>
       <div className="abgr">
-        <div className="abph">
+        <div className={rv(inView,'abph')} style={{transitionDelay:'.1s'}}>
           <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="rgba(232,40,40,0.22)" strokeWidth="0.7" style={{position:'relative',zIndex:1}}><circle cx="12" cy="7" r="5"/><path d="M3 21c0-5 3.6-9 9-9s9 4 9 9"/></svg>
-          <div className="abphl"><div><div className="abphn">Aditya Jha</div><div className="abphs">Student · Developer · Class 9</div></div><div className="abphh">@ozyern</div></div>
+          <div className="abphl"><div><div className="abphn">Aditya Jha</div><div className="abphs">Student · Developer</div></div><div className="abphh">@ozyern</div></div>
         </div>
-        <div>
+        <div className={rv(inView)} style={{transitionDelay:'.18s'}}>
           <h3 className="abhl">Building <i>close to the metal</i> — kernels, ROMs, and fan sites that feel alive.</h3>
-          <p className="abp">I'm Ozi an active Android ROM porter. I maintain <strong>Feather Engine</strong>, a bash-based framework for porting ColorOS/OxygenOS 16 to Snapdragon 888 devices, primarily the OnePlus 9 Pro.</p>
+          <p className="abp">I'm Ozi — a student and an active Android ROM porter. I maintain <strong>Feather Engine</strong>, a bash-based framework for porting ColorOS/OxygenOS 16 to Snapdragon 888 devices, primarily the OnePlus 9 Pro.</p>
           <p className="abp">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API.</p>
           <div className="abq"><p>"Every project I name ends up a Sabrina Carpenter reference. Feather, Espresso, Singular, Tornado — that's just how it is."</p></div>
           <p className="abp">I run <strong>ReVork</strong>, a ~200-member Telegram community. Built <a href="https://sabrina.ozyern.me" target="_blank" rel="noopener">sabrina.ozyern.me</a> and cold-emailed her management. Currently iterating on <a href="https://patidar.ozyern.me" target="_blank" rel="noopener">patidar.ozyern.me</a>.</p>
@@ -352,7 +466,7 @@ function About(){
             <div className="dvsl">Device lineup</div>
             <div className="dvsr"><span>OnePlus 13</span><span className="dvsrk">"Espresso"</span></div>
             <div className="dvsr"><span>OnePlus 9 Pro (lemonadep)</span><span className="dvsrk">"Feather"</span></div>
-            <div className="dvsr"><span>ROG Strix G16 2025 · Ultra 9 275HX · RTX 5060</span><span className="dvsrk">Daily driver</span></div>
+            <div className="dvsr"><span>ROG Strix SCAR 16 2025 (Intel)</span><span className="dvsrk">Daily driver</span></div>
           </div>
         </div>
       </div>
@@ -362,17 +476,18 @@ function About(){
 
 /* ── Contact ──────────────────────────────────────────────── */
 function Contact(){
-  const lks=[{icon:<GH/>,name:'GitHub',sub:'@ozyern',href:'https://github.com/ozyern'},{icon:<TG/>,name:'Telegram',sub:'@ozyern',href:'https://t.me/ozyern'},{icon:<ML/>,name:'Email',sub:'ozyern.dev@gmail.com',href:'mailto:ozyern.dev@gmail.com'},{icon:<WB/>,name:'Website',sub:'ozyern.me',href:'https://ozyern.me'}]
+  const[ref,inView]=useInView(0.1)
+  const lks=[{icon:<GH/>,name:'GitHub',sub:'@ozyern',href:'https://github.com/ozyern'},{icon:<TG/>,name:'Telegram',sub:'@ozyern',href:'https://t.me/ozyern'},{icon:<ML/>,name:'Email',sub:EMAIL,href:`mailto:${EMAIL}`},{icon:<WB/>,name:'Website',sub:'ozyern.me',href:'https://ozyern.me'}]
   const inf=[{l:'Status',v:<><span className="gdot"/>Available for collabs</>},{l:'Current Focus',v:'Feather Engine · RP21 Fan HQ'},{l:'Community',v:<a href="https://t.me/revork" target="_blank" rel="noopener">ReVork on Telegram ↗</a>},{l:'GitHub',v:<a href="https://github.com/ozyern" target="_blank" rel="noopener">github.com/ozyern ↗</a>},{l:'Fun fact',v:<span style={{color:'var(--muted)',fontWeight:400}}>Every project named after a Sabrina song.</span>}]
   return(
-    <section id="contact" className="ctwrap">
+    <section id="contact" ref={ref} className="ctwrap">
       <div className="ctgr">
-        <div>
+        <div className={rv(inView)}>
           <div className="slbl">Get in Touch</div>
           <h2 className="ctbig">Let's <i>build</i><br/>something<br/>together.</h2>
-          {lks.map(x=><a key={x.name} className="clk" href={x.href} target={x.href.startsWith('mailto')?undefined:'_blank'} rel="noopener"><div className="clkic">{x.icon}</div><div className="clktx"><div className="clkn">{x.name}</div><div className="clks">{x.sub}</div></div><div className="clka">↗</div></a>)}
+          {lks.map((x)=><a key={x.name} className="clk" href={x.href} target={x.href.startsWith('mailto')?undefined:'_blank'} rel="noopener"><div className="clkic">{x.icon}</div><div className="clktx"><div className="clkn">{x.name}</div><div className="clks">{x.sub}</div></div><div className="clka">↗</div></a>)}
         </div>
-        <div>{inf.map(r=><div key={r.l} className="cifr"><div className="cifl">{r.l}</div><div className="cifv">{r.v}</div></div>)}</div>
+        <div className={rv(inView)} style={{transitionDelay:'.12s'}}>{inf.map(r=><div key={r.l} className="cifr"><div className="cifl">{r.l}</div><div className="cifv">{r.v}</div></div>)}</div>
       </div>
     </section>
   )
