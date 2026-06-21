@@ -13,7 +13,7 @@ Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, moder
 
 ---
 
-### Music 
+### 🎵  Music 
 
 <p align="center">
   <a href="https://spotify-github-profile.kittinanx.com/api/view?uid=31hf7vddxmc4nepqpdclkr74r2am&redirect=true">
