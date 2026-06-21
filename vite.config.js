@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Change '/ozi-portfolio/' to match your exact GitHub repo name
-// e.g. if your repo is github.com/ozyern/about.ozyern.me → base: '/about.ozyern.me/'
+// Custom domain (about.ozyern.me) serves from the root, so base MUST be '/'
 export default defineConfig({
   plugins: [react()],
-  base: '/ozi-portfolio/',
+  base: '/',
 })

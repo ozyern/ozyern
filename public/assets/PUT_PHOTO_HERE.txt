@@ -1,0 +1,1 @@
+Move your favicon.png photo into this exact folder (public/assets/favicon.png), then delete this file.

@@ -1,5 +1,7 @@
 import{useState,useEffect,useRef,useCallback}from'react'
 
+const heroPhoto='/assets/favicon.png'
+
 /* ── Icons ────────────────────────────────────────────────── */
 const HoIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
 const BrIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="2" y1="11" x2="22" y2="11"/></svg>
@@ -20,11 +22,11 @@ const EMAIL='ozyern.dev@gmail.com'
 
 /* ── Data ─────────────────────────────────────────────────── */
 const EXP=[
-  {company:'Feather Engine',tag:'Open Source',role:'Maintainer',date:'2024 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
-  {company:'ReVork',tag:'Community',role:'Founder',date:'2024 — Present',desc:'~200-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
+  {company:'Feather Engine',tag:'Open Source',role:'Maintainer',date:'2025 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
+  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~200-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
   {company:'sabrina.ozyern.me',tag:'Web Dev',role:'Developer',date:'2024 — Present',desc:'Liquid-glass fan site — gallery, era-filtered discography, Dynamic Island nav, birthday campaign. Cold-emailed Foundation Media Partners.',tags:['HTML/CSS/JS','GitHub Pages']},
-  {company:'Feather Kernel',tag:'Kernel',role:'Developer',date:'2024',desc:'Custom OP9 Pro kernel — binary string patching, SukiSU Ultra spoof modules, KernelSU framework, AnyKernel3 packaging.',tags:['Kernel','KernelSU','AnyKernel']},
-  {company:'patidar.ozyern.me',tag:'Web Dev',role:'Developer',date:'Ongoing',desc:"Dark luxury red/gold fan site for RCB's Rajat Patidar. Dynamic Island nav, dense grid layouts, AI-powered news page.",tags:['HTML/CSS/JS','RCB','Anthropic API']},
+  {company:'Feather Kernel',tag:'Kernel',role:'Developer',date:'2025',desc:'Custom OP9 Pro kernel — binary string patching, SukiSU Ultra spoof modules, KernelSU framework, AnyKernel3 packaging.',tags:['Kernel','KernelSU','AnyKernel']},
+  {company:'patidar.ozyern.me',tag:'Web Dev',role:'Developer',date:'2025 — Present',desc:"Dark luxury red/gold fan site for RCB's Rajat Patidar. Dynamic Island nav, dense grid layouts, AI-powered news page.",tags:['HTML/CSS/JS','RCB','Anthropic API']},
 ]
 
 const AWARDS=[
@@ -40,24 +42,9 @@ const SKILLS=[
   {icon:'🔧',name:'Android ROM Dev',num:'01',desc:'Low-level porting, partition manipulation, smali patching, OTA generation.',tags:['port.sh','Smali','ADB','OTA','ColorOS 16']},
   {icon:'⚙️',name:'Kernel & Modules',num:'02',desc:'Feather Kernel, binary patching, SukiSU Ultra spoof modules, KernelSU/Magisk framework.',tags:['KernelSU','Magisk','AnyKernel','SukiSU']},
   {icon:'🌐',name:'Web Development',num:'03',desc:'HTML/CSS/JS with strong visual identity — liquid-glass, Dynamic Island patterns, GitHub Pages, custom subdomains.',tags:['HTML/CSS/JS','GitHub Pages','Animations']},
-  {icon:'🛠️',name:'Tooling & Env',num:'04',desc:'Dual-boot ZorinOS on ROG Strix Scar 16 2025. Bash scripting, performance tuning, terminal-first dev.',tags:['Bash','Ubuntu','Git','Linux']},
+  {icon:'🛠️',name:'Tooling & Env',num:'04',desc:'Dual-boot Ubuntu on ROG Strix G16 2025. Bash scripting, performance tuning, terminal-first dev.',tags:['Bash','Ubuntu','Git','Linux']},
 ]
 
-const TECH=['SM8350','ColorOS 16','OxygenOS 16','AnyKernel3','SukiSU Ultra','KernelSU','Smali','Bash','HTML/CSS/JS','GitHub Pages','Anthropic API','Fastboot','ADB','OnePlus 9 Pro','Feather Engine']
-
-const TERM_LINES=[
-  '$ whoami',
-  'aditya — android dev / rom porter',
-  '',
-  '$ cat focus.txt',
-  'maintaining feather engine (sm8350)',
-  'porting oxygenos 16.1 → oneplus 9 pro',
-  '',
-  '$ ./status --check',
-  '✓ revork community     200+ members',
-  '✓ feather kernel        v1.4 stable',
-  '✓ build                 passing',
-]
 
 /* ── Reveal-on-scroll hook ───────────────────────────────── */
 function useInView(threshold=0.15){
@@ -74,30 +61,6 @@ function useInView(threshold=0.15){
 }
 function rv(inView,extra=''){return`rv${inView?' in':''}${extra?' '+extra:''}`}
 
-/* ── Typewriter hook (hero terminal) ─────────────────────── */
-function useTypewriter(lines,speed=26,gap=260){
-  const[out,setOut]=useState(()=>lines.map(()=>''))
-  const[idx,setIdx]=useState(0)
-  useEffect(()=>{
-    if(idx>=lines.length)return
-    const full=lines[idx]
-    if(full===''){
-      const t=setTimeout(()=>setIdx(p=>p+1),140)
-      return()=>clearTimeout(t)
-    }
-    let i=0
-    const id=setInterval(()=>{
-      i++
-      setOut(prev=>{const nx=[...prev];nx[idx]=full.slice(0,i);return nx})
-      if(i>=full.length){
-        clearInterval(id)
-        setTimeout(()=>setIdx(p=>p+1),gap)
-      }
-    },speed)
-    return()=>clearInterval(id)
-  },[idx])
-  return[out,idx]
-}
 
 /* ── Browser Mockup (project cards) ──────────────────────── */
 function Browser({url,children}){
@@ -146,12 +109,32 @@ function Sidebar(){
   const pillRef=useRef(null)
   const itemRefs=useRef({})
   const[ind,setInd]=useState({y:0,h:44,ready:false})
+  const[mouseY,setMouseY]=useState(null)
+  const sectionIds=['home','experience','projects','stats','skills','about','contact']
 
+  /* Deterministic scroll-position detection — picks exactly one section,
+     no overlap/flicker like IntersectionObserver thresholds can cause. */
   useEffect(()=>{
-    const targets=document.querySelectorAll('section[id],div[id="stats"]')
-    const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)})},{threshold:.25,rootMargin:'-5% 0px -55% 0px'})
-    targets.forEach(t=>obs.observe(t))
-    return()=>obs.disconnect()
+    let raf=null
+    const compute=()=>{
+      raf=null
+      const line=window.scrollY+window.innerHeight*0.3
+      let current=sectionIds[0]
+      for(const id of sectionIds){
+        const el=document.getElementById(id)
+        if(el&&el.offsetTop<=line)current=id
+      }
+      setActive(current)
+    }
+    const onScroll=()=>{if(raf===null)raf=requestAnimationFrame(compute)}
+    compute()
+    window.addEventListener('scroll',onScroll,{passive:true})
+    window.addEventListener('resize',onScroll)
+    return()=>{
+      window.removeEventListener('scroll',onScroll)
+      window.removeEventListener('resize',onScroll)
+      if(raf)cancelAnimationFrame(raf)
+    }
   },[])
 
   useEffect(()=>{
@@ -178,15 +161,38 @@ function Sidebar(){
     {id:'contact',icon:<MsIco/>,label:'Contact'},
     {href:`mailto:${EMAIL}`,id:'_mail',icon:<EnIco/>,label:'Email'},
   ]
+
+  /* Dock-style magnification: scale falls off with distance from cursor.
+     Uses offsetTop (layout-stable) instead of getBoundingClientRect, so the
+     scale transform itself can never feed back into the distance math. */
+  const getScale=id=>{
+    if(mouseY===null)return 1
+    const el=itemRefs.current[id]
+    if(!el)return 1
+    const center=el.offsetTop+el.offsetHeight/2
+    const dist=Math.abs(mouseY-center)
+    const maxDist=64
+    if(dist>=maxDist)return 1
+    const t=1-dist/maxDist
+    return 1+t*0.3
+  }
+
   return(
     <div className="sidebar">
-      <div className="sb-pill" ref={pillRef}>
+      <div className="sb-pill" ref={pillRef}
+        onMouseMove={e=>{
+          if(!pillRef.current)return
+          setMouseY(e.clientY-pillRef.current.getBoundingClientRect().top)
+        }}
+        onMouseLeave={()=>setMouseY(null)}
+      >
         {ind.ready&&<div className="sb-indicator" style={{transform:`translateY(${ind.y}px)`,height:ind.h}}/>}
         {items.map((it,i)=>(
           <a key={i}
             ref={el=>{itemRefs.current[it.id]=el}}
             href={it.href||`#${it.id}`}
             className={`sb-item${active===it.id?' active':''}`}
+            style={{transform:`scale(${getScale(it.id)})`}}
             onClick={()=>it.id!=='_mail'&&setActive(it.id)}
             target={it.href?'_blank':undefined}
             rel={it.href?'noopener':undefined}
@@ -202,48 +208,32 @@ function Sidebar(){
 
 /* ── Hero ─────────────────────────────────────────────────── */
 function Hero(){
-  const[lines,typingIdx]=useTypewriter(TERM_LINES)
+  const socials=[
+    {href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},
+    {href:`mailto:${EMAIL}`,icon:<ML/>,l:'Email'},
+    {href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},
+    {href:'https://ozyern.me',icon:<WB/>,l:'Website'},
+  ]
   return(
     <section id="home" className="hero">
       <div className="hbg"/>
-      <div className="hwrap">
-        <div className="hleft">
-          <div className="hbadge"><span className="gdot"/>Available for collabs</div>
-          <h1 className="hnam">
-            <span className="hl"><span className="hli">Aditya</span></span>
-            <span className="hl"><span className="hli accent">Jha.</span></span>
-          </h1>
-          <p className="hsub">Android developer building ROM ports, custom kernels and liquid-glass web experiences — close to the metal.</p>
-          <div className="hchips">
-            <span className="hchip">Feather Engine</span>
-            <span className="hchip">ReVork · 200+ members</span>
-            <span className="hchip">SM8350</span>
-          </div>
-          <div className="hbtns">
-            <a className="bp" href="#projects"><span>View my work</span><EX/></a>
-            <a className="bs" href="#contact">Get in touch</a>
-          </div>
-          <div className="hsoc">
-            {[{href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},{href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},{href:`mailto:${EMAIL}`,icon:<ML/>,l:'Email'},{href:'https://ozyern.me',icon:<WB/>,l:'Website'}].map(s=>(
-              <a key={s.l} className="soc" href={s.href} target={s.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" aria-label={s.l}>{s.icon}</a>
-            ))}
-          </div>
+      <div className="hbadge-float">
+        <span className="hbf-label">Currently Building</span>
+        <span className="hbf-value">Feather Engine</span>
+      </div>
+      <div className="hcenter">
+        <div className="hphoto">
+          <img src={heroPhoto} alt="Aditya Jha"/>
         </div>
-        <div className="hright">
-          <div className="hglow"/>
-          <div className="hterm-card">
-            <div className="hterm-bar">
-              <div className="hterm-dots"><span style={{background:'#ff5f57'}}/><span style={{background:'#ffbd2e'}}/><span style={{background:'#28c840'}}/></div>
-              <div className="hterm-url">ozyern@feather: ~</div>
-            </div>
-            <div className="hterm-body">
-              {lines.map((l,i)=>{
-                if(i>typingIdx)return null
-                const cls=l.startsWith('$')?'tl prompt':l.startsWith('✓')?'tl ok':'tl'
-                return <div key={i} className={cls}>{l===''?'\u00A0':l}{i===typingIdx&&<span className="hcursor"/>}</div>
-              })}
-            </div>
-          </div>
+        <h1 className="hgreet"><span>Hi, I'm</span> <span className="cursive">Aditya Jha.</span></h1>
+        <div className="hsoc">
+          {socials.map(s=>(
+            <a key={s.l} className="soc" href={s.href} target={s.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" aria-label={s.l}>{s.icon}</a>
+          ))}
+        </div>
+        <div className="hbtns">
+          <a className="bp" href="#projects"><span>View my work</span><span className="bp-arrow"><EX/></span></a>
+          <a className="bs" href="#contact"><MsIco/><span>Get in touch</span></a>
         </div>
       </div>
       <div className="hscr">scroll</div>
@@ -301,23 +291,6 @@ function Recognition(){
   )
 }
 
-/* ── Tech Ticker ──────────────────────────────────────────── */
-function Ticker(){
-  const items=[...TECH,...TECH]
-  return(
-    <div className="ticker-wrap">
-      <div className="ticker-track">
-        {items.map((t,i)=>(
-          <span key={i} className="ticker-item">
-            <span className="ticker-dot"/>
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 /* ── Experience ───────────────────────────────────────────── */
 function Experience(){
   const[ref,inView]=useInView(0.08)
@@ -343,7 +316,7 @@ function Projects(){
     {
       name:'Feather Engine',
       desc:'A complete bash-based porting framework for ColorOS/OxygenOS 16 on Snapdragon 888. Handles partition manipulation, smali patching, OTA generation and AI feature unlocking.',
-      href:'https://github.com/ozyern',date:'Aug 2024',revc:false,
+      href:'https://github.com/ozyern',date:'Aug 2025',revc:false,
       url:'github.com/ozyern/Feather-Engine',
       preview:(
         <div style={{background:'#000',height:'100%',padding:'28px 32px',fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',gap:14}}>
@@ -383,7 +356,7 @@ function Projects(){
     {
       name:'patidar.ozyern.me',
       desc:'RP21 Fan HQ for Rajat Patidar — dark luxury red/gold aesthetic, Dynamic Island nav, dense grid layouts, animated hero and AI-powered news page using the Anthropic API.',
-      href:'https://patidar.ozyern.me',date:'Ongoing',revc:false,
+      href:'https://patidar.ozyern.me',date:'2025 — Present',revc:false,
       url:'patidar.ozyern.me',
       preview:(
         <div style={{background:'linear-gradient(160deg,#120000 0%,#170400 50%,#000 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
@@ -466,7 +439,7 @@ function About(){
             <div className="dvsl">Device lineup</div>
             <div className="dvsr"><span>OnePlus 13</span><span className="dvsrk">"Espresso"</span></div>
             <div className="dvsr"><span>OnePlus 9 Pro (lemonadep)</span><span className="dvsrk">"Feather"</span></div>
-            <div className="dvsr"><span>ROG Strix SCAR 16 2025 (Intel)</span><span className="dvsrk">Daily driver</span></div>
+            <div className="dvsr"><span>ROG Strix G16 2025 · Ultra 9 275HX · RTX 5060</span><span className="dvsrk">Daily driver</span></div>
           </div>
         </div>
       </div>
@@ -525,7 +498,6 @@ export default function App(){
             <Hero/>
             <Stats/>
             <Recognition/>
-            <Ticker/>
             <Experience/>
             <Projects/>
             <Skills/>
