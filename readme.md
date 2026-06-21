@@ -13,6 +13,13 @@ Welcome to my GitHub space! 🚀 I'm a developer who loves building clean, moder
 
 ---
 
+### Music 
+
+[![spotify-github-profile](https://spotify-github-profile.kittinanx.com/api/view?uid=31hf7vddxmc4nepqpdclkr74r2am&cover_image=true&theme=apple&show_offline=true&background_color=121212&interchange=false&profanity=false&hide_remaster=false&mode=dark)](https://spotify-github-profile.kittinanx.com/api/view?uid=31hf7vddxmc4nepqpdclkr74r2am&redirect=true)
+
+
+---
+
 ### ⚙️ My Setup & Arsenal
 
 - **💻 Laptop:** ROG Strix Scar 16 (Intel) - *My main rig for coding and heavy lifting.*
