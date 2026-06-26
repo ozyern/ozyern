@@ -75,6 +75,29 @@ function Browser({url,children}){
   )
 }
 
+/* ── Scroll progress bar ──────────────────────────────────── */
+function ScrollProgress(){
+  const[p,setP]=useState(0)
+  useEffect(()=>{
+    let raf=null
+    const compute=()=>{
+      raf=null
+      const max=document.documentElement.scrollHeight-window.innerHeight
+      setP(max>0?Math.min(100,(window.scrollY/max)*100):0)
+    }
+    const onScroll=()=>{if(raf===null)raf=requestAnimationFrame(compute)}
+    compute()
+    window.addEventListener('scroll',onScroll,{passive:true})
+    window.addEventListener('resize',onScroll)
+    return()=>{
+      window.removeEventListener('scroll',onScroll)
+      window.removeEventListener('resize',onScroll)
+      if(raf)cancelAnimationFrame(raf)
+    }
+  },[])
+  return <div className="scroll-progress"><div className="scroll-progress-fill" style={{width:`${p}%`}}/></div>
+}
+
 /* ── Cursor ───────────────────────────────────────────────── */
 function Cursor(){
   const dr=useRef(null),rr=useRef(null),s=useRef({mx:0,my:0,rx:0,ry:0})
@@ -110,19 +133,25 @@ function Sidebar(){
   const itemRefs=useRef({})
   const[ind,setInd]=useState({y:0,h:44,ready:false})
   const[mouseY,setMouseY]=useState(null)
-  const sectionIds=['home','experience','projects','stats','skills','about','contact']
+  const sectionIds=['home','stats','experience','projects','skills','about','contact']
 
-  /* Deterministic scroll-position detection — picks exactly one section,
-     no overlap/flicker like IntersectionObserver thresholds can cause. */
+  /* Scroll-position detection: pick the section with the LARGEST offsetTop
+     that's still above the threshold line. This is correct by construction —
+     it doesn't matter what order sectionIds is declared in, because we compare
+     actual page positions instead of relying on array iteration order. */
   useEffect(()=>{
     let raf=null
     const compute=()=>{
       raf=null
       const line=window.scrollY+window.innerHeight*0.3
       let current=sectionIds[0]
+      let bestTop=-Infinity
       for(const id of sectionIds){
         const el=document.getElementById(id)
-        if(el&&el.offsetTop<=line)current=id
+        if(el&&el.offsetTop<=line&&el.offsetTop>bestTop){
+          bestTop=el.offsetTop
+          current=id
+        }
       }
       setActive(current)
     }
@@ -138,12 +167,12 @@ function Sidebar(){
   },[])
 
   useEffect(()=>{
+    /* offsetTop/offsetHeight are layout-stable — unaffected by the dock-magnify
+       transform that might be live on this exact item, unlike getBoundingClientRect. */
     const measure=()=>{
       const el=itemRefs.current[active]
-      if(el&&pillRef.current){
-        const pr=pillRef.current.getBoundingClientRect()
-        const er=el.getBoundingClientRect()
-        setInd({y:er.top-pr.top,h:er.height,ready:true})
+      if(el){
+        setInd({y:el.offsetTop,h:el.offsetHeight,ready:true})
       }
     }
     measure()
@@ -208,6 +237,21 @@ function Sidebar(){
 
 /* ── Hero ─────────────────────────────────────────────────── */
 function Hero(){
+  const photoRef=useRef(null)
+  useEffect(()=>{
+    let raf=null
+    const onScroll=()=>{
+      if(raf)return
+      raf=requestAnimationFrame(()=>{
+        raf=null
+        if(photoRef.current){
+          photoRef.current.style.transform=`translateY(${window.scrollY*0.1}px)`
+        }
+      })
+    }
+    window.addEventListener('scroll',onScroll,{passive:true})
+    return()=>{window.removeEventListener('scroll',onScroll);if(raf)cancelAnimationFrame(raf)}
+  },[])
   const socials=[
     {href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},
     {href:`mailto:${EMAIL}`,icon:<ML/>,l:'Email'},
@@ -222,7 +266,7 @@ function Hero(){
         <span className="hbf-value">Feather Engine</span>
       </div>
       <div className="hcenter">
-        <div className="hphoto">
+        <div className="hphoto" ref={photoRef}>
           <img src={heroPhoto} alt="Aditya Jha"/>
         </div>
         <h1 className="hgreet"><span>Hi, I'm</span> <span className="cursive">Aditya Jha.</span></h1>
@@ -245,14 +289,24 @@ function Hero(){
 function Stats(){
   const[v,setV]=useState([0,0,0,0]),ref=useRef(null)
   useEffect(()=>{
+    let raf=null
     const ob=new IntersectionObserver(([e])=>{
       if(!e.isIntersecting)return
       const T=[200,6,3,4]
-      T.forEach((t,i)=>{let n=0;const step=Math.ceil(t/24);const id=setInterval(()=>{n=Math.min(n+step,t);setV(prev=>{const nx=[...prev];nx[i]=n;return nx});if(n>=t)clearInterval(id)},38)})
+      const duration=1500
+      const start=performance.now()
+      const easeOutCubic=t=>1-Math.pow(1-t,3)
+      const tick=now=>{
+        const t=Math.min(1,(now-start)/duration)
+        const eased=easeOutCubic(t)
+        setV(T.map(target=>Math.round(target*eased)))
+        if(t<1)raf=requestAnimationFrame(tick)
+      }
+      raf=requestAnimationFrame(tick)
       ob.disconnect()
     },{threshold:.4})
     if(ref.current)ob.observe(ref.current)
-    return()=>ob.disconnect()
+    return()=>{ob.disconnect();if(raf)cancelAnimationFrame(raf)}
   },[])
   const cards=[
     {label:'Community Members',val:<>{v[0]}<b>+</b></>,note:'ReVork · Telegram'},
@@ -489,6 +543,7 @@ export default function App(){
   },[ready])
   return(
     <>
+      <ScrollProgress/>
       <Cursor/>
       <Loader onDone={done}/>
       {ready&&(

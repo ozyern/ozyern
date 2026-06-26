@@ -11,6 +11,10 @@ html{scroll-behavior:smooth;background:#000}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none;line-height:1.6}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
 
+/* ── Scroll progress bar ───────────────────────────── */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:300;background:transparent;pointer-events:none}
+.scroll-progress-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--red2));box-shadow:0 0 14px rgba(232,40,40,.55);transition:width .12s ease-out}
+
 /* ── Cursor ─────────────────────────────────────── */
 .cdot{width:7px;height:7px;background:#fff;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s ease}
 .cring{width:38px;height:38px;border:1.5px solid rgba(232,40,40,.45);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .32s cubic-bezier(.34,1.56,.64,1),height .32s,border-color .2s}
