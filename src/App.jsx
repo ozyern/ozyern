@@ -1,6 +1,6 @@
 import{useState,useEffect,useRef,useCallback}from'react'
 
-const heroPhoto='/assets/favicon.png'
+const heroPhoto='/assets/favicon.jpg'
 
 /* ── Icons ────────────────────────────────────────────────── */
 const HoIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -95,7 +95,7 @@ function ScrollProgress(){
       if(raf)cancelAnimationFrame(raf)
     }
   },[])
-  return <div className="scroll-progress"><div className="scroll-progress-fill" style={{width:`${p}%`}}/></div>
+  return <div className="scroll-progress"><div className="scroll-progress-fill" style={{width:`${p}%`}}/><div className="scroll-progress-glow"/></div>
 }
 
 /* ── Cursor ───────────────────────────────────────────────── */
@@ -268,6 +268,8 @@ function Sidebar(){
 /* ── Hero ─────────────────────────────────────────────────── */
 function Hero(){
   const photoRef=useRef(null)
+  const [magnetic, setMagnetic] = useState({x: 0, y: 0})
+
   useEffect(()=>{
     let raf=null
     const onScroll=()=>{
@@ -275,42 +277,75 @@ function Hero(){
       raf=requestAnimationFrame(()=>{
         raf=null
         if(photoRef.current){
-          photoRef.current.style.transform=`translateY(${window.scrollY*0.1}px)`
+          photoRef.current.style.transform=`translateY(${window.scrollY*0.15}px) rotate(${window.scrollY*0.02}deg)`
         }
       })
     }
     window.addEventListener('scroll',onScroll,{passive:true})
     return()=>{window.removeEventListener('scroll',onScroll);if(raf)cancelAnimationFrame(raf)}
   },[])
+
   const socials=[
     {href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},
     {href:`mailto:${EMAIL}`,icon:<ML/>,l:'Email'},
     {href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},
     {href:'https://ozyern.me',icon:<WB/>,l:'Website'},
   ]
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left - rect.width / 2
+    const y = e.clientY - rect.top - rect.height / 2
+    setMagnetic({x: x * 0.15, y: y * 0.15})
+  }
+
+  const handleMouseLeave = () => {
+    setMagnetic({x: 0, y: 0})
+  }
+
   return(
-    <section id="home" className="hero">
+    <section id="home" className="hero" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
       <div className="hbg"/>
       <div className="hbadge-float">
         <span className="hbf-label">Currently Building</span>
         <span className="hbf-value">Feather Engine</span>
       </div>
       <div className="hcenter">
-        <div className="hphoto" ref={photoRef}>
-          <img src={heroPhoto} alt="Aditya Jha"/>
+        <div className="hphoto-wrap">
+          <div
+            className="hphoto"
+            ref={photoRef}
+            style={{
+              transform: `translateY(${window.scrollY * 0.15}px) rotate(${window.scrollY * 0.02}deg) translate(${magnetic.x}px, ${magnetic.y}px) scale(${magnetic.x || magnetic.y ? 1.02 : 1})`,
+              transition: 'transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1)'
+            }}
+          >
+            <img src={heroPhoto} alt="Aditya Jha"/>
+            <div className="hphoto-glow"/>
+          </div>
+          <div className="hphoto-ring"/>
         </div>
-        <h1 className="hgreet"><span>Hi, I'm</span> <span className="cursive">Aditya Jha.</span></h1>
+        <div className="htext">
+          <div className="hgreet-wrap">
+            <span className="hgreet-label">Hey, I'm</span>
+            <h1 className="hgreet-name">
+              <span className="cursive">Aditya</span>
+              <span>Jha</span>
+              <span className="hgreet-dot">.</span>
+            </h1>
+          </div>
+          <p className="hrole">Android ROM Porter · Kernel Dev · Web Builder</p>
+        </div>
         <div className="hsoc">
           {socials.map(s=>(
             <a key={s.l} className="soc" href={s.href} target={s.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" aria-label={s.l}>{s.icon}</a>
           ))}
         </div>
-        <div className="hbtns">
-          <a className="bp" href="#projects"><span>View my work</span><span className="bp-arrow"><EX/></span></a>
-          <a className="bs" href="#contact"><MsIco/><span>Get in touch</span></a>
-        </div>
       </div>
-      <div className="hscr">scroll</div>
+      <div className="hscr">
+        <span>scroll</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
     </section>
   )
 }
