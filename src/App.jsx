@@ -131,9 +131,18 @@ function Sidebar(){
   const[active,setActive]=useState('home')
   const pillRef=useRef(null)
   const itemRefs=useRef({})
-  const[ind,setInd]=useState({y:0,h:44,ready:false})
-  const[mouseY,setMouseY]=useState(null)
+  const[ind,setInd]=useState({x:0,y:0,ready:false}) // x=left, y=top
+  const[mousePos,setMousePos]=useState({x:null,y:null}) // {x,y} relative to pill
+  const[isVertical,setIsVertical]=useState(window.innerWidth > 900)
   const sectionIds=['home','stats','experience','projects','skills','about','contact']
+
+  // Update orientation on resize
+  useEffect(()=>{
+    const check = () => setIsVertical(window.innerWidth > 900);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   /* Scroll-position detection: pick the section with the LARGEST offsetTop
      that's still above the threshold line. This is correct by construction —
@@ -167,18 +176,18 @@ function Sidebar(){
   },[])
 
   useEffect(()=>{
-    /* offsetTop/offsetHeight are layout-stable — unaffected by the dock-magnify
+    /* offsetTop/offsetLeft are layout-stable — unaffected by the dock-magnify
        transform that might be live on this exact item, unlike getBoundingClientRect. */
     const measure=()=>{
       const el=itemRefs.current[active]
       if(el){
-        setInd({y:el.offsetTop,h:el.offsetHeight,ready:true})
+        setInd({x:el.offsetLeft, y:el.offsetTop, ready:true})
       }
     }
     measure()
     window.addEventListener('resize',measure)
     return()=>window.removeEventListener('resize',measure)
-  },[active])
+  },[active,isVertical])
 
   const items=[
     {id:'home',icon:<HoIco/>,label:'Home'},
@@ -192,18 +201,27 @@ function Sidebar(){
   ]
 
   /* Dock-style magnification: scale falls off with distance from cursor.
-     Uses offsetTop (layout-stable) instead of getBoundingClientRect, so the
+     Uses offsetTop/offsetLeft (layout-stable) instead of getBoundingClientRect, so the
      scale transform itself can never feed back into the distance math. */
   const getScale=id=>{
-    if(mouseY===null)return 1
+    if(mousePos.x===null && mousePos.y===null)return 1
     const el=itemRefs.current[id]
     if(!el)return 1
-    const center=el.offsetTop+el.offsetHeight/2
-    const dist=Math.abs(mouseY-center)
-    const maxDist=64
-    if(dist>=maxDist)return 1
-    const t=1-dist/maxDist
-    return 1+t*0.3
+    if(isVertical){
+      const center=el.offsetTop+el.offsetHeight/2
+      const dist=Math.abs(mousePos.y-center)
+      const maxDist=64
+      if(dist>=maxDist)return 1
+      const t=1-dist/maxDist
+      return 1+t*0.3
+    } else {
+      const center=el.offsetLeft+el.offsetWidth/2
+      const dist=Math.abs(mousePos.x-center)
+      const maxDist=64
+      if(dist>=maxDist)return 1
+      const t=1-dist/maxDist
+      return 1+t*0.3
+    }
   }
 
   return(
@@ -211,17 +229,29 @@ function Sidebar(){
       <div className="sb-pill" ref={pillRef}
         onMouseMove={e=>{
           if(!pillRef.current)return
-          setMouseY(e.clientY-pillRef.current.getBoundingClientRect().top)
+          const rect=pillRef.current.getBoundingClientRect()
+          setMousePos({x:e.clientX-rect.left, y:e.clientY-rect.top})
         }}
-        onMouseLeave={()=>setMouseY(null)}
+        onMouseLeave={()=>setMousePos({x:null,y:null})}
       >
-        {ind.ready&&<div className="sb-indicator" style={{transform:`translateY(${ind.y}px)`,height:ind.h}}/>}
+        {ind.ready && (
+          <div className="sb-indicator" style={{
+            left: `${ind.x}px`,
+            top: `${ind.y}px`,
+            width: '44px',
+            height: '44px',
+            // Ensure transition for left/top
+            transition: 'left .62s cubic-bezier(.34,1.56,.64,1), top .62s cubic-bezier(.34,1.56,.64,1)'
+          }}/>
+        )}
         {items.map((it,i)=>(
           <a key={i}
             ref={el=>{itemRefs.current[it.id]=el}}
             href={it.href||`#${it.id}`}
             className={`sb-item${active===it.id?' active':''}`}
-            style={{transform:`scale(${getScale(it.id)})`}}
+            style={{
+              transform: `scale(${getScale(it.id)})`,
+            }}
             onClick={()=>it.id!=='_mail'&&setActive(it.id)}
             target={it.href?'_blank':undefined}
             rel={it.href?'noopener':undefined}
