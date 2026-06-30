@@ -132,75 +132,84 @@ function Loader({onDone}){
 }
 
 /* ── Sidebar — smooth sliding indicator ──────────────────── */
+const sectionIds = ['home', 'experience', 'projects', 'stats', 'skills', 'about', 'contact']
+
+const sidebarItems = [
+  { id: 'home', icon: <HoIco />, label: 'Home' },
+  { id: 'experience', icon: <BrIco />, label: 'Work' },
+  { id: 'projects', icon: <LaIco />, label: 'Projects' },
+  { id: 'stats', icon: <PlIco />, label: 'Stats' },
+  { id: 'skills', icon: <BlIco />, label: 'Skills' },
+  { id: 'about', icon: <PeIco />, label: 'About' },
+  { id: 'contact', icon: <MsIco />, label: 'Contact' },
+]
+
 function Sidebar(){
   const[active,setActive]=useState('home')
   const pillRef=useRef(null)
   const itemRefs=useRef({})
   const[ind,setInd]=useState({x:0,y:0,ready:false})
-  const[mousePos,setMousePos]=useState({x:null,y:null})
-  const[isVertical,setIsVertical]=useState(() => window.innerWidth > 900)
 
-  // Track computed positions for each item to avoid layout thrashing
-  const positionsRef = useRef({})
-
-  // Update orientation on resize
-  useEffect(()=>{
-    const check = () => setIsVertical(window.innerWidth > 900);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  // Pre-compute positions for all items when layout is stable
-  const computePositions = useCallback(() => {
-    const newPositions = {}
-    items.forEach((it) => {
-      if (it.id !== '_mail') {
-        const el = itemRefs.current[it.id]
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          const pillRect = pillRef.current?.getBoundingClientRect()
-          if (pillRect) {
-            newPositions[it.id] = {
-              x: rect.left - pillRect.left,
-              y: rect.top - pillRect.top,
-              width: rect.width,
-              height: rect.height
-            }
-          }
-        }
-      }
-    })
-    if (Object.keys(newPositions).length > 0) {
-      positionsRef.current = newPositions
-      // Update indicator for active item
-      const pos = newPositions[active]
-      if (pos) {
-        setInd({ x: pos.x, y: pos.y, ready: true })
-      }
+  // Compute indicator position only when active changes
+  const updateIndicator = useCallback(() => {
+    const pill = pillRef.current
+    const activeEl = itemRefs.current[active]
+    if (pill && activeEl) {
+      setInd({
+        x: activeEl.offsetLeft,
+        y: activeEl.offsetTop,
+        ready: true
+      })
     }
   }, [active])
 
-  // Compute positions on mount and when orientation changes
+  // Update indicator when active changes
   useEffect(() => {
-    computePositions()
-    window.addEventListener('resize', computePositions)
-    window.addEventListener('scroll', computePositions, { passive: true })
-    return () => {
-      window.removeEventListener('resize', computePositions)
-      window.removeEventListener('scroll', computePositions)
-    }
-  }, [computePositions, isVertical])
+    const raf = requestAnimationFrame(updateIndicator)
+    return () => cancelAnimationFrame(raf)
+  }, [active, updateIndicator])
 
-  /* Scroll-position detection: pick the section with the LARGEST offsetTop
-     that's still above the threshold line. */
+  // Also update on resize/orientation change
+  useEffect(() => {
+    const handleResize = () => {
+      const raf = requestAnimationFrame(updateIndicator)
+      return () => cancelAnimationFrame(raf)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [updateIndicator])
+
+  /* Scroll-position detection: pick the section that occupies the center/top
+     of viewport, with fallback for document edges. */
   useEffect(()=>{
     let raf=null
     const compute=()=>{
       raf=null
-      const line=window.scrollY+window.innerHeight*0.35
-      let current=sectionIds[0]
-      let bestTop=-Infinity
+      const scrollY = window.scrollY
+      const viewportHeight = window.innerHeight
+      const scrollHeight = document.documentElement.scrollHeight
+      const maxScroll = scrollHeight - viewportHeight
+
+      // Edge case: Bottom of the page reached (activate last section)
+      if (scrollY >= maxScroll - 60) {
+        if (active !== sectionIds[sectionIds.length - 1]) {
+          setActive(sectionIds[sectionIds.length - 1])
+        }
+        return
+      }
+
+      // Edge case: Top of the page reached (activate first section)
+      if (scrollY <= 50) {
+        if (active !== sectionIds[0]) {
+          setActive(sectionIds[0])
+        }
+        return
+      }
+
+      const line = scrollY + viewportHeight * 0.4
+      let current = sectionIds[0]
+      let bestTop = -Infinity
       for(const id of sectionIds){
         const el=document.getElementById(id)
         if(el&&el.offsetTop<=line&&el.offsetTop>bestTop){
@@ -223,77 +232,36 @@ function Sidebar(){
     }
   },[active])
 
-  const items = [
-    { id: 'home', icon: <HoIco />, label: 'Home' },
-    { id: 'experience', icon: <BrIco />, label: 'Work' },
-    { id: 'projects', icon: <LaIco />, label: 'Projects' },
-    { id: 'stats', icon: <PlIco />, label: 'Stats' },
-    { id: 'skills', icon: <BlIco />, label: 'Skills' },
-    { id: 'about', icon: <PeIco />, label: 'About' },
-    { id: 'contact', icon: <MsIco />, label: 'Contact' },
-    { href: `mailto:${EMAIL}`, id: '_mail', icon: <EnIco />, label: 'Email' },
-  ]
-
-  /* Dock-style magnification: scale falls off with distance from cursor.
-     Uses offsetTop/offsetLeft (layout-stable) instead of getBoundingClientRect, so the
-     scale transform itself can never feed back into the distance math. */
-  const getScale=id=>{
-    if(mousePos.x===null && mousePos.y===null)return 1
-    const el=itemRefs.current[id]
-    if(!el)return 1
-    if(isVertical){
-      const center=el.offsetTop+el.offsetHeight/2
-      const dist=Math.abs(mousePos.y-center)
-      const maxDist=64
-      if(dist>=maxDist)return 1
-      const t=1-dist/maxDist
-      return 1+t*0.3
-    } else {
-      const center=el.offsetLeft+el.offsetWidth/2
-      const dist=Math.abs(mousePos.x-center)
-      const maxDist=64
-      if(dist>=maxDist)return 1
-      const t=1-dist/maxDist
-      return 1+t*0.3
-    }
-  }
-
   return(
     <div className="sidebar">
-      <div className="sb-pill" ref={pillRef}
-        onMouseMove={e=>{
-          if(!pillRef.current)return
-          const rect=pillRef.current.getBoundingClientRect()
-          setMousePos({x:e.clientX-rect.left, y:e.clientY-rect.top})
-        }}
-        onMouseLeave={()=>setMousePos({x:null,y:null})}
-      >
+      <div className="sb-pill" ref={pillRef}>
         {ind.ready && (
           <div className="sb-indicator" style={{
             left: `${ind.x}px`,
             top: `${ind.y}px`,
-            width: '44px',
-            height: '44px',
-            // Ensure transition for left/top
-            transition: 'left .62s cubic-bezier(.34,1.56,.64,1), top .62s cubic-bezier(.34,1.56,.64,1)'
           }}/>
         )}
-        {items.map((it,i)=>(
+        {sidebarItems.map((it,i)=>(
           <a key={i}
             ref={el=>{itemRefs.current[it.id]=el}}
-            href={it.href||`#${it.id}`}
+            href={`#${it.id}`}
             className={`sb-item${active===it.id?' active':''}`}
-            style={{
-              transform: `scale(${getScale(it.id)})`,
-            }}
-            onClick={()=>it.id!=='_mail'&&setActive(it.id)}
-            target={it.href?'_blank':undefined}
-            rel={it.href?'noopener':undefined}
+            onClick={()=>setActive(it.id)}
           >
             {it.icon}
             <span className="sb-tip">{it.label}</span>
           </a>
         ))}
+        {/* Email link - separate, not tracked */}
+        <a
+          href={`mailto:${EMAIL}`}
+          className="sb-item"
+          target="_blank"
+          rel="noopener"
+        >
+          <EnIco />
+          <span className="sb-tip">Email</span>
+        </a>
       </div>
     </div>
   )
@@ -704,10 +672,10 @@ export default function App(){
           <Sidebar/>
           <main>
             <Hero/>
-            <Stats/>
-            <Recognition/>
             <Experience/>
             <Projects/>
+            <Stats/>
+            <Recognition/>
             <Skills/>
             <About/>
             <Contact/>

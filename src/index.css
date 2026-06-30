@@ -53,7 +53,7 @@ body.press .cring{transform:translate(-50%,-50%) scale(.88)}
     0 0 60px rgba(232,40,40,.03)
 }
 .sb-indicator{
-  position:absolute;left:10px;right:10px;border-radius:50%;
+  position:absolute;width:44px;height:44px;border-radius:50%;
   background:linear-gradient(135deg,#fff 0%,#e0e0e0 100%);z-index:0;
   box-shadow:
     0 4px 16px rgba(0,0,0,.4),
@@ -446,7 +446,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   main{margin-left:0;padding-bottom:84px}
   .sidebar{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);top:auto}
   .sb-pill{flex-direction:row;padding:8px 10px}
-  .sb-indicator{left:8px;right:auto;top:8px;bottom:auto}
   .sb-tip{left:50%;transform:translateX(-50%);top:auto;bottom:calc(100% + 10px)}
   .sb-item:hover .sb-tip{transform:translateX(-50%)}
   .hero{padding:120px 24px 80px}
