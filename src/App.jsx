@@ -1,6 +1,11 @@
-import{useState,useEffect,useRef,useCallback}from'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 
-const heroPhoto='/assets/favicon.jpg'
+// Hero photo - place your photo at public/assets/hero-photo.jpg
+// Falls back to a beautiful gradient if no photo exists
+const heroPhoto = '/assets/hero-photo.jpg'
+const HERO_GRADIENT = 'linear-gradient(145deg, #1a0a0a 0%, #2d0a0a 35%, #1a0a0a 70%, #0a0000 100%)'
+
+/* ── Icons ────────────────────────────────────────────────────────────────── */
 
 /* ── Icons ────────────────────────────────────────────────── */
 const HoIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -131,10 +136,12 @@ function Sidebar(){
   const[active,setActive]=useState('home')
   const pillRef=useRef(null)
   const itemRefs=useRef({})
-  const[ind,setInd]=useState({x:0,y:0,ready:false}) // x=left, y=top
-  const[mousePos,setMousePos]=useState({x:null,y:null}) // {x,y} relative to pill
-  const[isVertical,setIsVertical]=useState(window.innerWidth > 900)
-  const sectionIds=['home','stats','experience','projects','skills','about','contact']
+  const[ind,setInd]=useState({x:0,y:0,ready:false})
+  const[mousePos,setMousePos]=useState({x:null,y:null})
+  const[isVertical,setIsVertical]=useState(() => window.innerWidth > 900)
+
+  // Track computed positions for each item to avoid layout thrashing
+  const positionsRef = useRef({})
 
   // Update orientation on resize
   useEffect(()=>{
@@ -144,15 +151,54 @@ function Sidebar(){
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  // Pre-compute positions for all items when layout is stable
+  const computePositions = useCallback(() => {
+    const newPositions = {}
+    items.forEach((it) => {
+      if (it.id !== '_mail') {
+        const el = itemRefs.current[it.id]
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          const pillRect = pillRef.current?.getBoundingClientRect()
+          if (pillRect) {
+            newPositions[it.id] = {
+              x: rect.left - pillRect.left,
+              y: rect.top - pillRect.top,
+              width: rect.width,
+              height: rect.height
+            }
+          }
+        }
+      }
+    })
+    if (Object.keys(newPositions).length > 0) {
+      positionsRef.current = newPositions
+      // Update indicator for active item
+      const pos = newPositions[active]
+      if (pos) {
+        setInd({ x: pos.x, y: pos.y, ready: true })
+      }
+    }
+  }, [active])
+
+  // Compute positions on mount and when orientation changes
+  useEffect(() => {
+    computePositions()
+    window.addEventListener('resize', computePositions)
+    window.addEventListener('scroll', computePositions, { passive: true })
+    return () => {
+      window.removeEventListener('resize', computePositions)
+      window.removeEventListener('scroll', computePositions)
+    }
+  }, [computePositions, isVertical])
+
   /* Scroll-position detection: pick the section with the LARGEST offsetTop
-     that's still above the threshold line. This is correct by construction —
-     it doesn't matter what order sectionIds is declared in, because we compare
-     actual page positions instead of relying on array iteration order. */
+     that's still above the threshold line. */
   useEffect(()=>{
     let raf=null
     const compute=()=>{
       raf=null
-      const line=window.scrollY+window.innerHeight*0.3
+      const line=window.scrollY+window.innerHeight*0.35
       let current=sectionIds[0]
       let bestTop=-Infinity
       for(const id of sectionIds){
@@ -162,7 +208,9 @@ function Sidebar(){
           current=id
         }
       }
-      setActive(current)
+      if (current !== active) {
+        setActive(current)
+      }
     }
     const onScroll=()=>{if(raf===null)raf=requestAnimationFrame(compute)}
     compute()
@@ -173,31 +221,17 @@ function Sidebar(){
       window.removeEventListener('resize',onScroll)
       if(raf)cancelAnimationFrame(raf)
     }
-  },[])
+  },[active])
 
-  useEffect(()=>{
-    /* offsetTop/offsetLeft are layout-stable — unaffected by the dock-magnify
-       transform that might be live on this exact item, unlike getBoundingClientRect. */
-    const measure=()=>{
-      const el=itemRefs.current[active]
-      if(el){
-        setInd({x:el.offsetLeft, y:el.offsetTop, ready:true})
-      }
-    }
-    measure()
-    window.addEventListener('resize',measure)
-    return()=>window.removeEventListener('resize',measure)
-  },[active,isVertical])
-
-  const items=[
-    {id:'home',icon:<HoIco/>,label:'Home'},
-    {id:'experience',icon:<BrIco/>,label:'Work'},
-    {id:'projects',icon:<LaIco/>,label:'Projects'},
-    {id:'stats',icon:<PlIco/>,label:'Stats'},
-    {id:'skills',icon:<BlIco/>,label:'Skills'},
-    {id:'about',icon:<PeIco/>,label:'About'},
-    {id:'contact',icon:<MsIco/>,label:'Contact'},
-    {href:`mailto:${EMAIL}`,id:'_mail',icon:<EnIco/>,label:'Email'},
+  const items = [
+    { id: 'home', icon: <HoIco />, label: 'Home' },
+    { id: 'experience', icon: <BrIco />, label: 'Work' },
+    { id: 'projects', icon: <LaIco />, label: 'Projects' },
+    { id: 'stats', icon: <PlIco />, label: 'Stats' },
+    { id: 'skills', icon: <BlIco />, label: 'Skills' },
+    { id: 'about', icon: <PeIco />, label: 'About' },
+    { id: 'contact', icon: <MsIco />, label: 'Contact' },
+    { href: `mailto:${EMAIL}`, id: '_mail', icon: <EnIco />, label: 'Email' },
   ]
 
   /* Dock-style magnification: scale falls off with distance from cursor.
@@ -265,86 +299,140 @@ function Sidebar(){
   )
 }
 
-/* ── Hero ─────────────────────────────────────────────────── */
-function Hero(){
-  const photoRef=useRef(null)
-  const [magnetic, setMagnetic] = useState({x: 0, y: 0})
+/* ── Hero — with robust image handling & rich animations ───────────────────── */
+function Hero() {
+  const photoRef = useRef(null)
+  const [magnetic, setMagnetic] = useState({ x: 0, y: 0 })
+  const [imgError, setImgError] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
 
-  useEffect(()=>{
-    let raf=null
-    const onScroll=()=>{
-      if(raf)return
-      raf=requestAnimationFrame(()=>{
-        raf=null
-        if(photoRef.current){
-          photoRef.current.style.transform=`translateY(${window.scrollY*0.15}px) rotate(${window.scrollY*0.02}deg)`
+  // Parallax scroll effect on photo
+  useEffect(() => {
+    let raf = null
+    const onScroll = () => {
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        raf = null
+        if (photoRef.current) {
+          photoRef.current.style.transform = `translateY(${window.scrollY * 0.12}px) rotate(${window.scrollY * 0.015}deg)`
         }
       })
     }
-    window.addEventListener('scroll',onScroll,{passive:true})
-    return()=>{window.removeEventListener('scroll',onScroll);if(raf)cancelAnimationFrame(raf)}
-  },[])
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf) }
+  }, [])
 
-  const socials=[
-    {href:'https://github.com/ozyern',icon:<GH/>,l:'GitHub'},
-    {href:`mailto:${EMAIL}`,icon:<ML/>,l:'Email'},
-    {href:'https://t.me/ozyern',icon:<TG/>,l:'Telegram'},
-    {href:'https://ozyern.me',icon:<WB/>,l:'Website'},
-  ]
-
+  // Magnetic mouse follow on hero area
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left - rect.width / 2
     const y = e.clientY - rect.top - rect.height / 2
-    setMagnetic({x: x * 0.15, y: y * 0.15})
+    setMagnetic({ x: x * 0.08, y: y * 0.08 })
   }
+  const handleMouseLeave = () => setMagnetic({ x: 0, y: 0 })
 
-  const handleMouseLeave = () => {
-    setMagnetic({x: 0, y: 0})
-  }
+  const socials = [
+    { href: 'https://github.com/ozyern', icon: <GH />, l: 'GitHub' },
+    { href: `mailto:${EMAIL}`, icon: <ML />, l: 'Email' },
+    { href: 'https://t.me/ozyern', icon: <TG />, l: 'Telegram' },
+    { href: 'https://ozyern.me', icon: <WB />, l: 'Website' },
+  ]
 
-  return(
+  return (
     <section id="home" className="hero" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
-      <div className="hbg"/>
-      <div className="hbadge-float">
-        <span className="hbf-label">Currently Building</span>
-        <span className="hbf-value">Feather Engine</span>
-      </div>
+      {/* Layered atmospheric background */}
+      <div className="hbg" />
+      <div className="hbg-mesh" aria-hidden="true" />
+      <div className="hbg-noise" aria-hidden="true" />
+
       <div className="hcenter">
+        {/* Hero Photo with Gradient Fallback */}
         <div className="hphoto-wrap">
           <div
             className="hphoto"
             ref={photoRef}
             style={{
-              transform: `translateY(${window.scrollY * 0.15}px) rotate(${window.scrollY * 0.02}deg) translate(${magnetic.x}px, ${magnetic.y}px) scale(${magnetic.x || magnetic.y ? 1.02 : 1})`,
-              transition: 'transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              transform: `translateY(${window.scrollY * 0.12}px) rotate(${window.scrollY * 0.015}deg) translate(${magnetic.x}px, ${magnetic.y}px) scale(${magnetic.x || magnetic.y ? 1.03 : 1})`,
+              transition: 'transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1)',
             }}
           >
-            <img src={heroPhoto} alt="Aditya Jha"/>
-            <div className="hphoto-glow"/>
+            {!imgError && !imgLoaded ? (
+              <div className="hphoto-skeleton" aria-hidden="true" />
+            ) : imgError ? (
+              <div className="hphoto-gradient" style={{ background: HERO_GRADIENT }} aria-hidden="true">
+                <svg className="hphoto-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+            ) : (
+              <img
+                src={heroPhoto}
+                alt="Aditya Jha"
+                onLoad={() => setImgLoaded(true)}
+                onError={() => setImgError(true)}
+                loading="eager"
+                fetchPriority="high"
+              />
+            )}
+            <div className="hphoto-glow" />
+            <div className="hphoto-sheen" aria-hidden="true" />
           </div>
-          <div className="hphoto-ring"/>
+          <div className="hphoto-ring" />
+          <div className="hphoto-ring-outer" />
         </div>
+
+        {/* Name & Role */}
         <div className="htext">
           <div className="hgreet-wrap">
-            <span className="hgreet-label">Hey, I'm</span>
-            <h1 className="hgreet-name">
+            <span className="hgreet-label" style={{ opacity: 0, animation: 'fup .6s cubic-bezier(.16,1,.3,1) .25s forwards' }}>Hey, I'm</span>
+            <h1 className="hgreet-name" style={{ opacity: 0, animation: 'fup .8s cubic-bezier(.16,1,.3,1) .4s forwards' }}>
               <span className="cursive">Aditya</span>
               <span>Jha</span>
               <span className="hgreet-dot">.</span>
             </h1>
           </div>
-          <p className="hrole">Android ROM Porter · Kernel Dev · Web Builder</p>
+          <p className="hrole" style={{ opacity: 0, animation: 'fup .7s cubic-bezier(.16,1,.3,1) .55s forwards' }}>Android ROM Porter · Kernel Dev · Web Builder</p>
+          <div className="hbadges" style={{ opacity: 0, animation: 'fup .6s cubic-bezier(.16,1,.3,1) .7s forwards' }}>
+            <span className="hbadge">Feather Engine</span>
+            <span className="hbadge">SM8350</span>
+            <span className="hbadge">KernelSU</span>
+            <span className="hbadge">Liquid Glass</span>
+          </div>
         </div>
-        <div className="hsoc">
-          {socials.map(s=>(
-            <a key={s.l} className="soc" href={s.href} target={s.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" aria-label={s.l}>{s.icon}</a>
+
+        {/* Social Links */}
+        <div className="hsoc" style={{ opacity: 0, animation: 'fup .5s cubic-bezier(.16,1,.3,1) .85s forwards' }}>
+          {socials.map((s, i) => (
+            <a
+              key={s.l}
+              className="soc"
+              href={s.href}
+              target={s.href.startsWith('mailto') ? undefined : '_blank'}
+              rel="noopener"
+              aria-label={s.l}
+              style={{ transitionDelay: `${i * 60}ms` }}
+            >
+              {s.icon}
+              <span className="soc-ripple" />
+            </a>
           ))}
         </div>
       </div>
-      <div className="hscr">
+
+      {/* Scroll indicator */}
+      <div className="hscr" style={{ opacity: 0, animation: 'fup .7s cubic-bezier(.16,1,.3,1) 1.1s forwards' }}>
         <span>scroll</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M12 5v14M19 12l-7 7-7-7" />
+        </svg>
+      </div>
+
+      {/* Floating particles */}
+      <div className="hparticles" aria-hidden="true">
+        {[...Array(12)].map((_, i) => (
+          <span key={i} className="hparticle" style={{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 8}s`, animationDuration: `${12 + Math.random() * 8}s` }} />
+        ))}
       </div>
     </section>
   )
