@@ -324,24 +324,23 @@ function Hero() {
               transition: 'transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1)',
             }}
           >
-            {!imgError && !imgLoaded ? (
-              <div className="hphoto-skeleton" aria-hidden="true" />
-            ) : imgError ? (
+            <img
+              src={heroPhoto}
+              alt="Aditya Jha"
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgError(true)}
+              style={{ opacity: imgLoaded ? 1 : 0 }}
+              loading="eager"
+              fetchPriority="high"
+            />
+            {!imgLoaded && !imgError && <div className="hphoto-skeleton" aria-hidden="true" />}
+            {imgError && (
               <div className="hphoto-gradient" style={{ background: HERO_GRADIENT }} aria-hidden="true">
                 <svg className="hphoto-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
-            ) : (
-              <img
-                src={heroPhoto}
-                alt="Aditya Jha"
-                onLoad={() => setImgLoaded(true)}
-                onError={() => setImgError(true)}
-                loading="eager"
-                fetchPriority="high"
-              />
             )}
             <div className="hphoto-glow" />
             <div className="hphoto-sheen" aria-hidden="true" />
