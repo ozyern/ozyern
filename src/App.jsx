@@ -319,9 +319,6 @@ function Hero() {
       {/* Dynamic Spotlight */}
       <div className="h-spotlight" style={{ left: magnetic.rawX, top: magnetic.rawY, opacity: magnetic.rawX > 0 ? 1 : 0 }} aria-hidden="true" />
       
-      {/* Massive Background Typography */}
-      <div className="h-marquee" aria-hidden="true">DEVELOPER</div>
-
       {/* Layered atmospheric background */}
       <div className="hbg" />
       <div className="hbg-mesh" aria-hidden="true" />
@@ -383,7 +380,6 @@ function Hero() {
 
         {/* CTA and Social Links */}
         <div className="hactions reveal-up" style={{ animationDelay: '0.5s' }}>
-          <a href="#projects" className="h-cta">View My Work <Arw/></a>
           <div className="hsoc">
             {socials.map((s, i) => (
               <a
