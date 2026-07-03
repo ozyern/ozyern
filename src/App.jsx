@@ -28,13 +28,13 @@ const EMAIL='ozyern.dev@gmail.com'
 /* ── Data ─────────────────────────────────────────────────── */
 const EXP=[
   {company:'Feather Engine',tag:'Open Source',role:'Maintainer',date:'2025 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
-  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~200-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
+  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~250-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
   {company:'sabrina.ozyern.me',tag:'Web Dev',role:'Developer',date:'2024 — Present',desc:'Liquid-glass fan site — gallery, era-filtered discography, Dynamic Island nav, birthday campaign. Cold-emailed Foundation Media Partners.',tags:['HTML/CSS/JS','GitHub Pages']},
   {company:'Feather Kernel',tag:'Kernel',role:'Developer',date:'2025',desc:'Custom OP9 Pro kernel — binary string patching, SukiSU Ultra spoof modules, KernelSU framework, AnyKernel3 packaging.',tags:['Kernel','KernelSU','AnyKernel']},
 ]
 
 const AWARDS=[
-  {icon:'👥',name:'ReVork Community',sub:'~200 members · Telegram'},
+  {icon:'👥',name:'ReVork Community',sub:'~250 members · Telegram'},
   {icon:'🔴',name:'OOS 16.1 Port',sub:'First SM8350 release'},
   {icon:'⚡',name:'Feather Kernel v1.4',sub:'SukiSU Ultra · OP9 Pro'},
   {icon:'📧',name:'Foundation Media',sub:'Cold email · Sabrina site'},
@@ -422,7 +422,7 @@ function Stats(){
     let raf=null
     const ob=new IntersectionObserver(([e])=>{
       if(!e.isIntersecting)return
-      const T=[200,6,3,4]
+      const T=[250,6,3,4]
       const duration=1500
       const start=performance.now()
       const easeOutCubic=t=>1-Math.pow(1-t,3)
@@ -679,7 +679,7 @@ function About(){
           <p className="abp">I'm Ozi — a student and an active Android ROM porter. I maintain <strong>Feather Engine</strong>, a bash-based framework for porting ColorOS/OxygenOS 16 to Snapdragon 888 devices, primarily the OnePlus 9 Pro.</p>
           <p className="abp">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API.</p>
           <div className="abq"><p>"Every project I name ends up a Sabrina Carpenter reference. Feather, Espresso, Singular, Tornado — that's just how it is."</p></div>
-          <p className="abp">I run <strong>ReVork</strong>, a ~200-member Telegram community. Built <a href="https://sabrina.ozyern.me" target="_blank" rel="noopener">sabrina.ozyern.me</a> and cold-emailed her management. Currently iterating on <a href="https://patidar.ozyern.me" target="_blank" rel="noopener">patidar.ozyern.me</a>.</p>
+          <p className="abp">I run <strong>ReVork</strong>, a ~250-member Telegram community. Built <a href="https://sabrina.ozyern.me" target="_blank" rel="noopener">sabrina.ozyern.me</a> and cold-emailed her management. Currently iterating on <a href="https://patidar.ozyern.me" target="_blank" rel="noopener">patidar.ozyern.me</a>.</p>
           <div className="dvs">
             <div className="dvsl">Device lineup</div>
             <div className="dvsr"><span>OnePlus 13</span><span className="dvsrk">"Espresso"</span></div>
