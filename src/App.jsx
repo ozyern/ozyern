@@ -31,7 +31,6 @@ const EXP=[
   {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~200-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
   {company:'sabrina.ozyern.me',tag:'Web Dev',role:'Developer',date:'2024 — Present',desc:'Liquid-glass fan site — gallery, era-filtered discography, Dynamic Island nav, birthday campaign. Cold-emailed Foundation Media Partners.',tags:['HTML/CSS/JS','GitHub Pages']},
   {company:'Feather Kernel',tag:'Kernel',role:'Developer',date:'2025',desc:'Custom OP9 Pro kernel — binary string patching, SukiSU Ultra spoof modules, KernelSU framework, AnyKernel3 packaging.',tags:['Kernel','KernelSU','AnyKernel']},
-  {company:'patidar.ozyern.me',tag:'Web Dev',role:'Developer',date:'2025 — Present',desc:"Dark luxury red/gold fan site for RCB's Rajat Patidar. Dynamic Island nav, dense grid layouts, AI-powered news page.",tags:['HTML/CSS/JS','RCB','Anthropic API']},
 ]
 
 const AWARDS=[
