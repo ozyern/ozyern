@@ -505,7 +505,7 @@ function Experience(){
               </div>
             </div>
             <div className="accordion-body">
-              <div className="exrl" style={{color:'#fff',fontSize:'20px',marginBottom:'12px'}}>{e.role} <span style={{color:'var(--red)',fontSize:'12px',marginLeft:'12px',padding:'4px 12px',background:'rgba(217,119,87,0.1)',borderRadius:'20px',fontWeight:'normal',border:'1px solid rgba(217,119,87,0.2)'}}>{e.tag}</span></div>
+              <div className="exrl" style={{color:'#fff',fontSize:'20px',marginBottom:'12px'}}>{e.role} <span style={{color:'var(--red)',fontSize:'12px',marginLeft:'12px',padding:'4px 12px',background:'rgba(232,40,40,0.1)',borderRadius:'20px',fontWeight:'normal',border:'1px solid rgba(232,40,40,0.2)'}}>{e.tag}</span></div>
               <p className="exdc" style={{fontSize:'15px',color:'rgba(255,255,255,0.5)',lineHeight:1.7}}>{e.desc}</p>
               
               <div className="skill-detail-list">
@@ -535,11 +535,11 @@ function Projects(){
       url:'github.com/ozyern/Feather-Engine',
       preview:(
         <div style={{background:'#000',height:'100%',padding:'28px 32px',fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',gap:14}}>
-          <div style={{fontSize:11,color:'rgba(217,119,87,.7)',letterSpacing:'.12em'}}>ozyern / Feather-Engine</div>
-          <div style={{fontSize:26,fontWeight:900,color:'#fff',fontFamily:'Inter,sans-serif',lineHeight:1.05}}>Port anything.<br/><span style={{color:'#d97757'}}>Fast.</span></div>
+          <div style={{fontSize:11,color:'rgba(232,40,40,.7)',letterSpacing:'.12em'}}>ozyern / Feather-Engine</div>
+          <div style={{fontSize:26,fontWeight:900,color:'#fff',fontFamily:'Inter,sans-serif',lineHeight:1.05}}>Port anything.<br/><span style={{color:'#e82828'}}>Fast.</span></div>
           <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>ColorOS 16 · OxygenOS 16 · SM8350</div>
           <div style={{display:'flex',gap:6,marginTop:2}}>
-            {['★ Bash','⚡ OTA','🔧 SM8350'].map(t=><span key={t} style={{background:'rgba(217,119,87,.12)',border:'1px solid rgba(217,119,87,.25)',color:'rgba(217,119,87,.9)',fontSize:9,padding:'3px 10px',borderRadius:100}}>{t}</span>)}
+            {['★ Bash','⚡ OTA','🔧 SM8350'].map(t=><span key={t} style={{background:'rgba(232,40,40,.12)',border:'1px solid rgba(232,40,40,.25)',color:'rgba(232,40,40,.9)',fontSize:9,padding:'3px 10px',borderRadius:100}}>{t}</span>)}
           </div>
           <div style={{background:'#0a0a0a',borderRadius:8,padding:'12px 14px',marginTop:4,fontSize:9,color:'#4ade80',lineHeight:1.9}}>
             <div style={{color:'rgba(255,255,255,.28)',marginBottom:2}}>$ ./port.sh --device lemonadep</div>
@@ -576,10 +576,10 @@ function Projects(){
       preview:(
         <div style={{background:'linear-gradient(160deg,#120000 0%,#170400 50%,#000 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
           <div style={{fontSize:9,letterSpacing:'.35em',color:'rgba(255,200,60,.4)',textTransform:'uppercase',fontFamily:'JetBrains Mono,monospace'}}>RCB Fan HQ</div>
-          <div style={{fontSize:48,fontWeight:900,color:'#fff',fontFamily:'Playfair Display,serif',lineHeight:.85}}>RP<span style={{color:'#d97757'}}>21</span></div>
+          <div style={{fontSize:48,fontWeight:900,color:'#fff',fontFamily:'Playfair Display,serif',lineHeight:.85}}>RP<span style={{color:'#e82828'}}>21</span></div>
           <div style={{fontSize:10,color:'rgba(255,200,60,.65)',letterSpacing:'.22em',textTransform:'uppercase'}}>Rajat Patidar</div>
           <div style={{display:'flex',alignItems:'center',gap:10,margin:'4px 0'}}>
-            <div style={{width:30,height:3,background:'#d97757',borderRadius:2}}/>
+            <div style={{width:30,height:3,background:'#e82828',borderRadius:2}}/>
             <div style={{width:8,height:8,borderRadius:'50%',background:'rgba(255,200,60,.5)'}}/>
             <div style={{width:30,height:3,background:'#f59e0b',borderRadius:2}}/>
           </div>
