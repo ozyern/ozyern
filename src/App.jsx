@@ -267,10 +267,11 @@ function Sidebar(){
   )
 }
 
-/* ── Hero — with robust image handling & rich animations ───────────────────── */
+/* ── Hero — Redesigned Premium Aesthetic ───────────────────── */
 function Hero() {
   const photoRef = useRef(null)
-  const [magnetic, setMagnetic] = useState({ x: 0, y: 0 })
+  const heroRef = useRef(null)
+  const [magnetic, setMagnetic] = useState({ x: 0, y: 0, tiltX: 0, tiltY: 0, rawX: -1000, rawY: -1000 })
   const [imgError, setImgError] = useState(false)
   const [imgLoaded, setImgLoaded] = useState(false)
 
@@ -282,7 +283,7 @@ function Hero() {
       raf = requestAnimationFrame(() => {
         raf = null
         if (photoRef.current) {
-          photoRef.current.style.transform = `translateY(${window.scrollY * 0.12}px) rotate(${window.scrollY * 0.015}deg)`
+          photoRef.current.style.transform = `translateY(${window.scrollY * 0.12}px)`
         }
       })
     }
@@ -290,14 +291,21 @@ function Hero() {
     return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf) }
   }, [])
 
-  // Magnetic mouse follow on hero area
+  // Magnetic mouse follow & Spotlight & 3D tilt
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left - rect.width / 2
-    const y = e.clientY - rect.top - rect.height / 2
-    setMagnetic({ x: x * 0.08, y: y * 0.08 })
+    const rawX = e.clientX - rect.left
+    const rawY = e.clientY - rect.top
+    const x = rawX - rect.width / 2
+    const y = rawY - rect.height / 2
+    
+    // 3D tilt math for the photo
+    const tiltX = (y / rect.height) * -20 // up to 10 deg
+    const tiltY = (x / rect.width) * 20  // up to 10 deg
+
+    setMagnetic({ x: x * 0.08, y: y * 0.08, tiltX, tiltY, rawX, rawY })
   }
-  const handleMouseLeave = () => setMagnetic({ x: 0, y: 0 })
+  const handleMouseLeave = () => setMagnetic({ x: 0, y: 0, tiltX: 0, tiltY: 0, rawX: -1000, rawY: -1000 })
 
   const socials = [
     { href: 'https://github.com/ozyern', icon: <GH />, l: 'GitHub' },
@@ -307,21 +315,26 @@ function Hero() {
   ]
 
   return (
-    <section id="home" className="hero" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+    <section id="home" className="hero" ref={heroRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+      {/* Dynamic Spotlight */}
+      <div className="h-spotlight" style={{ left: magnetic.rawX, top: magnetic.rawY, opacity: magnetic.rawX > 0 ? 1 : 0 }} aria-hidden="true" />
+      
+      {/* Massive Background Typography */}
+      <div className="h-marquee" aria-hidden="true">DEVELOPER</div>
+
       {/* Layered atmospheric background */}
       <div className="hbg" />
       <div className="hbg-mesh" aria-hidden="true" />
       <div className="hbg-noise" aria-hidden="true" />
 
       <div className="hcenter">
-        {/* Hero Photo with Gradient Fallback */}
-        <div className="hphoto-wrap">
+        {/* Glassmorphic 3D Hero Photo */}
+        <div className="hphoto-wrap" ref={photoRef}>
           <div
             className="hphoto"
-            ref={photoRef}
             style={{
-              transform: `translateY(${window.scrollY * 0.12}px) rotate(${window.scrollY * 0.015}deg) translate(${magnetic.x}px, ${magnetic.y}px) scale(${magnetic.x || magnetic.y ? 1.03 : 1})`,
-              transition: 'transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              transform: `rotateX(${magnetic.tiltX}deg) rotateY(${magnetic.tiltY}deg) translate(${magnetic.x}px, ${magnetic.y}px) scale(${magnetic.x || magnetic.y ? 1.02 : 1})`,
+              transition: magnetic.x ? 'none' : 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
             }}
           >
             <img
@@ -349,18 +362,18 @@ function Hero() {
           <div className="hphoto-ring-outer" />
         </div>
 
-        {/* Name & Role */}
+        {/* Cinematic Text Reveal */}
         <div className="htext">
           <div className="hgreet-wrap">
-            <span className="hgreet-label" style={{ opacity: 0, animation: 'fup .6s cubic-bezier(.16,1,.3,1) .25s forwards' }}>Hey, I'm</span>
-            <h1 className="hgreet-name" style={{ opacity: 0, animation: 'fup .8s cubic-bezier(.16,1,.3,1) .4s forwards' }}>
-              <span className="cursive">Aditya</span>
+            <span className="hgreet-label reveal-up" style={{ animationDelay: '0.1s' }}>Hey, I'm</span>
+            <h1 className="hgreet-name reveal-up" style={{ animationDelay: '0.2s' }}>
+              <span>Aditya</span>
               <span>Jha</span>
               <span className="hgreet-dot">.</span>
             </h1>
           </div>
-          <p className="hrole" style={{ opacity: 0, animation: 'fup .7s cubic-bezier(.16,1,.3,1) .55s forwards' }}>Android ROM Porter · Kernel Dev · Web Builder</p>
-          <div className="hbadges" style={{ opacity: 0, animation: 'fup .6s cubic-bezier(.16,1,.3,1) .7s forwards' }}>
+          <p className="hrole reveal-up" style={{ animationDelay: '0.3s' }}>Android ROM Porter · Kernel Dev · Web Builder</p>
+          <div className="hbadges reveal-up" style={{ animationDelay: '0.4s' }}>
             <span className="hbadge">Feather Engine</span>
             <span className="hbadge">SM8350</span>
             <span className="hbadge">KernelSU</span>
@@ -368,27 +381,29 @@ function Hero() {
           </div>
         </div>
 
-        {/* Social Links */}
-        <div className="hsoc" style={{ opacity: 0, animation: 'fup .5s cubic-bezier(.16,1,.3,1) .85s forwards' }}>
-          {socials.map((s, i) => (
-            <a
-              key={s.l}
-              className="soc"
-              href={s.href}
-              target={s.href.startsWith('mailto') ? undefined : '_blank'}
-              rel="noopener"
-              aria-label={s.l}
-              style={{ transitionDelay: `${i * 60}ms` }}
-            >
-              {s.icon}
-              <span className="soc-ripple" />
-            </a>
-          ))}
+        {/* CTA and Social Links */}
+        <div className="hactions reveal-up" style={{ animationDelay: '0.5s' }}>
+          <a href="#projects" className="h-cta">View My Work <Arw/></a>
+          <div className="hsoc">
+            {socials.map((s, i) => (
+              <a
+                key={s.l}
+                className="soc"
+                href={s.href}
+                target={s.href.startsWith('mailto') ? undefined : '_blank'}
+                rel="noopener"
+                aria-label={s.l}
+                style={{ animationDelay: `${0.6 + i * 0.05}s` }}
+              >
+                {s.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="hscr" style={{ opacity: 0, animation: 'fup .7s cubic-bezier(.16,1,.3,1) 1.1s forwards' }}>
+      <div className="hscr reveal-up" style={{ animationDelay: '1s' }}>
         <span>scroll</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M12 5v14M19 12l-7 7-7-7" />
