@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 
 // Hero photo - place your photo at public/assets/hero-photo.jpg
 // Falls back to a beautiful gradient if no photo exists
-const heroPhoto = '/assets/hero-photo.jpg'
+const heroPhoto = './assets/hero-photo.jpg'
 const HERO_GRADIENT = 'linear-gradient(145deg, #1a0f0a 0%, #2d1a0a 35%, #1a0f0a 70%, #0a0500 100%)'
 
 /* ── Icons ────────────────────────────────────────────────────────────────── */
