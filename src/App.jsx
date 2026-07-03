@@ -397,21 +397,31 @@ function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div className="hscr reveal-up" style={{ animationDelay: '1s' }}>
-        <span>scroll</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M12 5v14M19 12l-7 7-7-7" />
-        </svg>
+      
+      {/* Tech Stack Marquee */}
+      <div className="marquee-container reveal-up" style={{ animationDelay: '0.8s' }}>
+        <div className="marquee-content">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} style={{ display: 'flex' }}>
+              <div className="marquee-item">React</div>
+              <div className="marquee-item">·</div>
+              <div className="marquee-item">Vite</div>
+              <div className="marquee-item">·</div>
+              <div className="marquee-item">Bash</div>
+              <div className="marquee-item">·</div>
+              <div className="marquee-item">Smali</div>
+              <div className="marquee-item">·</div>
+              <div className="marquee-item">Android Kernel</div>
+              <div className="marquee-item">·</div>
+              <div className="marquee-item">C++</div>
+              <div className="marquee-item">·</div>
+              <div className="marquee-item">TypeScript</div>
+              <div className="marquee-item">·</div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Floating particles */}
-      <div className="hparticles" aria-hidden="true">
-        {[...Array(12)].map((_, i) => (
-          <span key={i} className="hparticle" style={{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 8}s`, animationDuration: `${12 + Math.random() * 8}s` }} />
-        ))}
-      </div>
     </section>
   )
 }
@@ -483,13 +493,33 @@ function Experience(){
     <section id="experience" ref={ref}>
       <div className={rv(inView)}><div className="slbl">Experiences</div></div>
       <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>A chronicle of my journey in <em>Android development and web creation.</em></p>
-      {EXP.map((e,i)=>(
-        <div className={rv(inView,'expi')} key={i} style={{transitionDelay:`${.15+i*.07}s`}}>
-          <div><div className="excn">{e.company}</div><span className="extg">{e.tag}</span></div>
-          <div><div className="exrl">{e.role}</div><p className="exdc">{e.desc}</p><div className="extgs">{e.tags.map(t=><span key={t} className="chip">{t}</span>)}</div></div>
-          <div className="exdt">{e.date}</div>
-        </div>
-      ))}
+      
+      <div className="accordion-wrap">
+        {EXP.map((e,i)=>(
+          <div className={rv(inView,'accordion-item')} key={i} style={{transitionDelay:`${.15+i*.07}s`}}>
+            <div className="accordion-head">
+              <div className="accordion-icon"><BrIco/></div>
+              <div className="accordion-title">
+                <div className="text-wrapper">{e.company}</div>
+                <div className="accordion-number">{e.date}</div>
+              </div>
+            </div>
+            <div className="accordion-body">
+              <div className="exrl" style={{color:'#fff',fontSize:'20px',marginBottom:'12px'}}>{e.role} <span style={{color:'var(--red)',fontSize:'12px',marginLeft:'12px',padding:'4px 12px',background:'rgba(217,119,87,0.1)',borderRadius:'20px',fontWeight:'normal',border:'1px solid rgba(217,119,87,0.2)'}}>{e.tag}</span></div>
+              <p className="exdc" style={{fontSize:'15px',color:'rgba(255,255,255,0.5)',lineHeight:1.7}}>{e.desc}</p>
+              
+              <div className="skill-detail-list">
+                {e.tags.map(t=>(
+                  <div key={t} className="skill-detail-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    {t}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }
@@ -564,19 +594,21 @@ function Projects(){
       <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>Things I've <em>actually shipped</em> — from kernels to fan sites.</p>
       <div className="pjl">
         {proj.map((p,i)=>(
-          <div className={rv(inView,`pjc${p.revc?' rev':''}`)} key={i} style={{transitionDelay:`${.15+i*.1}s`}}>
-            <div className="pjv">
-              <Browser url={p.url}>{p.preview}</Browser>
+          <div className={rv(inView,'work-card-horizontal')} key={i} style={{transitionDelay:`${.15+i*.1}s`}}>
+            <div className="work-content-side">
+              <div>
+                <div className="pjnm" style={{fontSize:'36px',fontWeight:700,marginBottom:'16px',color:'#fff',letterSpacing:'-0.03em'}}>{p.name}</div>
+                <p className="pjdc" style={{fontSize:'16px',color:'rgba(255,255,255,0.5)',lineHeight:1.7}}>{p.desc}</p>
+              </div>
+              <div style={{marginTop:'32px',display:'flex',alignItems:'center',justifyContent:'space-between',borderTop:'1px solid rgba(255,255,255,0.08)',paddingTop:'24px'}}>
+                <span style={{color:'rgba(255,255,255,0.4)',fontSize:'14px',fontFamily:'JetBrains Mono, monospace'}}>{p.date}</span>
+                <a href={p.href} target="_blank" rel="noopener" style={{display:'flex',alignItems:'center',justifyContent:'center',width:'48px',height:'48px',background:'var(--red)',color:'#fff',borderRadius:'50%',transition:'all 0.3s'}} className="btns-link">
+                  <Arw/>
+                </a>
+              </div>
             </div>
-            <div className="pjb">
-              <div className="pjtop">
-                <div className="pjnm">{p.name}</div>
-                <p className="pjdc">{p.desc}</p>
-              </div>
-              <div className="pjfoot">
-                <span className="pjdate">{p.date}</span>
-                <a className="pjarrow" href={p.href} target="_blank" rel="noopener"><Arw/></a>
-              </div>
+            <div className="work-image-side" style={{padding:'40px',display:'flex',alignItems:'center',justifyContent:'center',background:p.revc?'linear-gradient(135deg,#0a0a0a,#111)':'#0a0a0a',overflow:'hidden'}}>
+               <Browser url={p.url}>{p.preview}</Browser>
             </div>
           </div>
         ))}
@@ -592,13 +624,52 @@ function Skills(){
     <section id="skills" ref={ref}>
       <div className={rv(inView)}><div className="slbl">My Skills</div></div>
       <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>What I <em>actually know</em> and build with every day.</p>
-      {SKILLS.map((s,i)=>(
-        <div className={rv(inView,'skli')} key={i} style={{transitionDelay:`${.15+i*.07}s`}}>
-          <div className="sklic">{s.icon}</div>
-          <div><div className="sklnm">{s.name}</div><p className="skldc">{s.desc}</p><div className="sklch">{s.tags.map(t=><span key={t} className="chip">{t}</span>)}</div></div>
-          <div className="sklnu">{s.num}</div>
+      
+      <div className={rv(inView,'skills-bento-grid')} style={{transitionDelay:'.15s'}}>
+        {/* Column 1 */}
+        <div className="bento-column">
+          <div className="bento-item bento-large">
+            <div className="bento-number">01</div>
+            <div className="bento-icon"><EnIco/></div>
+            <div className="bento-title">Android ROM Dev</div>
+            <div className="bento-desc">Low-level porting, partition manipulation, smali patching, OTA generation.</div>
+            <div className="bento-tags">
+              <span className="bento-tag">port.sh</span>
+              <span className="bento-tag">Smali</span>
+              <span className="bento-tag">ADB</span>
+              <span className="bento-tag">OTA</span>
+              <span className="bento-tag">ColorOS 16</span>
+            </div>
+          </div>
         </div>
-      ))}
+        
+        {/* Column 2 */}
+        <div className="bento-column">
+          <div className="bento-item bento-medium">
+            <div className="bento-icon-small"><BrIco/></div>
+            <div className="bento-title-small">Kernel & Modules</div>
+            <div className="bento-tags-small">
+              <span>KernelSU</span><span>Magisk</span><span>AnyKernel</span><span>SukiSU</span>
+            </div>
+          </div>
+          
+          <div className="bento-item bento-medium">
+            <div className="bento-icon-small"><LaIco/></div>
+            <div className="bento-title-small">Web Development</div>
+            <div className="bento-tags-small">
+              <span>HTML/CSS/JS</span><span>GitHub Pages</span><span>Animations</span>
+            </div>
+          </div>
+
+          <div className="bento-item bento-medium">
+            <div className="bento-icon-small"><PeIco/></div>
+            <div className="bento-title-small">Tooling & Env</div>
+            <div className="bento-tags-small">
+              <span>Bash</span><span>Ubuntu</span><span>Git</span><span>Linux</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

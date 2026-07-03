@@ -1,0 +1,108 @@
+/* ── Bento Grid ─────────────────────────────────────────── */
+.skills-bento-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; }
+.bento-column { display: flex; flex-direction: column; gap: 24px; }
+.bento-item {
+    background: linear-gradient(145deg, #0d0d0d 0%, #161616 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px; padding: 40px; position: relative; overflow: hidden;
+    transition: all 0.4s ease;
+}
+.bento-item:hover {
+    border-color: rgba(217, 119, 87, 0.3); transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 100px rgba(217, 119, 87, 0.08);
+}
+.bento-large { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+.bento-number { position: absolute; top: 32px; right: 36px; font-size: 64px; font-weight: 700; color: rgba(217, 119, 87, 0.35); line-height: 1; font-family: inherit;}
+.bento-icon {
+    width: 72px; height: 72px; border-radius: 22px;
+    background: linear-gradient(135deg, rgba(217, 119, 87, 0.25) 0%, rgba(217, 119, 87, 0.1) 100%);
+    border: 1px solid rgba(217, 119, 87, 0.35);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 28px;
+}
+.bento-icon svg { width: 32px; height: 32px; color: var(--red); }
+.bento-title { font-size: 32px; font-weight: 500; color: #fff; margin-bottom: 12px; line-height: 1.2; }
+.bento-desc { font-size: 16px; color: rgba(255, 255, 255, 0.5); margin-bottom: 28px; line-height: 1.6; }
+.bento-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.bento-tag {
+    background: rgba(217, 119, 87, 0.1); border: 1px solid rgba(217, 119, 87, 0.2);
+    color: var(--red); padding: 10px 18px; border-radius: 30px; font-size: 14px; font-weight: 500;
+    transition: all 0.3s ease;
+}
+.bento-item:hover .bento-tag { background: rgba(217, 119, 87, 0.15); border-color: rgba(217, 119, 87, 0.35); }
+.bento-medium { padding: 32px; }
+.bento-icon-small {
+    width: 52px; height: 52px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(217, 119, 87, 0.25) 0%, rgba(217, 119, 87, 0.1) 100%);
+    border: 1px solid rgba(217, 119, 87, 0.3); display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+}
+.bento-icon-small svg { width: 24px; height: 24px; color: var(--red); }
+.bento-title-small { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 16px; line-height: 1.2; }
+.bento-tags-small { display: flex; flex-wrap: wrap; gap: 8px; }
+.bento-tags-small span { color: rgba(255, 255, 255, 0.45); font-size: 14px; position: relative; padding-right: 16px; }
+.bento-tags-small span::after {
+    content: ''; position: absolute; right: 4px; top: 50%; width: 4px; height: 4px;
+    border-radius: 50%; background: rgba(217, 119, 87, 0.45); transform: translateY(-50%);
+}
+.bento-tags-small span:last-child::after { display: none; }
+@media(max-width: 900px){ .skills-bento-grid { grid-template-columns: 1fr; } .bento-item { padding: 28px; } }
+
+/* ── Work Card Horizontal ─────────────────────────────────────────── */
+.work-card-horizontal {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 400px;
+    background: linear-gradient(145deg, rgba(15,15,15,0.6) 0%, rgba(10,10,10,0.75) 100%);
+    border-radius: 28px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.4s ease; position: relative; margin-bottom: 28px;
+}
+.work-card-horizontal:hover {
+    transform: translateY(-8px); border-color: rgba(217, 119, 87, 0.4);
+    box-shadow: 0 20px 60px rgba(217, 119, 87, 0.2), 0 0 80px rgba(217, 119, 87, 0.08);
+}
+.work-image-side { overflow: hidden; position: relative; }
+.work-image-side img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.work-card-horizontal:hover .work-image-side img { transform: scale(1.05); }
+.work-content-side { padding: 56px; display: flex; flex-direction: column; justify-content: space-between; }
+@media(max-width: 900px){
+    .work-card-horizontal { grid-template-columns: 1fr; }
+    .work-image-side { order: 1; min-height: 250px; }
+    .work-content-side { order: 2; padding: 32px; }
+}
+
+/* ── Accordion (Experience) ─────────────────────────────────────────── */
+.accordion-wrap { display: flex; flex-direction: column; gap: 24px; }
+.accordion-item {
+    background: linear-gradient(135deg, rgba(217, 119, 87, 0.08) 0%, rgba(15, 15, 15, 0.95) 50%, rgba(217, 119, 87, 0.05) 100%);
+    border: 1px solid rgba(217, 119, 87, 0.2); border-radius: 24px; overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.accordion-item:hover {
+    border-color: rgba(217, 119, 87, 0.4); transform: translateX(8px) scale(1.01);
+    box-shadow: 0 10px 40px rgba(217, 119, 87, 0.2), 0 0 60px rgba(217, 119, 87, 0.08);
+}
+.accordion-head { padding: 32px; display: flex; align-items: center; }
+.accordion-icon {
+    width: 68px; height: 68px; border-radius: 50%;
+    background: linear-gradient(135deg, rgba(217, 119, 87, 0.15) 0%, rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid rgba(217, 119, 87, 0.3); display: flex; align-items: center; justify-content: center;
+    margin-right: 28px;
+    box-shadow: 0 4px 20px rgba(217, 119, 87, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.accordion-icon svg { width: 32px; height: 32px; color: var(--red); }
+.accordion-title {
+    flex-grow: 1; font-size: 28px; font-weight: 500; line-height: 1.2; display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(90deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.accordion-number { font-size: 16px; color: rgba(255, 255, 255, 0.2); -webkit-text-fill-color: rgba(255, 255, 255, 0.2); }
+.accordion-body { padding: 0 32px 32px 124px; }
+.skill-detail-list { padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.skill-detail-item { font-size: 16px; color: #999; margin-bottom: 14px; display: flex; align-items: center; gap: 16px; transition: all 0.3s; }
+.skill-detail-item svg { width: 14px; height: 14px; color: var(--red); opacity: 0.9; }
+.accordion-item:hover .skill-detail-item { color: #ccc; transform: translateX(6px); }
+@media(max-width: 900px){
+    .accordion-head { padding: 24px; }
+    .accordion-icon { width: 48px; height: 48px; margin-right: 16px; }
+    .accordion-icon svg { width: 24px; height: 24px; }
+    .accordion-title { font-size: 20px; }
+    .accordion-body { padding: 0 24px 24px 24px; }
+}
