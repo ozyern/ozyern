@@ -397,31 +397,21 @@ function Hero() {
           </div>
         </div>
       </div>
-      
-      {/* Tech Stack Marquee */}
-      <div className="marquee-container reveal-up" style={{ animationDelay: '0.8s' }}>
-        <div className="marquee-content">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} style={{ display: 'flex' }}>
-              <div className="marquee-item">React</div>
-              <div className="marquee-item">·</div>
-              <div className="marquee-item">Vite</div>
-              <div className="marquee-item">·</div>
-              <div className="marquee-item">Bash</div>
-              <div className="marquee-item">·</div>
-              <div className="marquee-item">Smali</div>
-              <div className="marquee-item">·</div>
-              <div className="marquee-item">Android Kernel</div>
-              <div className="marquee-item">·</div>
-              <div className="marquee-item">C++</div>
-              <div className="marquee-item">·</div>
-              <div className="marquee-item">TypeScript</div>
-              <div className="marquee-item">·</div>
-            </div>
-          ))}
-        </div>
+
+      {/* Scroll indicator */}
+      <div className="hscr reveal-up" style={{ animationDelay: '1s' }}>
+        <span>scroll</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M12 5v14M19 12l-7 7-7-7" />
+        </svg>
       </div>
 
+      {/* Floating particles */}
+      <div className="hparticles" aria-hidden="true">
+        {[...Array(12)].map((_, i) => (
+          <span key={i} className="hparticle" style={{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 8}s`, animationDuration: `${12 + Math.random() * 8}s` }} />
+        ))}
+      </div>
     </section>
   )
 }
