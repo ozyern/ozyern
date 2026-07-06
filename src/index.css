@@ -987,3 +987,87 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .marquee-content { display: inline-flex; animation: scroll 20s linear infinite; align-items: center; }
 .marquee-item { flex-shrink: 0; padding: 0 48px; display: flex; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 16px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; }
 @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* ── Mobile Optimization (Appended) ─────────────────────────────────────────── */
+
+/* 1. Disable custom cursor on touch devices */
+@media (pointer: coarse) {
+  .cring, .cdot { display: none !important; }
+  *, *::before, *::after { cursor: auto !important; }
+}
+
+/* 2. Global Layout & Sidebar for Mobile */
+@media (max-width: 768px) {
+  main { margin-left: 0; padding-bottom: 80px; }
+  
+  /* Sidebar to Bottom Nav */
+  .sidebar {
+    left: 50%; top: auto; bottom: 16px;
+    transform: translateX(-50%);
+    animation: sidebarMobileEnter 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  @keyframes sidebarMobileEnter {
+    0% { opacity: 0; transform: translate(-50%, 40px); filter: blur(10px); }
+    100% { opacity: 1; transform: translate(-50%, 0); filter: blur(0); }
+  }
+  .sb-pill {
+    flex-direction: row; padding: 10px 12px; gap: 8px;
+  }
+  .sb-tip {
+    /* Tooltip adjustments for bottom nav */
+    left: 50%; top: auto; bottom: calc(100% + 18px);
+    transform-origin: bottom center;
+    transform: translateX(-50%) scale(.8) rotateX(-20deg);
+  }
+  .sb-item:hover .sb-tip {
+    transform: translateX(-50%) scale(1) rotateX(0);
+  }
+  .sb-tip::before {
+    top: 100%; right: auto; left: 50%; bottom: auto;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(15,15,15,.85);
+  }
+  .sb-item.active .sb-tip::before { border-top-color: rgba(232,40,40,.2); }
+
+  /* 3. Hero Section */
+  .hgreet-name { font-size: clamp(40px, 12vw, 80px); line-height: 1.1; flex-wrap: wrap; justify-content: center; text-align: center; gap: 8px; }
+  .hero { padding: 80px 20px 80px; min-height: 100vh; }
+  .hphoto { width: 160px; height: 160px; }
+
+  /* 4. Section Spacing */
+  section { padding: 50px 20px; }
+  .ssti { font-size: 14px; margin-bottom: 32px; }
+
+  /* 5. Stats */
+  .stats { grid-template-columns: 1fr; gap: 12px; }
+  .stc { min-height: 140px; padding: 20px; }
+
+  /* 6. Experience (expi) */
+  .expi { grid-template-columns: 1fr; gap: 12px; padding: 20px 16px; }
+  .expi::before { left: 0; top: 0; right: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--red), transparent); transform: scaleX(0); transform-origin: left; }
+  .expi:hover::before { transform: scaleX(1); }
+  .expi:hover { padding-left: 16px; transform: translateY(-4px); }
+  .exdt { text-align: left; padding-top: 0; }
+
+  /* Awards */
+  .awgr { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Holographic grid adjustments */
+  .holo-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+  .holo-card { padding: 24px; }
+  .holo-header { flex-direction: column; gap: 12px; }
+  .holo-role-band { flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .holo-role { font-size: 16px; }
+  
+  /* Footer */
+  footer { padding: 24px 20px; flex-direction: column; gap: 16px; text-align: center; }
+  .ftlk { flex-wrap: wrap; justify-content: center; gap: 12px; }
+}
+
+@media (max-width: 480px) {
+  .hgreet-name { font-size: 40px; }
+  .hgreet-name span:first-child { font-size: 1.1em; transform: rotate(-4deg) translateY(-2px); }
+  .hrole { font-size: 11px; }
+  .sk-card { padding: 24px 20px; }
+  .sk-num { font-size: 100px; right: -5px; bottom: -10px; }
+}

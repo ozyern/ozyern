@@ -69,3 +69,11 @@
 }
 
 
+/* ── Extra Mobile Tweaks for Bento ─────────────────────────────────────────── */
+@media(max-width: 480px){
+    .work-content-side { padding: 24px !important; }
+    .bento-item { padding: 24px !important; }
+    .bento-title { font-size: 24px !important; }
+    .bento-title-small { font-size: 18px !important; }
+    .bento-number { font-size: 48px !important; top: 20px !important; right: 24px !important; }
+}
