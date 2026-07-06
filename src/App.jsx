@@ -7,47 +7,35 @@ const HERO_GRADIENT = 'linear-gradient(145deg, #1a0f0a 0%, #2d1a0a 35%, #1a0f0a 
 
 /* ── Icons ────────────────────────────────────────────────────────────────── */
 
-/* ── Icons ────────────────────────────────────────────────── */
-const HoIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-const BrIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="2" y1="11" x2="22" y2="11"/></svg>
-const LaIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-const PlIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-const BlIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-const PeIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-const MsIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-const EnIco=()=><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-const GH=()=><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-const TG=()=><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.048 9.648c-.154.686-.555.854-1.123.531l-3.107-2.29-1.499 1.44c-.166.166-.305.305-.625.305l.223-3.164 5.756-5.196c.25-.223-.054-.346-.387-.123L7.398 14.8 4.332 13.84c-.672-.21-.686-.672.14-.994l10.88-4.194c.558-.203 1.048.123.87.994l-.66-.398z"/></svg>
-const ML=()=><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-const WB=()=><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-const EX=()=><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-const Arw=()=><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+/* ── Icons (Premium Duotone Glass) ────────────────────────── */
+const HoIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 10l8-7 8 7v10h-16z" fill="currentColor" fillOpacity="0.15"/><path d="M3 11l9-8 9 8M5 11v9h14v-9M10 20v-5h4v5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const BrIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="13" rx="2" fill="currentColor" fillOpacity="0.15"/><rect x="3" y="8" width="18" height="13" rx="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M16 8V6a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const LaIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="12 3 3 8 12 13 21 8" fill="currentColor" fillOpacity="0.15"/><polygon points="12 3 3 8 12 13 21 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="3 13 12 18 21 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="3 18 12 23 21 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const PlIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="14" width="4" height="6" rx="1" fill="currentColor" fillOpacity="0.15"/><rect x="10" y="10" width="4" height="10" rx="1" fill="currentColor" fillOpacity="0.15"/><rect x="16" y="4" width="4" height="16" rx="1" fill="currentColor" fillOpacity="0.15"/><rect x="4" y="14" width="4" height="6" rx="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><rect x="10" y="10" width="4" height="10" rx="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><rect x="16" y="4" width="4" height="16" rx="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const BlIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10" fill="currentColor" fillOpacity="0.15"/><polygon points="13 2 3 14 12 14 11 22 21 10 12 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const PeIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="currentColor" fillOpacity="0.15"/><circle cx="12" cy="7" r="4" fill="currentColor" fillOpacity="0.15"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const MsIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" fill="currentColor" fillOpacity="0.15"/><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="3 7 12 13 21 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const EnIco=()=><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" fill="currentColor" fillOpacity="0.15"/><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="3 7 12 13 21 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+const GH=()=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.24c3-.34 6-1.53 6-6.76a5.5 5.5 0 0 0-1.5-3.8 5.4 5.4 0 0 0-.1-3.8s-1.2-.4-3.9 1.4a13.3 13.3 0 0 0-7 0c-2.7-1.8-3.9-1.4-3.9-1.4a5.4 5.4 0 0 0-.1 3.8A5.5 5.5 0 0 0 2 12.24c0 5.23 3 6.42 6 6.76a4.8 4.8 0 0 0-1 3.24v4"/><path d="M9 19c-4.3 1.4-5-2.5-7-3"/></svg>
+const TG=()=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+const ML=()=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+const WB=()=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+const EX=()=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+const Arw=()=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
 
 const EMAIL='ozyern.dev@gmail.com'
 
 /* ── Data ─────────────────────────────────────────────────── */
 const EXP=[
-  {company:'Feather Engine',tag:'Open Source',role:'Maintainer',date:'2025 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
-  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~250-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
+  {company:'BrinaOS Ports',tag:'Open Source',role:'Maintainer',date:'2025 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
+  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~285-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
   {company:'sabrina.ozyern.me',tag:'Web Dev',role:'Developer',date:'2024 — Present',desc:'Liquid-glass fan site — gallery, era-filtered discography, Dynamic Island nav, birthday campaign. Cold-emailed Foundation Media Partners.',tags:['HTML/CSS/JS','GitHub Pages']},
   {company:'Feather Kernel',tag:'Kernel',role:'Developer',date:'2025',desc:'Custom OP9 Pro kernel — binary string patching, SukiSU Ultra spoof modules, KernelSU framework, AnyKernel3 packaging.',tags:['Kernel','KernelSU','AnyKernel']},
 ]
 
-const AWARDS=[
-  {icon:'👥',name:'ReVork Community',sub:'~250 members · Telegram'},
-  {icon:'🔴',name:'OOS 16.1 Port',sub:'First SM8350 release'},
-  {icon:'⚡',name:'Feather Kernel v1.4',sub:'SukiSU Ultra · OP9 Pro'},
-  {icon:'📧',name:'Foundation Media',sub:'Cold email · Sabrina site'},
-  {icon:'🏏',name:'patidar.ozyern.me',sub:'RP21 · RCB Fan HQ'},
-  {icon:'🌐',name:'sabrina.ozyern.me',sub:'Indexed · Live globally'},
-]
 
-const SKILLS=[
-  {icon:'🔧',name:'Android ROM Dev',num:'01',desc:'Low-level porting, partition manipulation, smali patching, OTA generation.',tags:['port.sh','Smali','ADB','OTA','ColorOS 16']},
-  {icon:'⚙️',name:'Kernel & Modules',num:'02',desc:'Feather Kernel, binary patching, SukiSU Ultra spoof modules, KernelSU/Magisk framework.',tags:['KernelSU','Magisk','AnyKernel','SukiSU']},
-  {icon:'🌐',name:'Web Development',num:'03',desc:'HTML/CSS/JS with strong visual identity — liquid-glass, Dynamic Island patterns, GitHub Pages, custom subdomains.',tags:['HTML/CSS/JS','GitHub Pages','Animations']},
-  {icon:'🛠️',name:'Tooling & Env',num:'04',desc:'Dual-boot Ubuntu on ROG Strix G16 2025. Bash scripting, performance tuning, terminal-first dev.',tags:['Bash','Ubuntu','Git','Linux']},
-]
+
+
 
 
 /* ── Reveal-on-scroll hook ───────────────────────────────── */
@@ -236,8 +224,7 @@ function Sidebar(){
       <div className="sb-pill" ref={pillRef}>
         {ind.ready && (
           <div className="sb-indicator" style={{
-            left: `${ind.x}px`,
-            top: `${ind.y}px`,
+            transform: `translate(${ind.x}px, ${ind.y}px)`
           }}/>
         )}
         {sidebarItems.map((it,i)=>(
@@ -251,16 +238,7 @@ function Sidebar(){
             <span className="sb-tip">{it.label}</span>
           </a>
         ))}
-        {/* Email link - separate, not tracked */}
-        <a
-          href={`mailto:${EMAIL}`}
-          className="sb-item"
-          target="_blank"
-          rel="noopener"
-        >
-          <EnIco />
-          <span className="sb-tip">Email</span>
-        </a>
+
       </div>
     </div>
   )
@@ -324,15 +302,9 @@ function Hero() {
       <div className="hbg-noise" aria-hidden="true" />
 
       <div className="hcenter">
-        {/* Glassmorphic 3D Hero Photo */}
+        {/* Minimal Glass Hero Photo - No Mouse Follow */}
         <div className="hphoto-wrap" ref={photoRef}>
-          <div
-            className="hphoto"
-            style={{
-              transform: `rotateX(${magnetic.tiltX}deg) rotateY(${magnetic.tiltY}deg) translate(${magnetic.x}px, ${magnetic.y}px) scale(${magnetic.x || magnetic.y ? 1.02 : 1})`,
-              transition: magnetic.x ? 'none' : 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
-            }}
-          >
+          <div className="hphoto">
             <img
               src={heroPhoto}
               alt="Aditya Jha"
@@ -351,11 +323,7 @@ function Hero() {
                 </svg>
               </div>
             )}
-            <div className="hphoto-glow" />
-            <div className="hphoto-sheen" aria-hidden="true" />
           </div>
-          <div className="hphoto-ring" />
-          <div className="hphoto-ring-outer" />
         </div>
 
         {/* Cinematic Text Reveal */}
@@ -370,7 +338,7 @@ function Hero() {
           </div>
           <p className="hrole reveal-up" style={{ animationDelay: '0.3s' }}>Android ROM Porter · Kernel Dev · Web Builder</p>
           <div className="hbadges reveal-up" style={{ animationDelay: '0.4s' }}>
-            <span className="hbadge">Feather Engine</span>
+            <span className="hbadge">BrinaOS Ports</span>
             <span className="hbadge">SM8350</span>
             <span className="hbadge">KernelSU</span>
             <span className="hbadge">Liquid Glass</span>
@@ -417,27 +385,23 @@ function Hero() {
 
 /* ── Stats ────────────────────────────────────────────────── */
 function Stats(){
-  const[v,setV]=useState([0,0,0,0]),ref=useRef(null)
+  const[ref,inView]=useInView(0.1)
+  const T=useMemo(()=>[285,14,3],[])
+  const[v,setV]=useState([0,0,0])
   useEffect(()=>{
-    let raf=null
-    const ob=new IntersectionObserver(([e])=>{
-      if(!e.isIntersecting)return
-      const T=[250,6,3,4]
-      const duration=1500
-      const start=performance.now()
-      const easeOutCubic=t=>1-Math.pow(1-t,3)
-      const tick=now=>{
-        const t=Math.min(1,(now-start)/duration)
-        const eased=easeOutCubic(t)
-        setV(T.map(target=>Math.round(target*eased)))
-        if(t<1)raf=requestAnimationFrame(tick)
-      }
-      raf=requestAnimationFrame(tick)
-      ob.disconnect()
-    },{threshold:.4})
-    if(ref.current)ob.observe(ref.current)
-    return()=>{ob.disconnect();if(raf)cancelAnimationFrame(raf)}
-  },[])
+    if(!inView)return
+    let start=null,raf=null
+    const tick=now=>{
+      if(!start)start=now
+      const t=Math.min(1,(now-start)/2000)
+      const eased=1-Math.pow(1-t,4)
+      setV(T.map(target=>Math.round(target*eased)))
+      if(t<1)raf=requestAnimationFrame(tick)
+    }
+    raf=requestAnimationFrame(tick)
+    return()=>cancelAnimationFrame(raf)
+  },[inView,T])
+
   const cards=[
     {label:'Community Members',val:<>{v[0]}<b>+</b></>,note:'ReVork · Telegram'},
     {label:'Active Projects',val:<>{v[1]}<b>+</b></>,note:'Shipping right now'},
@@ -445,29 +409,12 @@ function Stats(){
     {label:'Primary SoC',val:<>SM<b>8350</b></>,note:'OnePlus 9 Pro',sm:true},
   ]
   return(
-    <div id="stats" className="stats" ref={ref}>
-      {cards.map((c,i)=>(
-        <div className="stc" key={i} style={{transitionDelay:`${i*.06}s`}}>
-          <div className="stl">{c.label}</div>
-          <div><div className={`stn${c.sm?' stn-sm':''}`}>{c.val}</div><div className="stnote">{c.note}</div></div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-/* ── Recognition ──────────────────────────────────────────── */
-function Recognition(){
-  const[ref,inView]=useInView(0.1)
-  return(
-    <section id="recognition" ref={ref} style={{paddingTop:60,paddingBottom:60}}>
-      <div className={rv(inView)}><div className="slbl">Recognition &amp; Milestones</div></div>
-      <div className="awgr">
-        {AWARDS.map((a,i)=>(
-          <div className={rv(inView,'awc')} key={i} style={{transitionDelay:`${.08+i*.06}s`}}>
-            <div className="awicon">{a.icon}</div>
-            <div className="awn">{a.name}</div>
-            <div className="aws">{a.sub}</div>
+    <section id="stats" ref={ref} className="stats-section">
+      <div className="stats">
+        {cards.map((c,i)=>(
+          <div className={rv(inView,'stc')} key={i} style={{transitionDelay:`${i*.06}s`}}>
+            <div className="stl">{c.label}</div>
+            <div><div className={`stn${c.sm?' stn-sm':''}`}>{c.val}</div><div className="stnote">{c.note}</div></div>
           </div>
         ))}
       </div>
@@ -478,33 +425,74 @@ function Recognition(){
 /* ── Experience ───────────────────────────────────────────── */
 function Experience(){
   const[ref,inView]=useInView(0.08)
+  
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // For the spotlight glow
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+    
+    // For 3D tilt effect
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -5; 
+    const rotateY = ((x - centerX) / centerX) * 5;
+    
+    card.style.setProperty('--rotateX', `${rotateX}deg`);
+    card.style.setProperty('--rotateY', `${rotateY}deg`);
+  };
+
+  const handleMouseLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.setProperty('--rotateX', `0deg`);
+    card.style.setProperty('--rotateY', `0deg`);
+  };
+
   return(
     <section id="experience" ref={ref}>
       <div className={rv(inView)}><div className="slbl">Experiences</div></div>
       <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>A chronicle of my journey in <em>Android development and web creation.</em></p>
       
-      <div className="accordion-wrap">
+      <div className="holo-grid">
         {EXP.map((e,i)=>(
-          <div className={rv(inView,'accordion-item')} key={i} style={{transitionDelay:`${.15+i*.07}s`}}>
-            <div className="accordion-head">
-              <div className="accordion-icon"><BrIco/></div>
-              <div className="accordion-title">
-                <div className="text-wrapper">{e.company}</div>
-                <div className="accordion-number">{e.date}</div>
-              </div>
-            </div>
-            <div className="accordion-body">
-              <div className="exrl" style={{color:'#fff',fontSize:'20px',marginBottom:'12px'}}>{e.role} <span style={{color:'var(--red)',fontSize:'12px',marginLeft:'12px',padding:'4px 12px',background:'rgba(232,40,40,0.1)',borderRadius:'20px',fontWeight:'normal',border:'1px solid rgba(232,40,40,0.2)'}}>{e.tag}</span></div>
-              <p className="exdc" style={{fontSize:'15px',color:'rgba(255,255,255,0.5)',lineHeight:1.7}}>{e.desc}</p>
-              
-              <div className="skill-detail-list">
-                {e.tags.map(t=>(
-                  <div key={t} className="skill-detail-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-                    {t}
+          <div 
+            className={`holo-card-wrapper ${rv(inView)}`} 
+            key={i} 
+            style={{transitionDelay:`${.15+i*.1}s`}}
+          >
+            <div 
+              className="holo-card" 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="holo-content">
+                <div className="holo-header">
+                  <div className="holo-icon"><BrIco/></div>
+                  <div className="holo-title-group">
+                    <div className="holo-company">{e.company}</div>
+                    <div className="holo-date">{e.date}</div>
                   </div>
-                ))}
+                </div>
+                
+                <div className="holo-role-band">
+                  <span className="holo-role">{e.role}</span>
+                  <span className="holo-tag-badge">{e.tag}</span>
+                </div>
+                
+                <p className="holo-desc">{e.desc}</p>
+                
+                <div className="holo-skills">
+                  {e.tags.map(t => (
+                    <span key={t} className="holo-skill">{t}</span>
+                  ))}
+                </div>
               </div>
+              {/* Glass reflection layer */}
+              <div className="holo-glare"></div>
             </div>
           </div>
         ))}
@@ -513,22 +501,23 @@ function Experience(){
   )
 }
 
+
 /* ── Projects ─────────────────────────────────────────────── */
 function Projects(){
   const[ref,inView]=useInView(0.08)
   const proj=[
     {
-      name:'Feather Engine',
+      name:'BrinaOS Ports',
       desc:'A complete bash-based porting framework for ColorOS/OxygenOS 16 on Snapdragon 888. Handles partition manipulation, smali patching, OTA generation and AI feature unlocking.',
       href:'https://github.com/ozyern',date:'Aug 2025',revc:false,
-      url:'github.com/ozyern/Feather-Engine',
+      url:'github.com/ozyern/BrinaOS-Ports',
       preview:(
         <div style={{background:'#000',height:'100%',padding:'28px 32px',fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',gap:14}}>
-          <div style={{fontSize:11,color:'rgba(232,40,40,.7)',letterSpacing:'.12em'}}>ozyern / Feather-Engine</div>
+          <div style={{fontSize:11,color:'rgba(232,40,40,.7)',letterSpacing:'.12em'}}>ozyern / BrinaOS-Ports</div>
           <div style={{fontSize:26,fontWeight:900,color:'#fff',fontFamily:'Inter,sans-serif',lineHeight:1.05}}>Port anything.<br/><span style={{color:'#e82828'}}>Fast.</span></div>
           <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>ColorOS 16 · OxygenOS 16 · SM8350</div>
           <div style={{display:'flex',gap:6,marginTop:2}}>
-            {['★ Bash','⚡ OTA','🔧 SM8350'].map(t=><span key={t} style={{background:'rgba(232,40,40,.12)',border:'1px solid rgba(232,40,40,.25)',color:'rgba(232,40,40,.9)',fontSize:9,padding:'3px 10px',borderRadius:100}}>{t}</span>)}
+            {['Bash','OTA','SM8350'].map(t=><span key={t} style={{background:'rgba(232,40,40,.12)',border:'1px solid rgba(232,40,40,.25)',color:'rgba(232,40,40,.9)',fontSize:9,padding:'3px 10px',borderRadius:100}}>{t}</span>)}
           </div>
           <div style={{background:'#0a0a0a',borderRadius:8,padding:'12px 14px',marginTop:4,fontSize:9,color:'#4ade80',lineHeight:1.9}}>
             <div style={{color:'rgba(255,255,255,.28)',marginBottom:2}}>$ ./port.sh --device lemonadep</div>
@@ -609,55 +598,31 @@ function Projects(){
 /* ── Skills ───────────────────────────────────────────────── */
 function Skills(){
   const[ref,inView]=useInView(0.08)
+  const cats=[
+    {n:'Android ROM Dev',i:<EnIco/>,d:'Low-level porting, partition manipulation, smali patching, OTA generation.',s:['port.sh','Smali','ADB','OTA','ColorOS 16']},
+    {n:'Kernel & Modules',i:<BrIco/>,d:'Binary patching, boot image packing, and root framework implementations.',s:['KernelSU','Magisk','AnyKernel','SukiSU']},
+    {n:'Web Development',i:<LaIco/>,d:'Building high-performance, design-driven fan sites and React applications.',s:['React','Tailwind','Liquid-Glass UI','Animations']},
+    {n:'Tooling & Env',i:<PeIco/>,d:'The environment and tools I use daily to build robust software systems.',s:['Bash','Ubuntu','Git','Docker','Linux']}
+  ]
   return(
     <section id="skills" ref={ref}>
       <div className={rv(inView)}><div className="slbl">My Skills</div></div>
       <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>What I <em>actually know</em> and build with every day.</p>
       
-      <div className={rv(inView,'skills-bento-grid')} style={{transitionDelay:'.15s'}}>
-        {/* Column 1 */}
-        <div className="bento-column">
-          <div className="bento-item bento-large">
-            <div className="bento-number">01</div>
-            <div className="bento-icon"><EnIco/></div>
-            <div className="bento-title">Android ROM Dev</div>
-            <div className="bento-desc">Low-level porting, partition manipulation, smali patching, OTA generation.</div>
-            <div className="bento-tags">
-              <span className="bento-tag">port.sh</span>
-              <span className="bento-tag">Smali</span>
-              <span className="bento-tag">ADB</span>
-              <span className="bento-tag">OTA</span>
-              <span className="bento-tag">ColorOS 16</span>
+      <div className={rv(inView,'sk-bento')} style={{transitionDelay:'.15s'}}>
+        {cats.map((c,i)=>(
+          <div key={i} className="sk-card">
+            <div className="sk-num">0{i+1}</div>
+            <div className="sk-icon-wrap">
+              <div className="sk-icon">{c.i}</div>
+              <div className="sk-title">{c.n}</div>
+            </div>
+            <div className="sk-desc">{c.d}</div>
+            <div className="sk-tags">
+              {c.s.map(s=><span key={s} className="sk-tag">{s}</span>)}
             </div>
           </div>
-        </div>
-        
-        {/* Column 2 */}
-        <div className="bento-column">
-          <div className="bento-item bento-medium">
-            <div className="bento-icon-small"><BrIco/></div>
-            <div className="bento-title-small">Kernel & Modules</div>
-            <div className="bento-tags-small">
-              <span>KernelSU</span><span>Magisk</span><span>AnyKernel</span><span>SukiSU</span>
-            </div>
-          </div>
-          
-          <div className="bento-item bento-medium">
-            <div className="bento-icon-small"><LaIco/></div>
-            <div className="bento-title-small">Web Development</div>
-            <div className="bento-tags-small">
-              <span>HTML/CSS/JS</span><span>GitHub Pages</span><span>Animations</span>
-            </div>
-          </div>
-
-          <div className="bento-item bento-medium">
-            <div className="bento-icon-small"><PeIco/></div>
-            <div className="bento-title-small">Tooling & Env</div>
-            <div className="bento-tags-small">
-              <span>Bash</span><span>Ubuntu</span><span>Git</span><span>Linux</span>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   )
@@ -669,22 +634,47 @@ function About(){
   return(
     <section id="about" ref={ref} style={{background:'rgba(255,255,255,.015)',borderTop:'1px solid var(--bord)'}}>
       <div className={rv(inView)}><div className="slbl">About Me</div></div>
-      <div className="abgr">
-        <div className={rv(inView,'abph')} style={{transitionDelay:'.1s'}}>
-          <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="rgba(232,40,40,0.22)" strokeWidth="0.7" style={{position:'relative',zIndex:1}}><circle cx="12" cy="7" r="5"/><path d="M3 21c0-5 3.6-9 9-9s9 4 9 9"/></svg>
-          <div className="abphl"><div><div className="abphn">Aditya Jha</div><div className="abphs">Student · Developer</div></div><div className="abphh">@ozyern</div></div>
+      
+      <div className="ab-bento">
+        {/* Main Bio */}
+        <div className={rv(inView, 'ab-card ab-bio')}>
+          <div className="ab-icon"><PeIco/></div>
+          <h3 className="ab-hl">Building <i>close to the metal</i> — kernels, ROMs, and fan sites that feel alive.</h3>
+          <p className="ab-p">I'm Ozi — a student and an active Android ROM porter. I maintain <strong>BrinaOS Ports</strong>, a bash-based framework for porting ColorOS/OxygenOS 16 to Snapdragon 888 devices, primarily the OnePlus 9 Pro.</p>
+          <p className="ab-p">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API. I also run <strong>ReVork</strong>, a ~285-member Telegram community.</p>
         </div>
-        <div className={rv(inView)} style={{transitionDelay:'.18s'}}>
-          <h3 className="abhl">Building <i>close to the metal</i> — kernels, ROMs, and fan sites that feel alive.</h3>
-          <p className="abp">I'm Ozi — a student and an active Android ROM porter. I maintain <strong>Feather Engine</strong>, a bash-based framework for porting ColorOS/OxygenOS 16 to Snapdragon 888 devices, primarily the OnePlus 9 Pro.</p>
-          <p className="abp">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API.</p>
-          <div className="abq"><p>"Every project I name ends up a Sabrina Carpenter reference. Feather, Espresso, Singular, Tornado — that's just how it is."</p></div>
-          <p className="abp">I run <strong>ReVork</strong>, a ~250-member Telegram community. Built <a href="https://sabrina.ozyern.me" target="_blank" rel="noopener">sabrina.ozyern.me</a> and cold-emailed her management. Currently iterating on <a href="https://patidar.ozyern.me" target="_blank" rel="noopener">patidar.ozyern.me</a>.</p>
-          <div className="dvs">
-            <div className="dvsl">Device lineup</div>
-            <div className="dvsr"><span>OnePlus 13</span><span className="dvsrk">"Espresso"</span></div>
-            <div className="dvsr"><span>OnePlus 9 Pro (lemonadep)</span><span className="dvsrk">"Feather"</span></div>
-            <div className="dvsr"><span>ROG Strix SCAR 16 2025 · Ultra 9 275HX · RTX 5090</span><span className="dvsrk">Daily driver</span></div>
+        
+        {/* Photo Card */}
+        <div className={rv(inView, 'ab-card ab-photo')} style={{transitionDelay:'.1s'}}>
+          <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=1000&auto=format&fit=crop" alt="Close to the metal" className="ab-img" loading="lazy" />
+          <div className="ab-img-overlay">
+            <div className="ab-img-name">Aditya Jha</div>
+            <div className="ab-img-role">@ozyern</div>
+          </div>
+        </div>
+
+        {/* Quote Card */}
+        <div className={rv(inView, 'ab-card ab-quote')} style={{transitionDelay:'.15s'}}>
+          <div className="ab-quote-mark">"</div>
+          <p className="ab-quote-text">Every project I name ends up a Sabrina Carpenter reference. Feather, Espresso, Singular, Tornado — that's just how it is.</p>
+        </div>
+
+        {/* Device Lineup */}
+        <div className={rv(inView, 'ab-card ab-devices')} style={{transitionDelay:'.2s'}}>
+          <div className="ab-dev-title"><span className="gdot" style={{width:8,height:8,marginRight:10}}/>Device Lineup</div>
+          <div className="ab-dev-list">
+            <div className="ab-dev-item">
+              <div className="ab-dev-name">OnePlus 13</div>
+              <div className="ab-dev-code">"Espresso"</div>
+            </div>
+            <div className="ab-dev-item">
+              <div className="ab-dev-name">OnePlus 9 Pro (lemonadep)</div>
+              <div className="ab-dev-code">"Feather"</div>
+            </div>
+            <div className="ab-dev-item">
+              <div className="ab-dev-name">ROG Strix SCAR 16 2025</div>
+              <div className="ab-dev-code">Daily driver</div>
+            </div>
           </div>
         </div>
       </div>
@@ -695,17 +685,53 @@ function About(){
 /* ── Contact ──────────────────────────────────────────────── */
 function Contact(){
   const[ref,inView]=useInView(0.1)
-  const lks=[{icon:<GH/>,name:'GitHub',sub:'@ozyern',href:'https://github.com/ozyern'},{icon:<TG/>,name:'Telegram',sub:'@ozyern',href:'https://t.me/ozyern'},{icon:<ML/>,name:'Email',sub:EMAIL,href:`mailto:${EMAIL}`},{icon:<WB/>,name:'Website',sub:'ozyern.me',href:'https://ozyern.me'}]
-  const inf=[{l:'Status',v:<><span className="gdot"/>Available for collabs</>},{l:'Current Focus',v:'Feather Engine · RP21 Fan HQ'},{l:'Community',v:<a href="https://t.me/revork" target="_blank" rel="noopener">ReVork on Telegram ↗</a>},{l:'GitHub',v:<a href="https://github.com/ozyern" target="_blank" rel="noopener">github.com/ozyern ↗</a>},{l:'Fun fact',v:<span style={{color:'var(--muted)',fontWeight:400}}>Every project named after a Sabrina song.</span>}]
+  const lks=[
+    {icon:<GH/>,name:'GitHub',sub:'@ozyern',href:'https://github.com/ozyern'},
+    {icon:<TG/>,name:'Telegram',sub:'@ozyern',href:'https://t.me/ozyern'},
+    {icon:<ML/>,name:'Email',sub:EMAIL,href:`mailto:${EMAIL}`},
+    {icon:<WB/>,name:'Website',sub:'ozyern.me',href:'https://ozyern.me'}
+  ]
   return(
     <section id="contact" ref={ref} className="ctwrap">
+      <div className="ct-glow"></div>
       <div className="ctgr">
-        <div className={rv(inView)}>
+        <div className={rv(inView, 'ct-left')}>
           <div className="slbl">Get in Touch</div>
           <h2 className="ctbig">Let's <i>build</i><br/>something<br/>together.</h2>
-          {lks.map((x)=><a key={x.name} className="clk" href={x.href} target={x.href.startsWith('mailto')?undefined:'_blank'} rel="noopener"><div className="clkic">{x.icon}</div><div className="clktx"><div className="clkn">{x.name}</div><div className="clks">{x.sub}</div></div><div className="clka">↗</div></a>)}
+          
+          <div className="ct-status">
+            <span className="gdot"/>
+            <div>
+              <div className="ct-status-lbl">Status</div>
+              <div className="ct-status-val">Available for collabs</div>
+            </div>
+          </div>
+          
+          <p className="ct-desc">
+            Currently focusing on BrinaOS Ports and the RP21 Fan HQ.<br/>
+            Drop a message if you want to create something cool.
+          </p>
+
+          <div className="ct-funfact" style={{ marginTop: '28px', paddingLeft: '18px', borderLeft: '2px solid rgba(232,40,40,0.4)' }}>
+            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'var(--red)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '6px' }}>Fun Fact</div>
+            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>Every project named after a Sabrina song.</div>
+          </div>
         </div>
-        <div className={rv(inView)} style={{transitionDelay:'.12s'}}>{inf.map(r=><div key={r.l} className="cifr"><div className="cifl">{r.l}</div><div className="cifv">{r.v}</div></div>)}</div>
+
+        <div className={rv(inView, 'ct-right')} style={{transitionDelay:'.12s'}}>
+          <div className="ct-cards">
+            {lks.map((x, i)=>(
+              <a key={x.name} className="ct-card" href={x.href} target={x.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" style={{transitionDelay:`${0.15 + i*0.05}s`}}>
+                <div className="ct-card-icon">{x.icon}</div>
+                <div className="ct-card-info">
+                  <div className="ct-card-name">{x.name}</div>
+                  <div className="ct-card-sub">{x.sub}</div>
+                </div>
+                <div className="ct-card-arrow"><Arw/></div>
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -745,7 +771,6 @@ export default function App(){
             <Experience/>
             <Projects/>
             <Stats/>
-            <Recognition/>
             <Skills/>
             <About/>
             <Contact/>

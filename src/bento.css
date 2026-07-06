@@ -68,41 +68,4 @@
     .work-content-side { order: 2; padding: 32px; }
 }
 
-/* ── Accordion (Experience) ─────────────────────────────────────────── */
-.accordion-wrap { display: flex; flex-direction: column; gap: 24px; }
-.accordion-item {
-    background: linear-gradient(135deg, rgba(217, 119, 87, 0.08) 0%, rgba(15, 15, 15, 0.95) 50%, rgba(217, 119, 87, 0.05) 100%);
-    border: 1px solid rgba(217, 119, 87, 0.2); border-radius: 24px; overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-.accordion-item:hover {
-    border-color: rgba(217, 119, 87, 0.4); transform: translateX(8px) scale(1.01);
-    box-shadow: 0 10px 40px rgba(217, 119, 87, 0.2), 0 0 60px rgba(217, 119, 87, 0.08);
-}
-.accordion-head { padding: 32px; display: flex; align-items: center; }
-.accordion-icon {
-    width: 68px; height: 68px; border-radius: 50%;
-    background: linear-gradient(135deg, rgba(217, 119, 87, 0.15) 0%, rgba(26, 26, 26, 0.95) 100%);
-    border: 2px solid rgba(217, 119, 87, 0.3); display: flex; align-items: center; justify-content: center;
-    margin-right: 28px;
-    box-shadow: 0 4px 20px rgba(217, 119, 87, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-.accordion-icon svg { width: 32px; height: 32px; color: var(--red); }
-.accordion-title {
-    flex-grow: 1; font-size: 28px; font-weight: 500; line-height: 1.2; display: flex; justify-content: space-between; align-items: center;
-    background: linear-gradient(90deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-}
-.accordion-number { font-size: 16px; color: rgba(255, 255, 255, 0.2); -webkit-text-fill-color: rgba(255, 255, 255, 0.2); }
-.accordion-body { padding: 0 32px 32px 124px; }
-.skill-detail-list { padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-.skill-detail-item { font-size: 16px; color: #999; margin-bottom: 14px; display: flex; align-items: center; gap: 16px; transition: all 0.3s; }
-.skill-detail-item svg { width: 14px; height: 14px; color: var(--red); opacity: 0.9; }
-.accordion-item:hover .skill-detail-item { color: #ccc; transform: translateX(6px); }
-@media(max-width: 900px){
-    .accordion-head { padding: 24px; }
-    .accordion-icon { width: 48px; height: 48px; margin-right: 16px; }
-    .accordion-icon svg { width: 24px; height: 24px; }
-    .accordion-title { font-size: 20px; }
-    .accordion-body { padding: 0 24px 24px 24px; }
-}
+
