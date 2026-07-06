@@ -1071,3 +1071,38 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   .sk-card { padding: 24px 20px; }
   .sk-num { font-size: 100px; right: -5px; bottom: -10px; }
 }
+/* ── Deep Mobile Optimization Tweaks ─────────────────────────────────────────── */
+@media (pointer: coarse) {
+  /* Hide tooltips on mobile since there is no hover */
+  .sb-tip { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  /* Fix Bottom Nav Bar Overflow */
+  .sb-pill { 
+    max-width: 95vw; 
+    overflow-x: auto; 
+    /* Hide scrollbar */
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+  }
+  .sb-pill::-webkit-scrollbar { display: none; }
+  
+  /* Fix Skill Number Wrapping */
+  .sk-num { white-space: nowrap; }
+
+  /* Fix General Text Overflow for Code blocks / long words */
+  .bento-desc, .exdc, .holo-desc, .ssti {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Extra aggressive tweaks for very small phones (iPhone SE, etc) */
+  .hgreet-name { font-size: 32px !important; }
+  .stc { padding: 16px; min-height: 120px; }
+  .pjc { min-height: 300px; }
+  .awc { padding: 16px; }
+  .sk-card { padding: 20px; }
+}
