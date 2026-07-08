@@ -96,7 +96,7 @@ function Cursor(){
   useEffect(()=>{
     const mv=e=>{s.current.mx=e.clientX;s.current.my=e.clientY}
     let raf
-    const tick=()=>{const c=s.current;c.rx=c.rx+(c.mx-c.rx)*.16;c.ry=c.ry+(c.my-c.ry)*.16;if(dr.current){dr.current.style.left=c.mx+'px';dr.current.style.top=c.my+'px'}if(rr.current){rr.current.style.left=c.rx+'px';rr.current.style.top=c.ry+'px'};raf=requestAnimationFrame(tick)}
+    const tick=()=>{const c=s.current;c.rx=c.rx+(c.mx-c.rx)*.12;c.ry=c.ry+(c.my-c.ry)*.12;if(dr.current){dr.current.style.left=c.mx+'px';dr.current.style.top=c.my+'px'}if(rr.current){rr.current.style.left=c.rx+'px';rr.current.style.top=c.ry+'px'};raf=requestAnimationFrame(tick)}
     document.addEventListener('mousemove',mv);raf=requestAnimationFrame(tick)
     const bind=()=>document.querySelectorAll('a,button,.stc,.expi,.skli,.pjc,.soc,.awc').forEach(el=>{
       el.addEventListener('mouseenter',()=>document.body.classList.add('hov'))
@@ -130,6 +130,41 @@ const sidebarItems = [
   { id: 'about', icon: <PeIco />, label: 'About' },
   { id: 'contact', icon: <MsIco />, label: 'Contact' },
 ]
+
+function MagneticItem({ it, active, setActive, itemRefs }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 })
+  const ref = useRef(null)
+  
+  const handleMouseMove = (e) => {
+    if(!ref.current) return;
+    const { left, top, width, height } = ref.current.getBoundingClientRect()
+    const x = (e.clientX - left - width / 2) * 0.4
+    const y = (e.clientY - top - height / 2) * 0.4
+    setPos({ x, y })
+  }
+  const handleMouseLeave = () => setPos({ x: 0, y: 0 })
+
+  return (
+    <a
+      ref={el => {
+        ref.current = el
+        itemRefs.current[it.id] = el
+      }}
+      href={`#${it.id}`}
+      className={`sb-item${active === it.id ? ' active' : ''}`}
+      onClick={() => setActive(it.id)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: pos.x !== 0 ? `translate(${pos.x}px, ${pos.y}px)` : 'translate(0px, 0px)',
+        transition: pos.x === 0 ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'color 0.3s'
+      }}
+    >
+      {it.icon}
+      <span className="sb-tip">{it.label}</span>
+    </a>
+  )
+}
 
 function Sidebar(){
   const[active,setActive]=useState('home')
@@ -228,15 +263,7 @@ function Sidebar(){
           }}/>
         )}
         {sidebarItems.map((it,i)=>(
-          <a key={i}
-            ref={el=>{itemRefs.current[it.id]=el}}
-            href={`#${it.id}`}
-            className={`sb-item${active===it.id?' active':''}`}
-            onClick={()=>setActive(it.id)}
-          >
-            {it.icon}
-            <span className="sb-tip">{it.label}</span>
-          </a>
+          <MagneticItem key={i} it={it} active={active} setActive={setActive} itemRefs={itemRefs} />
         ))}
 
       </div>
@@ -245,6 +272,40 @@ function Sidebar(){
 }
 
 /* ── Hero — Redesigned Premium Aesthetic ───────────────────── */
+function MagneticSocial({ s, i }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 })
+  const ref = useRef(null)
+  
+  const handleMouseMove = (e) => {
+    if(!ref.current) return;
+    const { left, top, width, height } = ref.current.getBoundingClientRect()
+    const x = (e.clientX - left - width / 2) * 0.3
+    const y = (e.clientY - top - height / 2) * 0.3
+    setPos({ x, y })
+  }
+  const handleMouseLeave = () => setPos({ x: 0, y: 0 })
+
+  return (
+    <a
+      ref={ref}
+      className="soc"
+      href={s.href}
+      target={s.href.startsWith('mailto') ? undefined : '_blank'}
+      rel="noopener"
+      aria-label={s.l}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        animationDelay: `${0.6 + i * 0.05}s`,
+        transform: pos.x !== 0 ? `translate(${pos.x}px, ${pos.y}px) scale(1.1) rotate(-3deg)` : undefined,
+        transition: pos.x === 0 ? 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s'
+      }}
+    >
+      {s.icon}
+    </a>
+  )
+}
+
 function Hero() {
   const photoRef = useRef(null)
   const heroRef = useRef(null)
@@ -349,17 +410,7 @@ function Hero() {
         <div className="hactions reveal-up" style={{ animationDelay: '0.5s' }}>
           <div className="hsoc">
             {socials.map((s, i) => (
-              <a
-                key={s.l}
-                className="soc"
-                href={s.href}
-                target={s.href.startsWith('mailto') ? undefined : '_blank'}
-                rel="noopener"
-                aria-label={s.l}
-                style={{ animationDelay: `${0.6 + i * 0.05}s` }}
-              >
-                {s.icon}
-              </a>
+              <MagneticSocial key={s.l} s={s} i={i} />
             ))}
           </div>
         </div>
