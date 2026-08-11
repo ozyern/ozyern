@@ -28,7 +28,7 @@ const EMAIL='ozyern.dev@gmail.com'
 /* ── Data ─────────────────────────────────────────────────── */
 const EXP=[
   {company:'BrinaOS Ports',tag:'Open Source',role:'Maintainer',date:'2025 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
-  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~285-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
+  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~320-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
   {company:'sabrina.ozyern.me',tag:'Web Dev',role:'Developer',date:'2024 — Present',desc:'Liquid-glass fan site — gallery, era-filtered discography, Dynamic Island nav, birthday campaign. Cold-emailed Foundation Media Partners.',tags:['HTML/CSS/JS','GitHub Pages']},
   {company:'Feather Kernel',tag:'Kernel',role:'Developer',date:'2025',desc:'Custom OP9 Pro kernel — binary string patching, SukiSU Ultra spoof modules, KernelSU framework, AnyKernel3 packaging.',tags:['Kernel','KernelSU','AnyKernel']},
 ]
@@ -437,7 +437,7 @@ function Hero() {
 /* ── Stats ────────────────────────────────────────────────── */
 function Stats(){
   const[ref,inView]=useInView(0.1)
-  const T=useMemo(()=>[285,14,3],[])
+  const T=useMemo(()=>[320,14,3],[])
   const[v,setV]=useState([0,0,0])
   useEffect(()=>{
     if(!inView)return
@@ -456,7 +456,7 @@ function Stats(){
   const cards=[
     {label:'Community Members',val:<>{v[0]}<b>+</b></>,note:'ReVork · Telegram'},
     {label:'Active Projects',val:<>{v[1]}<b>+</b></>,note:'Shipping right now'},
-    {label:'Fan Sites Live',val:<>{v[2]}</>,note:'sabrina · patidar'},
+    {label:'Fan Sites Live',val:<>{v[2]}</>,note:'sabrina · exhale'},
     {label:'Primary SoC',val:<>SM<b>8350</b></>,note:'OnePlus 9 Pro',sm:true},
   ]
   return(
@@ -598,21 +598,21 @@ function Projects(){
       )
     },
     {
-      name:'patidar.ozyern.me',
-      desc:'RP21 Fan HQ for Rajat Patidar — dark luxury red/gold aesthetic, Dynamic Island nav, dense grid layouts, animated hero and AI-powered news page using the Anthropic API.',
-      href:'https://patidar.ozyern.me',date:'2025 — Present',revc:false,
-      url:'patidar.ozyern.me',
+      name:'Exhale',
+      desc:'A breath of fresh air for your music. A premium, open-source Android music player featuring a fluid Liquid Glass UI.',
+      href:'https://github.com/ozyern/Exhale',date:'2025 — Present',revc:false,
+      url:'github.com/ozyern/Exhale',
       preview:(
-        <div style={{background:'linear-gradient(160deg,#120000 0%,#170400 50%,#000 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
-          <div style={{fontSize:9,letterSpacing:'.35em',color:'rgba(255,200,60,.4)',textTransform:'uppercase',fontFamily:'JetBrains Mono,monospace'}}>RCB Fan HQ</div>
-          <div style={{fontSize:48,fontWeight:900,color:'#fff',fontFamily:'Playfair Display,serif',lineHeight:.85}}>RP<span style={{color:'#e82828'}}>21</span></div>
-          <div style={{fontSize:10,color:'rgba(255,200,60,.65)',letterSpacing:'.22em',textTransform:'uppercase'}}>Rajat Patidar</div>
+        <div style={{background:'linear-gradient(160deg,#0a0f14 0%,#111827 50%,#000 100%)',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,padding:'28px',textAlign:'center'}}>
+          <div style={{fontSize:9,letterSpacing:'.35em',color:'rgba(120,220,255,.45)',textTransform:'uppercase',fontFamily:'JetBrains Mono,monospace'}}>GitHub Project</div>
+          <div style={{fontSize:48,fontWeight:900,color:'#fff',fontFamily:'Playfair Display,serif',lineHeight:.85}}>Ex<span style={{color:'#78dcff'}}>ha</span>le</div>
+          <div style={{fontSize:10,color:'rgba(120,220,255,.7)',letterSpacing:'.22em',textTransform:'uppercase'}}>ozyern / Exhale</div>
           <div style={{display:'flex',alignItems:'center',gap:10,margin:'4px 0'}}>
-            <div style={{width:30,height:3,background:'#e82828',borderRadius:2}}/>
-            <div style={{width:8,height:8,borderRadius:'50%',background:'rgba(255,200,60,.5)'}}/>
-            <div style={{width:30,height:3,background:'#f59e0b',borderRadius:2}}/>
+            <div style={{width:30,height:3,background:'#78dcff',borderRadius:2}}/>
+            <div style={{width:8,height:8,borderRadius:'50%',background:'rgba(120,220,255,.55)'}}/>
+            <div style={{width:30,height:3,background:'#60a5fa',borderRadius:2}}/>
           </div>
-          <div style={{fontSize:9,color:'rgba(255,255,255,.2)',fontFamily:'JetBrains Mono,monospace'}}>Royal Challengers Bengaluru</div>
+          <div style={{fontSize:9,color:'rgba(255,255,255,.2)',fontFamily:'JetBrains Mono,monospace'}}>Open source · GitHub</div>
         </div>
       )
     },
@@ -692,7 +692,7 @@ function About(){
           <div className="ab-icon"><PeIco/></div>
           <h3 className="ab-hl">Building <i>close to the metal</i> — kernels, ROMs, and fan sites that feel alive.</h3>
           <p className="ab-p">I'm Ozi — a student and an active Android ROM porter. I maintain <strong>BrinaOS Ports</strong>, a bash-based framework for porting ColorOS/OxygenOS 16 to Snapdragon 888 devices, primarily the OnePlus 9 Pro.</p>
-          <p className="ab-p">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API. I also run <strong>ReVork</strong>, a ~285-member Telegram community.</p>
+          <p className="ab-p">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API. I also run <strong>ReVork</strong>, a ~320-member Telegram community.</p>
         </div>
         
         {/* Photo Card */}
@@ -793,7 +793,7 @@ function Footer(){
   return(
     <footer>
       <span className="ftcp">© 2025 Aditya Jha · @ozyern · Crafted with obsession.</span>
-      <div className="ftlk">{[['sabrina','https://sabrina.ozyern.me'],['patidar','https://patidar.ozyern.me'],['github','https://github.com/ozyern'],['top ↑','#home']].map(([l,h])=><a key={l} href={h} target={h.startsWith('http')?'_blank':undefined} rel="noopener">{l}</a>)}</div>
+      <div className="ftlk">{[['sabrina','https://sabrina.ozyern.me'],['exhale','https://github.com/ozyern/Exhale'],['github','https://github.com/ozyern'],['top ↑','#home']].map(([l,h])=><a key={l} href={h} target={h.startsWith('http')?'_blank':undefined} rel="noopener">{l}</a>)}</div>
     </footer>
   )
 }
