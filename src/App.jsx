@@ -28,7 +28,7 @@ const EMAIL='ozyern.dev@gmail.com'
 /* ── Data ─────────────────────────────────────────────────── */
 const EXP=[
   {company:'BrinaOS Ports',tag:'Open Source',role:'Maintainer',date:'2025 — Present',desc:'Bash-based ColorOS/OxygenOS 16 porting framework for SM8350. Smali AI patching, OTA generation, SuperVOOC 65W paths, premium feature-gating.',tags:['Bash','SM8350','ColorOS 16','OTA','Smali']},
-  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~320-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
+  {company:'ReVork',tag:'Community',role:'Founder',date:'2025 — Present',desc:'~340-member Telegram community for custom ROM development. Sabrina Carpenter-themed role system, release channels, developer support.',tags:['Community','Android','Telegram']},
   {company:'sabrina.ozyern.me',tag:'Web Dev',role:'Developer',date:'2024 — Present',desc:'Liquid-glass fan site — gallery, era-filtered discography, Dynamic Island nav, birthday campaign. Cold-emailed Foundation Media Partners.',tags:['HTML/CSS/JS','GitHub Pages']},
   {company:'Feather Kernel',tag:'Kernel',role:'Developer',date:'2025',desc:'Custom OP9 Pro kernel — binary string patching, SukiSU Ultra spoof modules, KernelSU framework, AnyKernel3 packaging.',tags:['Kernel','KernelSU','AnyKernel']},
 ]
@@ -437,14 +437,14 @@ function Hero() {
 /* ── Stats ────────────────────────────────────────────────── */
 function Stats(){
   const[ref,inView]=useInView(0.1)
-  const T=useMemo(()=>[320,14,3],[])
+  const T=useMemo(()=>[340,14,3],[])
   const[v,setV]=useState([0,0,0])
   useEffect(()=>{
     if(!inView)return
     let start=null,raf=null
     const tick=now=>{
       if(!start)start=now
-      const t=Math.min(1,(now-start)/2000)
+      const t=Math.min(1,(now-start)/2200)
       const eased=1-Math.pow(1-t,4)
       setV(T.map(target=>Math.round(target*eased)))
       if(t<1)raf=requestAnimationFrame(tick)
@@ -453,8 +453,29 @@ function Stats(){
     return()=>cancelAnimationFrame(raf)
   },[inView,T])
 
+  const handleCardMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -6;
+    const ry = ((x - cx) / cx) * 6;
+    card.style.setProperty('--rotateX', `${rx}deg`);
+    card.style.setProperty('--rotateY', `${ry}deg`);
+  };
+
+  const handleCardLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.setProperty('--rotateX', '0deg');
+    card.style.setProperty('--rotateY', '0deg');
+  };
+
   const cards=[
-    {label:'Community Members',val:<>{v[0]}<b>+</b></>,note:'ReVork · Telegram'},
+    {label:'Community Members',val:<>{v[0]}<b>+</b></>,note:'ReVork · Telegram',pulse:true},
     {label:'Active Projects',val:<>{v[1]}<b>+</b></>,note:'Shipping right now'},
     {label:'Fan Sites Live',val:<>{v[2]}</>,note:'sabrina · exhale'},
     {label:'Primary SoC',val:<>SM<b>8350</b></>,note:'OnePlus 9 Pro',sm:true},
@@ -463,9 +484,19 @@ function Stats(){
     <section id="stats" ref={ref} className="stats-section">
       <div className="stats">
         {cards.map((c,i)=>(
-          <div className={rv(inView,'stc')} key={i} style={{transitionDelay:`${i*.06}s`}}>
+          <div 
+            className={rv(inView,`stc${c.pulse?' stc-active':''}`)} 
+            key={i} 
+            style={{transitionDelay:`${i*.06}s`}}
+            onMouseMove={handleCardMove}
+            onMouseLeave={handleCardLeave}
+          >
             <div className="stl">{c.label}</div>
-            <div><div className={`stn${c.sm?' stn-sm':''}`}>{c.val}</div><div className="stnote">{c.note}</div></div>
+            <div>
+              <div className={`stn${c.sm?' stn-sm':''}`}>{c.val}</div>
+              <div className="stnote">{c.note}</div>
+            </div>
+            <div className="stc-glare" aria-hidden="true" />
           </div>
         ))}
       </div>
@@ -556,6 +587,28 @@ function Experience(){
 /* ── Projects ─────────────────────────────────────────────── */
 function Projects(){
   const[ref,inView]=useInView(0.08)
+
+  const handleProjectMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -3.5;
+    const ry = ((x - cx) / cx) * 3.5;
+    card.style.setProperty('--rotateX', `${rx}deg`);
+    card.style.setProperty('--rotateY', `${ry}deg`);
+  };
+
+  const handleProjectMouseLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.setProperty('--rotateX', '0deg');
+    card.style.setProperty('--rotateY', '0deg');
+  };
+
   const proj=[
     {
       name:'BrinaOS Ports',
@@ -574,7 +627,10 @@ function Projects(){
             <div style={{color:'rgba(255,255,255,.28)',marginBottom:2}}>$ ./port.sh --device lemonadep</div>
             <div>✓ Extracted system partitions</div>
             <div>✓ Applied smali patches (AI)</div>
-            <div style={{color:'rgba(255,255,255,.38)'}}>↳ Building OTA package...</div>
+            <div style={{color:'rgba(255,255,255,.5)',display:'flex',alignItems:'center',gap:6}}>
+              <span>↳ Building OTA package</span>
+              <span className="term-cursor" aria-hidden="true"/>
+            </div>
           </div>
         </div>
       )
@@ -591,9 +647,9 @@ function Projects(){
           <div style={{fontSize:11,color:'rgba(255,160,210,.55)',letterSpacing:'.18em',textTransform:'uppercase'}}>Carpenter</div>
           <div style={{width:40,height:1,background:'rgba(255,160,210,.2)',margin:'4px 0'}}/>
           <div style={{display:'flex',gap:6,flexWrap:'wrap',justifyContent:'center'}}>
-            {["Short n' Sweet","Espresso","Feather"].map(t=><span key={t} style={{background:'rgba(255,160,210,.08)',border:'1px solid rgba(255,160,210,.18)',color:'rgba(255,160,210,.65)',fontSize:9,padding:'3px 10px',borderRadius:100}}>{t}</span>)}
+            {["Short n' Sweet","Espresso","Feather"].map(t=><span key={t} className="sab-badge" style={{background:'rgba(255,160,210,.08)',border:'1px solid rgba(255,160,210,.18)',color:'rgba(255,160,210,.85)',fontSize:9,padding:'3px 10px',borderRadius:100}}>{t}</span>)}
           </div>
-          <div style={{marginTop:8,fontSize:9,color:'rgba(255,255,255,.18)',fontFamily:'JetBrains Mono,monospace'}}>Dynamic Island · Liquid Glass</div>
+          <div style={{marginTop:8,fontSize:9,color:'rgba(255,255,255,.28)',fontFamily:'JetBrains Mono,monospace'}}>Dynamic Island · Liquid Glass</div>
         </div>
       )
     },
@@ -607,12 +663,14 @@ function Projects(){
           <div style={{fontSize:9,letterSpacing:'.35em',color:'rgba(120,220,255,.45)',textTransform:'uppercase',fontFamily:'JetBrains Mono,monospace'}}>GitHub Project</div>
           <div style={{fontSize:48,fontWeight:900,color:'#fff',fontFamily:'Playfair Display,serif',lineHeight:.85}}>Ex<span style={{color:'#78dcff'}}>ha</span>le</div>
           <div style={{fontSize:10,color:'rgba(120,220,255,.7)',letterSpacing:'.22em',textTransform:'uppercase'}}>ozyern / Exhale</div>
-          <div style={{display:'flex',alignItems:'center',gap:10,margin:'4px 0'}}>
-            <div style={{width:30,height:3,background:'#78dcff',borderRadius:2}}/>
-            <div style={{width:8,height:8,borderRadius:'50%',background:'rgba(120,220,255,.55)'}}/>
-            <div style={{width:30,height:3,background:'#60a5fa',borderRadius:2}}/>
+          <div className="eq-visualizer" aria-hidden="true">
+            <span className="eq-bar eq-b1"/>
+            <span className="eq-bar eq-b2"/>
+            <span className="eq-bar eq-b3"/>
+            <span className="eq-bar eq-b4"/>
+            <span className="eq-bar eq-b5"/>
           </div>
-          <div style={{fontSize:9,color:'rgba(255,255,255,.2)',fontFamily:'JetBrains Mono,monospace'}}>Open source · GitHub</div>
+          <div style={{fontSize:9,color:'rgba(255,255,255,.3)',fontFamily:'JetBrains Mono,monospace'}}>Open source · Liquid Glass UI</div>
         </div>
       )
     },
@@ -623,7 +681,13 @@ function Projects(){
       <p className={rv(inView,'ssti')} style={{transitionDelay:'.08s'}}>Things I've <em>actually shipped</em> — from kernels to fan sites.</p>
       <div className="pjl">
         {proj.map((p,i)=>(
-          <div className={rv(inView,'work-card-horizontal')} key={i} style={{transitionDelay:`${.15+i*.1}s`}}>
+          <div 
+            className={rv(inView,'work-card-horizontal')} 
+            key={i} 
+            style={{transitionDelay:`${.15+i*.1}s`}}
+            onMouseMove={handleProjectMouseMove}
+            onMouseLeave={handleProjectMouseLeave}
+          >
             <div className="work-content-side">
               <div>
                 <div className="pjnm" style={{fontSize:'36px',fontWeight:700,marginBottom:'16px',color:'#fff',letterSpacing:'-0.03em'}}>{p.name}</div>
@@ -631,7 +695,7 @@ function Projects(){
               </div>
               <div style={{marginTop:'32px',display:'flex',alignItems:'center',justifyContent:'space-between',borderTop:'1px solid rgba(255,255,255,0.08)',paddingTop:'24px'}}>
                 <span style={{color:'rgba(255,255,255,0.4)',fontSize:'14px',fontFamily:'JetBrains Mono, monospace'}}>{p.date}</span>
-                <a href={p.href} target="_blank" rel="noopener" style={{display:'flex',alignItems:'center',justifyContent:'center',width:'48px',height:'48px',background:'var(--red)',color:'#fff',borderRadius:'50%',transition:'all 0.3s'}} className="btns-link">
+                <a href={p.href} target="_blank" rel="noopener" style={{display:'flex',alignItems:'center',justifyContent:'center',width:'48px',height:'48px',background:'var(--red)',color:'#fff',borderRadius:'50%',transition:'all 0.3s'}} className="btns-link" aria-label={`Open ${p.name}`}>
                   <Arw/>
                 </a>
               </div>
@@ -639,6 +703,7 @@ function Projects(){
             <div className="work-image-side" style={{padding:'40px',display:'flex',alignItems:'center',justifyContent:'center',background:p.revc?'linear-gradient(135deg,#0a0a0a,#111)':'#0a0a0a',overflow:'hidden'}}>
                <Browser url={p.url}>{p.preview}</Browser>
             </div>
+            <div className="work-card-glare" aria-hidden="true" />
           </div>
         ))}
       </div>
@@ -649,6 +714,28 @@ function Projects(){
 /* ── Skills ───────────────────────────────────────────────── */
 function Skills(){
   const[ref,inView]=useInView(0.08)
+
+  const handleSkillMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -5;
+    const ry = ((x - cx) / cx) * 5;
+    card.style.setProperty('--rotateX', `${rx}deg`);
+    card.style.setProperty('--rotateY', `${ry}deg`);
+  };
+
+  const handleSkillMouseLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.setProperty('--rotateX', '0deg');
+    card.style.setProperty('--rotateY', '0deg');
+  };
+
   const cats=[
     {n:'Android ROM Dev',i:<EnIco/>,d:'Low-level porting, partition manipulation, smali patching, OTA generation.',s:['port.sh','Smali','ADB','OTA','ColorOS 16']},
     {n:'Kernel & Modules',i:<BrIco/>,d:'Binary patching, boot image packing, and root framework implementations.',s:['KernelSU','Magisk','AnyKernel','SukiSU']},
@@ -662,7 +749,12 @@ function Skills(){
       
       <div className={rv(inView,'sk-bento')} style={{transitionDelay:'.15s'}}>
         {cats.map((c,i)=>(
-          <div key={i} className="sk-card">
+          <div 
+            key={i} 
+            className="sk-card"
+            onMouseMove={handleSkillMouseMove}
+            onMouseLeave={handleSkillMouseLeave}
+          >
             <div className="sk-num">0{i+1}</div>
             <div className="sk-icon-wrap">
               <div className="sk-icon">{c.i}</div>
@@ -672,6 +764,7 @@ function Skills(){
             <div className="sk-tags">
               {c.s.map(s=><span key={s} className="sk-tag">{s}</span>)}
             </div>
+            <div className="sk-glare" aria-hidden="true" />
           </div>
         ))}
       </div>
@@ -682,21 +775,31 @@ function Skills(){
 /* ── About ────────────────────────────────────────────────── */
 function About(){
   const[ref,inView]=useInView(0.1)
+
+  const handleAboutCardMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   return(
     <section id="about" ref={ref} style={{background:'rgba(255,255,255,.015)',borderTop:'1px solid var(--bord)'}}>
       <div className={rv(inView)}><div className="slbl">About Me</div></div>
       
       <div className="ab-bento">
         {/* Main Bio */}
-        <div className={rv(inView, 'ab-card ab-bio')}>
+        <div className={rv(inView, 'ab-card ab-bio')} onMouseMove={handleAboutCardMove}>
           <div className="ab-icon"><PeIco/></div>
           <h3 className="ab-hl">Building <i>close to the metal</i> — kernels, ROMs, and fan sites that feel alive.</h3>
           <p className="ab-p">I'm Ozi — a student and an active Android ROM porter. I maintain <strong>BrinaOS Ports</strong>, a bash-based framework for porting ColorOS/OxygenOS 16 to Snapdragon 888 devices, primarily the OnePlus 9 Pro.</p>
-          <p className="ab-p">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API. I also run <strong>ReVork</strong>, a ~320-member Telegram community.</p>
+          <p className="ab-p">My work spans from partition image manipulation and smali patching, all the way to fan sites with liquid-glass CSS, Dynamic Island navigation, and AI-powered news pages using the Anthropic API. I also run <strong>ReVork</strong>, a ~340-member Telegram community.</p>
         </div>
         
         {/* Photo Card */}
-        <div className={rv(inView, 'ab-card ab-photo')} style={{transitionDelay:'.1s'}}>
+        <div className={rv(inView, 'ab-card ab-photo')} style={{transitionDelay:'.1s'}} onMouseMove={handleAboutCardMove}>
           <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=1000&auto=format&fit=crop" alt="Close to the metal" className="ab-img" loading="lazy" />
           <div className="ab-img-overlay">
             <div className="ab-img-name">Aditya Jha</div>
@@ -705,13 +808,13 @@ function About(){
         </div>
 
         {/* Quote Card */}
-        <div className={rv(inView, 'ab-card ab-quote')} style={{transitionDelay:'.15s'}}>
+        <div className={rv(inView, 'ab-card ab-quote')} style={{transitionDelay:'.15s'}} onMouseMove={handleAboutCardMove}>
           <div className="ab-quote-mark">"</div>
           <p className="ab-quote-text">Every project I name ends up a Sabrina Carpenter reference. Feather, Espresso, Singular, Tornado — that's just how it is.</p>
         </div>
 
         {/* Device Lineup */}
-        <div className={rv(inView, 'ab-card ab-devices')} style={{transitionDelay:'.2s'}}>
+        <div className={rv(inView, 'ab-card ab-devices')} style={{transitionDelay:'.2s'}} onMouseMove={handleAboutCardMove}>
           <div className="ab-dev-title"><span className="gdot" style={{width:8,height:8,marginRight:10}}/>Device Lineup</div>
           <div className="ab-dev-list">
             <div className="ab-dev-item">
@@ -736,6 +839,28 @@ function About(){
 /* ── Contact ──────────────────────────────────────────────── */
 function Contact(){
   const[ref,inView]=useInView(0.1)
+
+  const handleContactCardMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -5;
+    const ry = ((x - cx) / cx) * 5;
+    card.style.setProperty('--rotateX', `${rx}deg`);
+    card.style.setProperty('--rotateY', `${ry}deg`);
+  };
+
+  const handleContactCardLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.setProperty('--rotateX', '0deg');
+    card.style.setProperty('--rotateY', '0deg');
+  };
+
   const lks=[
     {icon:<GH/>,name:'GitHub',sub:'@ozyern',href:'https://github.com/ozyern'},
     {icon:<TG/>,name:'Telegram',sub:'@ozyern',href:'https://t.me/ozyern'},
@@ -772,13 +897,23 @@ function Contact(){
         <div className={rv(inView, 'ct-right')} style={{transitionDelay:'.12s'}}>
           <div className="ct-cards">
             {lks.map((x, i)=>(
-              <a key={x.name} className="ct-card" href={x.href} target={x.href.startsWith('mailto')?undefined:'_blank'} rel="noopener" style={{transitionDelay:`${0.15 + i*0.05}s`}}>
+              <a 
+                key={x.name} 
+                className="ct-card" 
+                href={x.href} 
+                target={x.href.startsWith('mailto')?undefined:'_blank'} 
+                rel="noopener" 
+                style={{transitionDelay:`${0.15 + i*0.05}s`}}
+                onMouseMove={handleContactCardMove}
+                onMouseLeave={handleContactCardLeave}
+              >
                 <div className="ct-card-icon">{x.icon}</div>
                 <div className="ct-card-info">
                   <div className="ct-card-name">{x.name}</div>
                   <div className="ct-card-sub">{x.sub}</div>
                 </div>
                 <div className="ct-card-arrow"><Arw/></div>
+                <div className="ct-card-glare" aria-hidden="true" />
               </a>
             ))}
           </div>
