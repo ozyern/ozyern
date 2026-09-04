@@ -1,0 +1,540 @@
+/* ==========================================================================
+   Tokens, reset and the pieces shared by every section.
+
+   Fonts are loaded from a single <link> in index.html. They used to be
+   requested there *and* re-requested by an @import at the top of this file,
+   with a different set of weights — two round trips before a single rule could
+   be applied.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces ------------------------------------------------------------- */
+  --bg: #050505;
+  --bg-raised: #08080a;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-strong: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-bright: rgba(255, 255, 255, 0.16);
+
+  /* Accent --------------------------------------------------------------- */
+  --accent: #e82828;
+  --accent-bright: #ff4a4a;
+  --accent-tint: rgba(232, 40, 40, 0.1);
+  --accent-edge: rgba(232, 40, 40, 0.32);
+  --accent-glow: rgba(232, 40, 40, 0.22);
+
+  /* Ink ------------------------------------------------------------------ */
+  --text: #f5f5f6;
+  --text-muted: rgba(255, 255, 255, 0.52);
+  --text-faint: rgba(255, 255, 255, 0.3);
+
+  /* Type ----------------------------------------------------------------- */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --step-eyebrow: 10.5px;
+  --step-body: clamp(14.5px, 0.35vw + 13.5px, 16.5px);
+  --step-lede: clamp(15px, 0.5vw + 14px, 18px);
+  --step-h3: clamp(20px, 1vw + 17px, 26px);
+  --step-h2: clamp(34px, 4vw + 16px, 64px);
+  --step-display: clamp(46px, 9vw, 108px);
+
+  /* Shape ---------------------------------------------------------------- */
+  --radius-xs: 10px;
+  --radius-sm: 14px;
+  --radius: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 34px;
+
+  /* Motion. One vocabulary for the whole site: `out` for things arriving,
+     `spring` for things you touched, `smooth` for continuous changes. ----- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --t-fast: 0.18s;
+  --t-base: 0.32s;
+  --t-slow: 0.6s;
+
+  /* Layout --------------------------------------------------------------- */
+  --shell-x: clamp(20px, 5vw, 72px);
+  --rail-width: 78px;
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 18px 44px rgba(0, 0, 0, 0.45);
+  --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 30px 70px rgba(0, 0, 0, 0.65),
+    0 0 60px rgba(232, 40, 40, 0.09);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchored sections should not land flush against the top of the window. */
+  scroll-padding-top: 32px;
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Nothing should scroll while the intro overlay is up. */
+body.is-preloading {
+  overflow: hidden;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 40, 40, 0.5);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Keyboard users got nothing at all before — the custom cursor had replaced
+   every focus affordance on the page. */
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 500;
+  padding: 10px 18px;
+  border-radius: var(--radius-xs);
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  transform: translateY(-160%);
+  transition: transform var(--t-base) var(--ease-spring);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Layout shell
+   -------------------------------------------------------------------------- */
+
+main {
+  margin-left: var(--rail-width);
+}
+
+.section {
+  position: relative;
+  padding: clamp(72px, 9vw, 132px) var(--shell-x);
+  scroll-margin-top: 24px;
+}
+
+.section--tight {
+  padding-block: clamp(48px, 5vw, 76px);
+}
+
+/* Alternate sections lift a fraction off the page so the eye gets a seam to
+   rest on without needing a hard divider. */
+.section--raised {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.016), rgba(255, 255, 255, 0.004));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.section__heading {
+  max-width: 62ch;
+  margin-bottom: clamp(40px, 5vw, 68px);
+}
+
+.section__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--step-eyebrow);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.section__eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+.section__eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-edge), transparent);
+}
+
+.section__title {
+  font-family: var(--font-serif);
+  font-size: var(--step-h2);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(175deg, #fff 25%, rgba(255, 255, 255, 0.62));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.section__title em {
+  font-style: italic;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
+
+.section__lede {
+  margin-top: 20px;
+  max-width: 54ch;
+  color: var(--text-muted);
+  font-size: var(--step-lede);
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   Reveal on scroll
+
+   Two deliberate choices here.
+
+   It animates `translate` rather than `transform`, because most of the things
+   that reveal are also cards, and cards keep their pointer tilt in `transform`.
+   The two are separate properties that compose, so neither has to win.
+
+   And it is a keyframe animation rather than a transition, so that staggering
+   an item with --reveal-delay doesn't also delay its hover transitions by the
+   same amount — which is exactly what the old markup did to every card in the
+   about grid.
+
+   It also no longer animates `filter: blur(12px)` across thirty elements. An
+   animated blur repaints the whole surface every frame; it was the most
+   expensive thing on the page, and it read as smeared rather than smooth.
+   -------------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: reveal-in 0.85s var(--ease-out) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    translate: 0 26px;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+
+/* Hero elements arrive on their own timeline rather than on scroll. */
+.enter {
+  opacity: 0;
+  animation: enter-up 0.9s var(--ease-out) forwards;
+  animation-delay: var(--enter-delay, 0s);
+}
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Shared card
+
+   Six sections used to each carry their own near-identical 40-line card block.
+   This is that block, once. The tilt values are written by usePointerCard as
+   custom properties, and there is deliberately no transition on the transform:
+   the damping already happens in JS, so a CSS transition on top would only add
+   lag on top of lag.
+   -------------------------------------------------------------------------- */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background-color: #0a0a0b;
+  background-image: linear-gradient(
+    158deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.012) 42%,
+    rgba(0, 0, 0, 0.28) 100%
+  );
+  box-shadow: var(--shadow-card);
+  transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: border-color var(--t-base) var(--ease-smooth),
+    box-shadow var(--t-slow) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--accent-edge);
+  box-shadow: var(--shadow-lift);
+}
+
+/* A pool of accent light that tracks the cursor across the card. */
+.card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    440px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    rgba(232, 40, 40, 0.14),
+    transparent 62%
+  );
+  transition: opacity var(--t-slow) var(--ease-smooth);
+}
+.card:hover .card__glow {
+  opacity: 1;
+}
+
+/* A cooler highlight on top, so glass still reads as glass in the red light. */
+.card__sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: overlay;
+  background: radial-gradient(
+    300px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    rgba(255, 255, 255, 0.08),
+    transparent 55%
+  );
+  transition: opacity var(--t-slow) var(--ease-smooth);
+}
+.card:hover .card__sheen {
+  opacity: 1;
+}
+
+/* The 1px accent hairline along the top edge of a card. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  z-index: 3;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--accent-edge), transparent);
+  transition: opacity var(--t-base) var(--ease-smooth);
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Small shared pieces
+   -------------------------------------------------------------------------- */
+
+.chip {
+  padding: 5px 13px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  transition: color var(--t-fast) var(--ease-smooth),
+    border-color var(--t-fast) var(--ease-smooth), transform var(--t-base) var(--ease-spring),
+    background-color var(--t-fast) var(--ease-smooth);
+}
+.chip:hover {
+  color: #fff;
+  border-color: var(--accent-edge);
+  background: var(--accent-tint);
+  transform: translateY(-2px);
+}
+
+.chip--solid {
+  padding: 7px 14px;
+  background: var(--surface);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11.5px;
+}
+.chip--solid:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(232, 40, 40, 0.3);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border: 1px solid transparent;
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: transform var(--t-base) var(--ease-spring),
+    box-shadow var(--t-base) var(--ease-out), background-color var(--t-base) var(--ease-smooth),
+    border-color var(--t-base) var(--ease-smooth);
+}
+.button svg {
+  transition: transform var(--t-base) var(--ease-spring);
+}
+.button:hover svg {
+  transform: translateX(4px);
+}
+.button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.button--primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(232, 40, 40, 0.32);
+}
+.button--primary:hover {
+  background: var(--accent-bright);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(232, 40, 40, 0.42);
+}
+
+.button--ghost {
+  border-color: var(--line-bright);
+  color: rgba(255, 255, 255, 0.82);
+  background: var(--surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.button--ghost:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: var(--surface-strong);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.pulse-dot {
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.7);
+  animation: pulse-ring 2.4s var(--ease-smooth) infinite;
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.45);
+  }
+  55% {
+    box-shadow: 0 0 0 7px rgba(74, 222, 128, 0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+
+   Everything ambient stops; everything that reveals is simply already there.
+   The JS hooks check the same media query, so nothing keeps an animation frame
+   loop alive behind this either.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .reveal.is-visible,
+  .enter,
+  .hero__lead,
+  .hero__aside {
+    opacity: 1;
+    translate: none;
+    transform: none;
+    animation: none;
+  }
+
+  .card {
+    transform: none;
+  }
+}

@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Page furniture: the intro overlay, the cursor, the progress hairline, the
+   navigation rail, the ticker and the footer.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Preloader
+   -------------------------------------------------------------------------- */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  background: #050505;
+  transition: opacity 0.65s var(--ease-out), visibility 0.65s;
+}
+
+.preloader.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader__mark {
+  position: relative;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  text-indent: 0.4em;
+}
+.preloader__mark b {
+  color: var(--accent);
+}
+.preloader__mark::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  width: 56px;
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: preloader-breathe 1.6s var(--ease-smooth) infinite;
+}
+
+@keyframes preloader-breathe {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: translateX(-50%) scaleX(0.35);
+  }
+}
+
+.preloader__track {
+  width: 220px;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+/* scaleX rather than width, so the bar never triggers layout while it fills. */
+.preloader__fill {
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  box-shadow: 0 0 14px rgba(232, 40, 40, 0.6);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.preloader__pct {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Custom cursor
+
+   Only mounted on devices with a fine pointer, so there is no touch fallback
+   to write here. The cursor is hidden on interactive elements only while the
+   replacement is actually on screen (`.has-cursor`) — otherwise a user whose
+   pointer never moved would be left with no cursor at all.
+   -------------------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) {
+  body.has-cursor,
+  body.has-cursor a,
+  body.has-cursor button,
+  body.has-cursor .card {
+    cursor: none;
+  }
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: exclusion;
+  transition: opacity var(--t-base) var(--ease-smooth),
+    width var(--t-base) var(--ease-spring), height var(--t-base) var(--ease-spring),
+    background-color var(--t-base) var(--ease-smooth),
+    border-color var(--t-base) var(--ease-smooth);
+}
+
+body.has-cursor .cursor-dot,
+body.has-cursor .cursor-ring {
+  opacity: 1;
+}
+
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+}
+
+body.cursor-over-target .cursor-ring {
+  width: 60px;
+  height: 60px;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+body.cursor-over-target .cursor-dot {
+  opacity: 0;
+}
+body.cursor-pressed .cursor-ring {
+  width: 26px;
+  height: 26px;
+  background: rgba(232, 40, 40, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll progress
+   -------------------------------------------------------------------------- */
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 400;
+  height: 2px;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.scroll-progress__fill {
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  box-shadow: 0 0 12px rgba(232, 40, 40, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   Navigation rail
+   -------------------------------------------------------------------------- */
+
+.sidenav {
+  position: fixed;
+  left: 14px;
+  top: 50%;
+  z-index: 300;
+  transform: translateY(-50%);
+  animation: rail-in 0.9s var(--ease-out) both;
+  animation-delay: 0.2s;
+}
+
+@keyframes rail-in {
+  from {
+    opacity: 0;
+    transform: translate(-32px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+.sidenav__rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--line-bright);
+  /* Squircle, not a capsule. Every other surface on the page — cards, the
+     browser frames, the portrait — is a rounded rectangle, and the rail was
+     the one thing still shaped like a pill. */
+  border-radius: 20px;
+  background: rgba(12, 12, 13, 0.72);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.16) inset, 0 22px 50px rgba(0, 0, 0, 0.75);
+  transition: border-color var(--t-base) var(--ease-smooth),
+    box-shadow var(--t-base) var(--ease-out);
+}
+
+.sidenav__rail:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 28px 64px rgba(0, 0, 0, 0.85),
+    0 0 60px rgba(232, 40, 40, 0.12);
+}
+
+/* The pill that slides to whichever section you are reading. */
+.sidenav__pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--accent), var(--accent-bright));
+  box-shadow: 0 6px 18px rgba(232, 40, 40, 0.45);
+  /* Size is set inline from the active link; only the travel is animated. */
+  transition: transform 0.5s var(--ease-out), width var(--t-base) var(--ease-out);
+}
+.sidenav__pill::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.3), transparent 58%);
+}
+
+/* A tick on the rail's edge, level with the pill — the one piece of the
+   indicator that reads from the corner of your eye while you are scrolling. */
+.sidenav__pill::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 9px);
+  width: 3px;
+  height: 16px;
+  border-radius: 2px;
+  margin-top: -8px;
+  background: var(--accent-bright);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.sidenav__link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.44);
+  transform: translate3d(var(--magnet-x, 0), var(--magnet-y, 0), 0);
+  transition: color var(--t-base) var(--ease-smooth);
+}
+.sidenav__link:hover,
+.sidenav__link.is-active {
+  color: #fff;
+}
+
+/* A press and a lift, nothing more. The stroke-by-stroke redraw that used to
+   fire whenever the pill landed drew the eye away from the section you had
+   just scrolled to, which is the one thing a nav should never do. */
+.sidenav__link svg {
+  transition: transform var(--t-base) var(--ease-spring);
+}
+.sidenav__link:hover svg {
+  transform: scale(1.1);
+}
+.sidenav__link:active svg {
+  transform: scale(0.92);
+}
+
+.sidenav__label {
+  position: absolute;
+  left: calc(100% + 16px);
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xs);
+  background: rgba(14, 14, 15, 0.9);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-8px) scale(0.92);
+  transform-origin: left center;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+  transition: opacity var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-spring);
+}
+.sidenav__label::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  border: 5px solid transparent;
+  border-right-color: rgba(14, 14, 15, 0.9);
+  transform: translateY(-50%);
+}
+.sidenav__link:hover .sidenav__label,
+.sidenav__link:focus-visible .sidenav__label {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.footer {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-left: var(--rail-width);
+  padding: 28px var(--shell-x);
+  border-top: 1px solid var(--line);
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-edge), transparent);
+}
+
+.footer__note {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+.footer__links a {
+  position: relative;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color var(--t-base) var(--ease-smooth);
+}
+.footer__links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--t-base) var(--ease-out);
+}
+.footer__links a:hover {
+  color: var(--accent);
+}
+.footer__links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* --------------------------------------------------------------------------
+   The rail becomes a bottom bar on small screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  main,
+  .footer {
+    margin-left: 0;
+  }
+
+  main {
+    padding-bottom: 92px;
+  }
+
+  .sidenav {
+    left: 50%;
+    top: auto;
+    bottom: 16px;
+    transform: translateX(-50%);
+    animation-name: rail-in-mobile;
+  }
+
+  @keyframes rail-in-mobile {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 32px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .sidenav__pill::before {
+    display: none;
+  }
+
+  .sidenav__rail {
+    flex-direction: row;
+    max-width: calc(100vw - 32px);
+    padding: 8px 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .sidenav__rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidenav__label {
+    display: none;
+  }
+
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+}
