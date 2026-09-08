@@ -22,7 +22,7 @@ i port roms and write kernels for them. sometimes websites
 
 - 🎵 everything i make ends up named after a sabrina carpenter song
 - 🕐 UTC+05:30 (IST)
-- 🔗 [about.ozyern.me](https://about.ozyern.me) · [@ozyern](https://twitter.com/ozyern) · ozyern.dev@gmail.com
+- 🔗 [about.ozyern.me](https://about.ozyern.me) · [@ozyern](https://twitter.com/iozyern) · ozyern.dev@gmail.com
 
 <p align="center">
   <a href="https://spotify-github-profile.kittinanx.com/api/view?uid=31hf7vddxmc4nepqpdclkr74r2am&redirect=true">
