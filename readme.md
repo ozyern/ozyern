@@ -6,13 +6,6 @@ i port roms and write kernels for them. sometimes websites
 
 - 🎵 **[Exhale](https://github.com/ozyern/Exhale)**: open source android music player
 - 🧪 **[BrinaOS](https://github.com/ozyern/BrinaOS)**: coloros / oxygenos 16 port for sm8350
-- ⚡ **[Feather](https://github.com/ozyern/Feather-Kernel-SM8350)**: kernel for the oneplus 9 / 9 pro
-- 💗 **[sabrina.ozyern.me](https://github.com/ozyern/sabrinacarpenter)**: fan site, favourite thing i've made
-- 🎭 a few spoofer modules for [oneplus 15](https://github.com/ozyern/oneplus15-spoofer), [find x9 ultra](https://github.com/ozyern/FindX9Ultra-spoofer) and [s26 ultra](https://github.com/ozyern/s26-ultra-spoofer)
-
-## who i work with
-
-- [ReVork](https://t.me/ozyern), a telegram community i run for rom devs. around 370 people
 
 ## how i work
 
