@@ -5,7 +5,7 @@ i port roms and write kernels for them. sometimes websites
 ## what i work on
 
 - 🎵 **[Exhale](https://github.com/ozyern/Exhale)**: open source android music player
-- 🧪 **[BrinaOS](https://github.com/ozyern/BrinaOS)**: coloros / oxygenos 16 port for sm8350
+- 🧪 **[BrinaOS](https://github.com/ozyern/BrinaOS)**: ColorOS 17 porting script for SM8350/SM8250
 
 ## how i work
 
@@ -13,10 +13,10 @@ i port roms and write kernels for them. sometimes websites
     - Ubuntu + bash
     - everything gets built here
 - 📱 **OnePlus 13**
-    - stock OxygenOS 16
+    - stock ColorOS 17
     - daily driver
 - 📱 **OnePlus 9 Pro** (`lemonadep`)
-    - test device, currently unbootable
+    - test device, broken
 
 ## bonus info
 
