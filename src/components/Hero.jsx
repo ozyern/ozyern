@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { PROFILE, SOCIALS } from '../data/site'
 import { onScrollFrame } from '../lib/scroll'
 import { prefersReducedMotion } from '../lib/motion'
+import { useLocalClock } from '../hooks/useLocalClock'
 import { useMagnetic } from '../hooks/useMagnetic'
 import { usePointerCard } from '../hooks/usePointerCard'
 import Icon from './Icon'
@@ -27,6 +28,23 @@ function SocialButton({ social }) {
   )
 }
 
+/** The two calls to action lean towards the cursor, like the social buttons. */
+function MagneticLink({ className, href, children }) {
+  const magnet = useMagnetic(0.2)
+
+  return (
+    <a
+      ref={magnet.ref}
+      className={className}
+      href={href}
+      onPointerMove={magnet.onPointerMove}
+      onPointerLeave={magnet.onPointerLeave}
+    >
+      {children}
+    </a>
+  )
+}
+
 /**
  * Deliberately quiet.
  *
@@ -41,6 +59,7 @@ export default function Hero() {
   const portraitRef = useRef(null)
   const portrait = usePointerCard(7)
   const [imageState, setImageState] = useState('loading')
+  const clock = useLocalClock()
 
   // Parallax. Scroll-linked, so it is invisible until the reader asks for it —
   // and translating the wrapper (never the <img>) keeps the browser on the
@@ -67,6 +86,13 @@ export default function Hero() {
             {PROFILE.availability}
             <span className="hero__status-sep" aria-hidden="true" />
             <span className="hero__status-handle">{PROFILE.handle}</span>
+            <span className="hero__clock-group">
+              <span className="hero__status-sep" aria-hidden="true" />
+              <span className="hero__clock">
+                <span className="hero__clock-time">{clock}</span>
+                IST
+              </span>
+            </span>
           </p>
 
           <h1 className="hero__name">
@@ -76,7 +102,12 @@ export default function Hero() {
                 the cursor on it. */}
             <span className="hero__name-first" aria-label="Aditya">
               {[...'Aditya'].map((letter, index) => (
-                <span key={index} className="hero__name-letter" aria-hidden="true">
+                <span
+                  key={index}
+                  className="hero__name-letter"
+                  style={{ '--letter-index': index }}
+                  aria-hidden="true"
+                >
                   {letter}
                 </span>
               ))}
@@ -94,13 +125,13 @@ export default function Hero() {
           <p className="hero__lede">{PROFILE.lede}</p>
 
           <div className="hero__actions">
-            <a className="button button--primary" href="#projects">
+            <MagneticLink className="button button--primary" href="#projects">
               See the work
               <Icon name="arrow" size={18} />
-            </a>
-            <a className="button button--ghost" href={`mailto:${PROFILE.email}`}>
+            </MagneticLink>
+            <MagneticLink className="button button--ghost" href={`mailto:${PROFILE.email}`}>
               Say hello
-            </a>
+            </MagneticLink>
 
             <div className="hero__socials">
               {SOCIALS.map((social) => (

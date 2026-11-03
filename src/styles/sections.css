@@ -26,6 +26,19 @@
       transparent 76%
     ),
     linear-gradient(180deg, transparent 44%, rgba(0, 0, 0, 0.6) 80%, var(--bg) 100%);
+  /* The one piece of ambient motion up here: a slow breath, so the light
+     never sits perfectly still. Transform-only, so it stays on the
+     compositor. */
+  animation: aura-drift 26s var(--ease-smooth) infinite alternate;
+}
+
+@keyframes aura-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-2.5%, 2%, 0) scale(1.1);
+  }
 }
 
 .hero__grain {
@@ -123,6 +136,25 @@
   letter-spacing: 0.06em;
 }
 
+/* The clock the work actually happens on. */
+.hero__clock-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero__clock {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  color: var(--text-faint);
+  letter-spacing: 0.08em;
+}
+.hero__clock-time {
+  color: rgba(255, 255, 255, 0.78);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Name ----------------------------------------------------------------------
    Solid, both lines, one typeface. The only colour in it is the full stop.
    -------------------------------------------------------------------------- */
@@ -159,6 +191,20 @@
   transform: translateY(var(--dy, 0)) rotate(var(--rot, 0deg));
   transform-origin: 50% 80%;
   transition: transform 0.5s var(--ease-spring), color var(--t-base) var(--ease-smooth);
+  /* Each letter rises into place in turn. The entrance animates `translate`
+     rather than `transform`, because the tilt above already owns `transform`
+     and the two compose without either having to win. */
+  animation: letter-in 0.8s var(--ease-out) both;
+  animation-delay: calc(0.16s + var(--letter-index, 0) * 58ms);
+}
+
+@keyframes letter-in {
+  from {
+    translate: 0 0.34em;
+  }
+  to {
+    translate: none;
+  }
 }
 
 /* A d i t y a — alternating so the word rocks rather than leans. */
@@ -194,6 +240,7 @@
 .hero__name-letter:hover {
   transform: translateY(-0.07em) rotate(0deg) scale(1.09);
   color: var(--accent-bright);
+  text-shadow: 0 0 24px rgba(255, 74, 74, 0.65);
 }
 
 /* Inter's "J" has almost no left sidebearing, so its box edge is its ink edge
@@ -203,6 +250,9 @@
   color: #fff;
   font-weight: 900;
   letter-spacing: -0.05em;
+  /* The surname lands last, after the first name has finished rising. */
+  animation: letter-in 0.8s var(--ease-out) both;
+  animation-delay: 0.54s;
 }
 
 .hero__name-dot {
@@ -234,6 +284,13 @@
   align-items: center;
   gap: 12px;
   margin-top: 4px;
+}
+
+/* The calls to action lean towards the cursor like the social buttons do.
+   The magnet writes an offset into `translate`; the hover lift lives in
+   `transform`, and the two properties compose. */
+.hero__actions .button {
+  translate: var(--magnet-x, 0) var(--magnet-y, 0);
 }
 
 .hero__socials {
@@ -354,10 +411,25 @@
   transform-origin: left center;
   transition: transform var(--t-base) var(--ease-out),
     background-color var(--t-base) var(--ease-smooth);
+  animation: scroll-track-pulse 3.2s var(--ease-smooth) infinite;
 }
 .hero__scroll:hover .hero__scroll-track {
-  transform: scaleX(1.25);
+  transform: scaleX(1.3);
   background: var(--accent-bright);
+  animation-play-state: paused;
+}
+
+@keyframes scroll-track-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.18);
+    background: var(--accent);
+  }
 }
 
 
@@ -890,10 +962,72 @@
 }
 
 .exhale__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4cqh;
   color: rgba(255, 255, 255, 0.34);
   font-size: 3.2cqh;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+/* Four bars bouncing, because a player that is doing nothing looks like a
+   screenshot. */
+.exhale__eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.6cqh;
+  height: 3.2cqh;
+}
+.exhale__eq i {
+  display: block;
+  width: 0.7cqh;
+  height: 100%;
+  border-radius: 1px;
+  background: #5eead4;
+  transform-origin: bottom center;
+}
+.exhale__eq i:nth-child(1) {
+  animation: eq-bounce-1 0.85s var(--ease-smooth) infinite alternate;
+}
+.exhale__eq i:nth-child(2) {
+  animation: eq-bounce-2 1.1s var(--ease-smooth) infinite alternate 0.14s;
+}
+.exhale__eq i:nth-child(3) {
+  animation: eq-bounce-3 0.75s var(--ease-smooth) infinite alternate 0.28s;
+}
+.exhale__eq i:nth-child(4) {
+  animation: eq-bounce-1 1.25s var(--ease-smooth) infinite alternate 0.06s;
+}
+.exhale__eq i:nth-child(5) {
+  animation: eq-bounce-2 0.95s var(--ease-smooth) infinite alternate 0.2s;
+}
+
+@keyframes eq-bounce-1 {
+  from {
+    transform: scaleY(0.2);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes eq-bounce-2 {
+  from {
+    transform: scaleY(0.35);
+  }
+  to {
+    transform: scaleY(0.88);
+  }
+}
+
+@keyframes eq-bounce-3 {
+  from {
+    transform: scaleY(0.15);
+  }
+  to {
+    transform: scaleY(1);
+  }
 }
 
 .exhale__wordmark {
@@ -915,6 +1049,18 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 3cqh;
   box-shadow: 0 3cqh 6cqh rgba(0, 0, 0, 0.6);
+  /* The sleeve floats with subtle 3D tilt. */
+  animation: exhale-float 7s var(--ease-smooth) infinite;
+}
+
+@keyframes exhale-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3.8%) rotate(-0.8deg);
+  }
 }
 
 /* The generated sleeve. It is the element's own background, so it is simply
@@ -970,11 +1116,33 @@
 }
 .exhale__scrub span {
   display: block;
-  width: 47%;
+  width: 100%;
   height: 100%;
   border-radius: 99px;
   background: #5eead4;
   box-shadow: 0 0 2cqh rgba(94, 234, 212, 0.6);
+  /* Scaled rather than resized: a width animation would relayout the bar on
+     every frame. */
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: exhale-progress 18s linear infinite;
+}
+
+@keyframes exhale-progress {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.4;
+  }
+  8% {
+    opacity: 1;
+  }
+  70% {
+    transform: scaleX(0.47);
+  }
+  100% {
+    transform: scaleX(0.47);
+    opacity: 0.4;
+  }
 }
 
 .exhale__controls {
@@ -989,6 +1157,7 @@
 }
 
 .exhale__play {
+  position: relative;
   display: grid;
   place-items: center;
   width: 9cqh;
@@ -996,6 +1165,28 @@
   border-radius: 50%;
   background: #fff;
   color: #05070a;
+}
+
+/* A ring that keeps leaving the button. */
+.exhale__play::after {
+  content: '';
+  position: absolute;
+  inset: -16%;
+  border-radius: 50%;
+  border: 1px solid rgba(94, 234, 212, 0.6);
+  animation: exhale-pulse 2.8s var(--ease-smooth) infinite;
+}
+
+@keyframes exhale-pulse {
+  0% {
+    transform: scale(0.72);
+    opacity: 0.85;
+  }
+  70%,
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
 }
 .exhale__play svg {
   width: 4.4cqh;
@@ -1250,6 +1441,259 @@
   font-size: 11px;
 }
 
+/* Exhale spotlight inside About ("Close to the metal") ----------------------
+   Demonstrating how kernel and ROM performance discipline directly shapes
+   every technical decision in Exhale.
+   -------------------------------------------------------------------------- */
+
+.about__exhale {
+  grid-column: 1 / -1;
+  padding: 38px 42px;
+  background: linear-gradient(
+    145deg,
+    rgba(14, 28, 32, 0.45) 0%,
+    rgba(8, 14, 18, 0.6) 40%,
+    rgba(10, 10, 12, 0.8) 100%
+  );
+  border-color: rgba(94, 234, 212, 0.22);
+}
+.about__exhale:hover {
+  border-color: rgba(94, 234, 212, 0.44);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.75), 0 0 50px rgba(94, 234, 212, 0.12);
+}
+
+.about__exhale-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.about__exhale-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.about__exhale-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid rgba(94, 234, 212, 0.3);
+  border-radius: 99px;
+  background: rgba(94, 234, 212, 0.08);
+  color: #5eead4;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.about__exhale-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 15px;
+}
+.about__exhale-eq i {
+  display: block;
+  width: 2.5px;
+  height: 100%;
+  border-radius: 1px;
+  background: #5eead4;
+  transform-origin: bottom center;
+}
+.about__exhale-eq i:nth-child(1) {
+  animation: eq-bounce-1 0.8s var(--ease-smooth) infinite alternate;
+}
+.about__exhale-eq i:nth-child(2) {
+  animation: eq-bounce-2 1.1s var(--ease-smooth) infinite alternate 0.15s;
+}
+.about__exhale-eq i:nth-child(3) {
+  animation: eq-bounce-3 0.7s var(--ease-smooth) infinite alternate 0.3s;
+}
+.about__exhale-eq i:nth-child(4) {
+  animation: eq-bounce-1 1.2s var(--ease-smooth) infinite alternate 0.08s;
+}
+.about__exhale-eq i:nth-child(5) {
+  animation: eq-bounce-2 0.9s var(--ease-smooth) infinite alternate 0.22s;
+}
+
+.about__exhale-link {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: var(--surface);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  transition: color var(--t-fast) var(--ease-smooth),
+    border-color var(--t-fast) var(--ease-smooth),
+    background-color var(--t-fast) var(--ease-smooth),
+    transform var(--t-base) var(--ease-spring);
+}
+.about__exhale-link:hover {
+  color: #fff;
+  border-color: rgba(94, 234, 212, 0.4);
+  background: rgba(94, 234, 212, 0.1);
+  transform: translateY(-2px);
+}
+.about__exhale-link svg {
+  transition: transform var(--t-base) var(--ease-spring);
+}
+.about__exhale-link:hover svg {
+  transform: translate(2px, -2px);
+  color: #5eead4;
+}
+
+.about__exhale-heading {
+  margin-bottom: 14px;
+  font-size: clamp(22px, 2.2vw, 30px);
+}
+.about__exhale-heading i {
+  color: #5eead4;
+  -webkit-text-fill-color: #5eead4;
+}
+
+.about__exhale-desc {
+  max-width: 76ch;
+  margin-bottom: 30px;
+  color: var(--text-muted);
+  font-size: var(--step-body);
+  line-height: 1.76;
+}
+
+.about__exhale-pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.about__exhale-pillar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.025);
+  transition: border-color var(--t-base) var(--ease-smooth),
+    background-color var(--t-base) var(--ease-smooth),
+    transform var(--t-base) var(--ease-spring-soft);
+}
+.about__exhale-pillar:hover {
+  border-color: rgba(94, 234, 212, 0.35);
+  background: rgba(94, 234, 212, 0.06);
+  transform: translateY(-3px);
+}
+
+.about__exhale-metric {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 19px;
+  font-weight: 800;
+  color: #5eead4;
+  letter-spacing: -0.02em;
+}
+
+.about__exhale-pillar-name {
+  margin-bottom: 6px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.about__exhale-pillar-text {
+  color: var(--text-faint);
+  font-size: 12px;
+  line-height: 1.62;
+}
+
+/* Currently shipping --------------------------------------------------------
+   The live things, as opposed to the things that were built once. It runs the
+   full width of the grid, under the bio and the device lineup.
+   -------------------------------------------------------------------------- */
+
+.about__shipping {
+  grid-column: 1 / -1;
+  padding: 30px 34px;
+}
+
+.about__shipping-list {
+  display: grid;
+  /* Fluid rather than fixed, so it reflows on its own instead of needing a
+     breakpoint for every width it might land on. */
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 14px;
+}
+
+.about__shipping-list a {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'name arrow'
+    'note arrow';
+  align-items: center;
+  gap: 3px 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  transition: border-color var(--t-base) var(--ease-smooth),
+    background-color var(--t-base) var(--ease-smooth), transform var(--t-base) var(--ease-spring);
+}
+.about__shipping-list a:hover {
+  border-color: var(--accent-edge);
+  background: var(--accent-tint);
+  transform: translateY(-3px);
+}
+
+.about__shipping-name {
+  grid-area: name;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.about__shipping-note {
+  grid-area: note;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.about__shipping-arrow {
+  grid-area: arrow;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  transition: background-color var(--t-base) var(--ease-smooth),
+    color var(--t-base) var(--ease-smooth), transform var(--t-base) var(--ease-spring);
+}
+.about__shipping-list a:hover .about__shipping-arrow {
+  background: var(--accent);
+  color: #fff;
+  transform: translate(2px, -2px);
+}
+
 /* --------------------------------------------------------------------------
    Contact
    -------------------------------------------------------------------------- */
@@ -1301,10 +1745,10 @@
   font-weight: 800;
   line-height: 0.98;
   letter-spacing: -0.04em;
-  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.6));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  /* The gradient moved onto the individual words, like every other heading
+     on the page. */
+  --headline-gradient: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.6));
+  color: #fff;
 }
 .contact__headline i {
   font-style: italic;
@@ -1503,6 +1947,9 @@
     grid-column: span 2;
     aspect-ratio: 16 / 7;
   }
+  .about__exhale-pillars {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 860px) {
@@ -1534,6 +1981,12 @@
 }
 
 @media (max-width: 620px) {
+  /* The status pill is already carrying two facts at this width; the clock
+     is the third and the least important. */
+  .hero__clock-group {
+    display: none;
+  }
+
   .stats,
   .roles,
   .skills,
@@ -1551,8 +2004,18 @@
   .skill,
   .about__bio,
   .about__quote,
-  .about__devices {
+  .about__devices,
+  .about__exhale,
+  .about__shipping {
     padding: 28px 24px;
+  }
+
+  .about__exhale-pillars {
+    grid-template-columns: 1fr;
+  }
+  .about__exhale-top {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .stat {

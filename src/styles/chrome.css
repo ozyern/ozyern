@@ -169,12 +169,26 @@ body.cursor-pressed .cursor-ring {
 }
 
 .scroll-progress__fill {
+  position: relative;
   width: 100%;
   height: 100%;
   transform: scaleX(0);
   transform-origin: left center;
   background: linear-gradient(90deg, var(--accent), var(--accent-bright));
-  box-shadow: 0 0 12px rgba(232, 40, 40, 0.5);
+  box-shadow: 0 0 14px rgba(232, 40, 40, 0.6);
+}
+
+.scroll-progress__fill::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px #fff, 0 0 18px var(--accent-bright), 0 0 28px var(--accent);
+  opacity: 0.95;
 }
 
 /* --------------------------------------------------------------------------
@@ -235,16 +249,17 @@ body.cursor-pressed .cursor-ring {
   left: 0;
   border-radius: 50%;
   background: linear-gradient(140deg, var(--accent), var(--accent-bright));
-  box-shadow: 0 6px 18px rgba(232, 40, 40, 0.45);
+  box-shadow: 0 6px 20px rgba(232, 40, 40, 0.55), 0 0 16px rgba(255, 74, 74, 0.35);
   /* Size is set inline from the active link; only the travel is animated. */
-  transition: transform 0.5s var(--ease-out), width var(--t-base) var(--ease-out);
+  transition: transform 0.5s var(--ease-spring-soft, cubic-bezier(0.34, 1.25, 0.64, 1)),
+    width var(--t-base) var(--ease-out);
 }
 .sidenav__pill::after {
   content: '';
   position: absolute;
   inset: 1px;
   border-radius: 50%;
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.3), transparent 58%);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.35), transparent 58%);
 }
 
 /* A tick on the rail's edge, level with the pill — the one piece of the
@@ -260,6 +275,21 @@ body.cursor-pressed .cursor-ring {
   margin-top: -8px;
   background: var(--accent-bright);
   box-shadow: 0 0 12px var(--accent-glow);
+  animation: tick-pulse 2.2s var(--ease-smooth) infinite;
+}
+
+@keyframes tick-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scaleY(1);
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.22);
+    box-shadow: 0 0 18px var(--accent-bright);
+  }
 }
 
 .sidenav__link {

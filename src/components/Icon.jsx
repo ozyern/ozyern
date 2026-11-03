@@ -91,6 +91,13 @@ const PATHS = {
       <path d="m12.5 5.5 6.5 6.5-6.5 6.5" />
     </>
   ),
+  music: (
+    <>
+      <path d="M9.2 17.6V5.4l9.6-1.9v12.3" />
+      <circle cx="6.7" cy="17.8" r="2.9" />
+      <circle cx="16.3" cy="15.9" r="2.9" />
+    </>
+  ),
 }
 
 export default function Icon({ name, size = 24, strokeWidth = 1.7, ...rest }) {

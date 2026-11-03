@@ -52,7 +52,7 @@ export default function Experience() {
   return (
     <section id="experience" className="section" ref={ref}>
       <SectionHeading eyebrow="Experience" title={<>What I&rsquo;ve been <em>building</em></>}>
-        A chronicle of the Android work, the communities and the sites that came out of them.
+        A chronicle of the ROMs, the apps, the communities and the sites that came out of them.
       </SectionHeading>
 
       <ul className="roles">

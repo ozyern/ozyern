@@ -70,7 +70,16 @@ function ExhalePreview() {
   return (
     <div className="preview preview--exhale">
       <div className="exhale__bar">
-        <span className="exhale__kicker">Now playing</span>
+        <span className="exhale__kicker">
+          Now playing
+          <span className="exhale__eq" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+            <i />
+            <i />
+          </span>
+        </span>
         <span className="exhale__wordmark">
           Ex<span>ha</span>le
         </span>

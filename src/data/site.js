@@ -13,7 +13,7 @@ export const PROFILE = {
   role: 'Android ROM Porter · Kernel Dev · Web Builder',
   availability: 'Open to collabs',
   lede:
-    'I port ColorOS and OxygenOS 16 onto Snapdragon 888 hardware, write the kernels that keep them alive, and build the interfaces that make them worth looking at.',
+    'I port ColorOS and OxygenOS 16 onto Snapdragon 888 hardware, write the kernels that keep them alive, ship an open-source music player, and build the interfaces that make them worth looking at.',
 }
 
 /** Drives both the page order and the side rail. */
@@ -43,7 +43,7 @@ export const QUOTE =
  * it lands. `text` opts a card out of counting entirely.
  */
 export const STATS = [
-  { label: 'Community Members', to: 370, suffix: '+', note: 'ReVork · Telegram', live: true },
+  { label: 'Community Members', to: 430, suffix: '+', note: 'ReVork · Telegram', live: true },
   { label: 'Active Projects', to: 14, suffix: '+', note: 'Shipping right now' },
   { label: 'Fan Sites Live', to: 3, note: 'sabrina · exhale' },
   { label: 'Primary SoC', text: 'SM8350', note: 'OnePlus 9 Pro' },
@@ -61,13 +61,23 @@ export const EXPERIENCE = [
     stack: ['Bash', 'SM8350', 'ColorOS 16', 'OTA', 'Smali'],
   },
   {
+    company: 'Exhale',
+    role: 'Developer',
+    tag: 'Android App',
+    date: '2025 — Present',
+    icon: 'music',
+    summary:
+      'A premium open-source music player for Android — a genuinely fast library scanner wrapped in a fluid Liquid Glass interface. The app side of the work, sitting right between the ROMs and the kernels.',
+    stack: ['Android', 'Liquid Glass', 'Open Source'],
+  },
+  {
     company: 'ReVork',
     role: 'Founder',
     tag: 'Community',
     date: '2025 — Present',
     icon: 'telegram',
     summary:
-      'A ~370-member Telegram community for custom ROM development — themed role system, release channels and hands-on developer support.',
+      'A ~430-member Telegram community for custom ROM development — themed role system, release channels and hands-on developer support.',
     stack: ['Community', 'Android', 'Telegram'],
   },
   {
@@ -154,4 +164,26 @@ export const DEVICES = [
   { name: 'OnePlus 13', note: '"Espresso"' },
   { name: 'OnePlus 9 Pro (lemonadep)', note: '"Feather"' },
   { name: 'ROG Strix SCAR 16 2025', note: 'Daily driver' },
+]
+
+/**
+ * The "currently shipping" strip at the bottom of the About block — the
+ * things that are live right now, rather than the things that were built once.
+ */
+export const SHIPPING = [
+  {
+    name: 'BrinaOS Ports',
+    note: 'ColorOS / OxygenOS 16 on SM8350',
+    href: 'https://github.com/ozyern/BrinaOS-Ports',
+  },
+  {
+    name: 'Exhale',
+    note: 'Open-source Android music player',
+    href: 'https://github.com/ozyern/Exhale',
+  },
+  {
+    name: 'ReVork',
+    note: 'A community for ROM developers',
+    href: 'https://t.me/ozyern',
+  },
 ]

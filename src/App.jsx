@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import About from './components/About'
+import Ambience from './components/Ambience'
 import Contact from './components/Contact'
 import CursorFollower from './components/CursorFollower'
 import Experience from './components/Experience'
@@ -45,6 +46,7 @@ export default function App() {
         Skip to content
       </a>
 
+      <Ambience />
       <SideNav />
 
       <main id="main">

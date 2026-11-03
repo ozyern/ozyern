@@ -50,10 +50,13 @@
   --radius-xl: 34px;
 
   /* Motion. One vocabulary for the whole site: `out` for things arriving,
-     `spring` for things you touched, `smooth` for continuous changes. ----- */
+     `spring` for things you touched, `smooth` for continuous changes,
+     `reveal` for cinematic deceleration. --------------------------------- */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --ease-spring-soft: cubic-bezier(0.34, 1.25, 0.64, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
   --t-fast: 0.18s;
   --t-base: 0.32s;
   --t-slow: 0.6s;
@@ -179,6 +182,9 @@ p {
    -------------------------------------------------------------------------- */
 
 main {
+  position: relative;
+  /* Above the ambient light layer, which is fixed to the viewport. */
+  z-index: 1;
   margin-left: var(--rail-width);
 }
 
@@ -236,15 +242,78 @@ main {
   font-size: var(--step-h2);
   font-weight: 700;
   letter-spacing: -0.03em;
-  background: linear-gradient(175deg, #fff 25%, rgba(255, 255, 255, 0.62));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  /* The gradient moved down to the individual words, because each word now
+     animates on its own beat and needs its own paint. The gradient is almost
+     entirely vertical, so per-word is visually the same as per-heading. */
+  --headline-gradient: linear-gradient(175deg, #fff 25%, rgba(255, 255, 255, 0.62));
+  color: #fff;
 }
 .section__title em {
   font-style: italic;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Split text
+
+   A heading whose words each arrive on their own beat, and a hairline that
+   draws itself once the words have landed.
+
+   The words are inline-block so they can be transformed, and the whitespace
+   between them is kept as real text nodes so the line still wraps exactly
+   where it always did.
+   -------------------------------------------------------------------------- */
+
+.split {
+  display: inline;
+}
+
+.split__word {
+  display: inline-block;
+  background: var(--headline-gradient, linear-gradient(175deg, #fff 25%, rgba(255, 255, 255, 0.62)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Set explicitly, because it is an inherited property: without this the
+     accent word would inherit the accent fill and lose its gradient. */
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  translate: 0 0.35em;
+  filter: blur(4px);
+  transition: opacity 0.75s var(--ease-reveal), translate 0.75s var(--ease-reveal),
+    filter 0.75s var(--ease-reveal);
+  transition-delay: calc(var(--word-index, 0) * 44ms);
+  will-change: opacity, translate, filter;
+}
+
+.split.is-visible .split__word {
+  opacity: 1;
+  translate: none;
+  filter: blur(0);
+}
+
+/* The italic accent words keep the flat accent colour the heading had
+   before it was split. */
+.section__title em .split__word,
+.contact__headline i .split__word {
+  background: none;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
+
+.section__rule {
+  display: block;
+  width: min(210px, 42%);
+  height: 1px;
+  margin-top: 30px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-edge) 44%, transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.9s var(--ease-out) 0.25s;
+}
+.section__heading.is-visible .section__rule {
+  transform: scaleX(1);
 }
 
 .section__lede {
@@ -276,21 +345,26 @@ main {
 
 .reveal {
   opacity: 0;
+  translate: 0 28px;
+  scale: 0.985;
+  will-change: opacity, translate, scale;
 }
 
 .reveal.is-visible {
-  animation: reveal-in 0.85s var(--ease-out) both;
+  animation: reveal-in 0.9s var(--ease-reveal) both;
   animation-delay: var(--reveal-delay, 0s);
 }
 
 @keyframes reveal-in {
   from {
     opacity: 0;
-    translate: 0 26px;
+    translate: 0 28px;
+    scale: 0.985;
   }
   to {
     opacity: 1;
     translate: none;
+    scale: none;
   }
 }
 
@@ -338,12 +412,17 @@ main {
   transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   transform-style: preserve-3d;
   transition: border-color var(--t-base) var(--ease-smooth),
-    box-shadow var(--t-slow) var(--ease-out);
+    box-shadow var(--t-slow) var(--ease-out),
+    translate var(--t-base) var(--ease-spring-soft);
 }
 
 .card:hover {
   border-color: var(--accent-edge);
   box-shadow: var(--shadow-lift);
+}
+
+.card.is-visible:hover {
+  translate: 0 -3px;
 }
 
 /* A pool of accent light that tracks the cursor across the card. */
@@ -353,9 +432,10 @@ main {
   pointer-events: none;
   opacity: 0;
   background: radial-gradient(
-    440px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-    rgba(232, 40, 40, 0.14),
-    transparent 62%
+    480px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    rgba(232, 40, 40, 0.17) 0%,
+    rgba(232, 40, 40, 0.04) 45%,
+    transparent 70%
   );
   transition: opacity var(--t-slow) var(--ease-smooth);
 }
@@ -371,9 +451,10 @@ main {
   opacity: 0;
   mix-blend-mode: overlay;
   background: radial-gradient(
-    300px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-    rgba(255, 255, 255, 0.08),
-    transparent 55%
+    320px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    rgba(255, 255, 255, 0.09) 0%,
+    rgba(255, 255, 255, 0.02) 40%,
+    transparent 58%
   );
   transition: opacity var(--t-slow) var(--ease-smooth);
 }
@@ -389,11 +470,165 @@ main {
   height: 1px;
   z-index: 3;
   opacity: 0;
-  background: linear-gradient(90deg, transparent, var(--accent-edge), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
   transition: opacity var(--t-base) var(--ease-smooth);
 }
 .card:hover::before {
   opacity: 1;
+}
+
+/* A light that crosses the card when you reach it.
+   The gradient is painted once and moved with background-position, so nothing
+   reflows and no new element is added to the markup. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    108deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.075) 50%,
+    rgba(232, 40, 40, 0.045) 54%,
+    transparent 68%
+  );
+  background-size: 260% 100%;
+  background-position: 180% 0;
+  transition: opacity var(--t-slow) var(--ease-smooth),
+    background-position 1.25s var(--ease-reveal);
+}
+.card:hover::after {
+  opacity: 1;
+  background-position: -80% 0;
+}
+
+/* --------------------------------------------------------------------------
+   Ambience
+
+   Three slow orbs behind the page. Gradients rather than blurred shapes: a
+   filter: blur() over something this large repaints the whole surface every
+   frame, and the gradient is already soft enough that nobody can tell the
+   difference.
+
+   The drift is transform-only, so it stays on the compositor and never
+   touches the paint path.
+   -------------------------------------------------------------------------- */
+
+.ambience {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Slides with scroll and responds with smooth pointer parallax. */
+  transform: translate3d(
+    var(--ambience-mx, 0px),
+    calc(var(--ambience-y, 0%) * 0.16 + var(--ambience-my, 0px)),
+    0
+  );
+  transition: transform 0.15s var(--ease-out);
+}
+
+.ambience__orb {
+  position: absolute;
+  display: block;
+  width: 52vmax;
+  height: 52vmax;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.ambience__orb--warm {
+  top: -20vmax;
+  left: -12vmax;
+  background: radial-gradient(
+    circle,
+    rgba(232, 40, 40, 0.18) 0%,
+    rgba(232, 40, 40, 0.05) 42%,
+    transparent 68%
+  );
+  animation: drift-warm 34s var(--ease-smooth) infinite alternate;
+}
+
+.ambience__orb--cool {
+  top: 32vmax;
+  right: -18vmax;
+  background: radial-gradient(
+    circle,
+    rgba(56, 130, 246, 0.14) 0%,
+    rgba(56, 130, 246, 0.04) 42%,
+    transparent 68%
+  );
+  animation: drift-cool 44s var(--ease-smooth) infinite alternate;
+}
+
+.ambience__orb--deep {
+  bottom: -26vmax;
+  left: 20vmax;
+  background: radial-gradient(
+    circle,
+    rgba(232, 40, 40, 0.13) 0%,
+    rgba(232, 40, 40, 0.035) 44%,
+    transparent 66%
+  );
+  animation: drift-deep 39s var(--ease-smooth) infinite alternate;
+}
+
+.ambience__orb--aurora {
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  width: 62vmax;
+  height: 38vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(232, 40, 40, 0.075) 0%,
+    rgba(99, 102, 241, 0.05) 36%,
+    transparent 70%
+  );
+  animation: drift-aurora 46s var(--ease-smooth) infinite alternate;
+}
+
+@keyframes drift-aurora {
+  0% {
+    transform: translate3d(-8%, -8%, 0) rotate(0deg) scale(0.96);
+  }
+  50% {
+    transform: translate3d(7%, 10%, 0) rotate(14deg) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-4%, 7%, 0) rotate(-8deg) scale(1.02);
+  }
+}
+
+@keyframes drift-warm {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(9vmax, 7vmax, 0) scale(1.16);
+  }
+}
+
+@keyframes drift-cool {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  to {
+    transform: translate3d(-7vmax, 9vmax, 0) scale(1);
+  }
+}
+
+@keyframes drift-deep {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6vmax, -6vmax, 0) scale(1.2);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -527,14 +762,29 @@ main {
   .reveal.is-visible,
   .enter,
   .hero__lead,
-  .hero__aside {
+  .hero__aside,
+  .hero__name-letter {
     opacity: 1;
     translate: none;
+    scale: none;
     transform: none;
     animation: none;
   }
 
+  /* The words are already in place, so they should not wait their turn. */
+  .split__word {
+    opacity: 1;
+    translate: none;
+    filter: none !important;
+    transition-delay: 0s !important;
+  }
+
+  .ambience {
+    transform: none;
+  }
+
   .card {
     transform: none;
+    translate: none;
   }
 }

@@ -2,6 +2,7 @@ import { PROFILE, SOCIALS } from '../data/site'
 import { usePointerCard } from '../hooks/usePointerCard'
 import { useReveal, revealClass } from '../hooks/useReveal'
 import Icon from './Icon'
+import SplitText from './SplitText'
 
 function ContactCard({ social, index, visible }) {
   const pointer = usePointerCard(6)
@@ -44,11 +45,13 @@ export default function Contact() {
         <div className={revealClass(visible, 'contact__intro')}>
           <p className="section__eyebrow">Get in touch</p>
           <h2 className="contact__headline">
-            Let&rsquo;s <i>build</i>
-            <br />
-            something
-            <br />
-            together.
+            <SplitText visible={visible}>
+              Let&rsquo;s <i>build</i>
+              <br />
+              something
+              <br />
+              together.
+            </SplitText>
           </h2>
 
           <p className="contact__status">
@@ -60,8 +63,8 @@ export default function Contact() {
           </p>
 
           <p className="contact__copy">
-            Currently heads-down on BrinaOS Ports and the ReVork community. If you want to make
-            something odd and well-built, my inbox is open.
+            Currently heads-down on BrinaOS Ports, Exhale and the ReVork community. If you want
+            to make something odd and well-built, my inbox is open.
           </p>
 
           <p className="contact__aside">
